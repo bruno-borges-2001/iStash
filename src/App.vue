@@ -48,6 +48,8 @@ export default {
         .where("users", "array-contains", this.$store.state.userId)
         .get();
 
+      console.log(stashes);
+
       this.$store.commit(
         "setStashes",
         stashes.docs.map((el) => ({
