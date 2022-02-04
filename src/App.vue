@@ -36,8 +36,11 @@ export default {
       );
     },
     stashes() {
-      return firestore.collections.stashes;
+      return firestore.collection("stashes");
     },
+  },
+  created() {
+    this.load();
   },
   methods: {
     openDrawer() {
@@ -56,6 +59,8 @@ export default {
           ...el.data(),
         }))
       );
+
+      if (this.$store.state.logged) setTimeout(this.load, 5000);
     },
   },
 };

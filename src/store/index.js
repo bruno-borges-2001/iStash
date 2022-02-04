@@ -50,21 +50,23 @@ export default new Vuex.Store({
     },
     pushRoute({ commit }, route) {
       commit("historyAdd", router.currentRoute.name);
-      router.push(route);
+      router.push(route).catch(() => {});
     },
     replaceRoute({ commit }, route) {
       commit("historyUpdate", router.currentRoute.name);
-      router.replace(route);
+      router.replace(route).catch(() => {});
     },
     goBack({ state }, resetAll) {
       if (resetAll) {
         state.history = [];
-        router.replace("/");
+        router.replace("/").catch(() => {});
       } else {
         const retrievedRoute = state.history.pop();
-        router.replace(
-          retrievedRoute && retrievedRoute !== "Home" ? retrievedRoute : "/"
-        );
+        router
+          .replace(
+            retrievedRoute && retrievedRoute !== "Home" ? retrievedRoute : "/"
+          )
+          .catch(() => {});
       }
     },
   },
