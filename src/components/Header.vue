@@ -1,8 +1,8 @@
 <template>
   <v-app-bar app color="primary" id="app-bar" dark>
-    <v-btn :class="route === 'Home' && 'hidden'" icon @click="handleHome"
-      ><v-icon>mdi-arrow-left</v-icon></v-btn
-    >
+    <v-btn :class="!route.meta.backRoute && 'hidden'" icon @click="handleHome">
+      <v-icon>mdi-arrow-left</v-icon>
+    </v-btn>
 
     <v-spacer></v-spacer>
 
@@ -14,10 +14,10 @@
       :class="!logged && 'hidden'"
       @click.stop="openDrawer"
     ></v-app-bar-nav-icon>
-    <div v-if="!logged">
+    <!-- <div v-if="!logged">
       <v-btn icon @click="() => $changeLocale('pt-BR')">PT-BR</v-btn>
       <v-btn icon @click="() => $changeLocale('en-US')">EN-US</v-btn>
-    </div>
+    </div> -->
   </v-app-bar>
 </template>
 
@@ -26,7 +26,7 @@ export default {
   name: "Header",
   computed: {
     route() {
-      return this.$route.name;
+      return this.$route;
     },
     logged() {
       return this.$store.state.logged;
@@ -37,7 +37,8 @@ export default {
   },
   methods: {
     handleHome() {
-      if (this.route !== "Home") this.$store.dispatch("goBack");
+      let route;
+      if ((route = this.route.meta.backRoute)) this.$router.replace(route);
     },
   },
 };

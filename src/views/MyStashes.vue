@@ -1,21 +1,19 @@
 <template>
   <div
-    class="
-        d-flex
-        flex-column 
-        flex-grow-1
-        justify-center
-        align-center
-        full-width
-        full-height"
+    class="d-flex flex-column flex-grow-1 justify-center align-center full-width full-height"
   >
     <div
       class="d-flex full-width align-center flex-column"
       v-if="stashCount > 0"
     >
-      <s-button v-for="(el, i) in stashes" :key="i" :stash="el"></s-button>
+      <s-button
+        v-for="(el, i) in stashes"
+        :key="i"
+        :stash="el"
+        :onclick="() => handleStashClick(el.id)"
+      ></s-button>
     </div>
-    <div v-else>
+    <div class="center-text" v-else>
       It appears that you don't have any stashes, why don't you create one?
     </div>
     <v-btn class="mt-4" id="create-button" @click="handleCreateStash">
@@ -45,7 +43,12 @@ export default {
     },
   },
   methods: {
-    handleCreateStash() {},
+    handleStashClick(id) {
+      this.$router.push("/stash/" + id);
+    },
+    handleCreateStash() {
+      this.$router.push("/create");
+    },
   },
 };
 </script>
@@ -58,5 +61,9 @@ export default {
   border: 0.4rem dashed #a9a9a9;
   border-radius: 0.8rem;
   background-color: lightgray;
+}
+
+.center-text {
+  text-align: center;
 }
 </style>

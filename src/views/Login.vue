@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     handleSignUp() {
-      this.$store.dispatch("pushRoute", "signup");
+      this.$router.push("/signup");
     },
     handleForgotPassword() {
       this.forgotPasswordScreen = true;
@@ -112,7 +112,7 @@ export default {
     },
     handleLogin() {
       auth.signInWithEmailAndPassword(this.email, this.password).then(
-        () => this.$store.dispatch("pushRoute", "/"),
+        () => this.$router.push("/"),
         (error) => this.parseError(error)
       );
     },

@@ -1,5 +1,5 @@
 <template>
-  <v-btn class="stash-button">
+  <v-btn class="stash-button" @click="onclick">
     <div>{{ stash.name }}</div>
   </v-btn>
 </template>
@@ -9,6 +9,7 @@ export default {
   name: "StashButton",
   props: {
     stash: Object,
+    onclick: Function,
   },
 };
 </script>

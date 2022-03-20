@@ -1,5 +1,5 @@
 <template>
-  <v-card id="create-card"> </v-card>
+  <v-card id="create-card"> Hello </v-card>
 </template>
 
 <script>

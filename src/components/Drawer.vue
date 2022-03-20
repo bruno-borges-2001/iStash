@@ -9,7 +9,6 @@
         >
           {{ $store.state.currentUser.name }}
         </v-list-item-title>
-        <v-list-item-subtitle>{{ $d(now, "long") }}</v-list-item-subtitle>
       </v-list-item-content>
 
       <v-divider></v-divider>
@@ -20,12 +19,12 @@
 
       <v-divider></v-divider>
 
-      <v-list-item>
+      <!-- <v-list-item>
         <v-btn icon @click="() => changeLanguage('pt-BR')">PT-BR</v-btn>
       </v-list-item>
       <v-list-item>
         <v-btn icon @click="() => changeLanguage('en-US')">EN-US</v-btn>
-      </v-list-item>
+      </v-list-item> -->
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -50,11 +49,7 @@ export default {
     handleSignOut() {
       auth.signOut().then(() => {
         this.drawer = false;
-        if (this.$route.name !== "home") {
-          this.$store.dispatch("replaceRoute", "/");
-        } else {
-          location.reload();
-        }
+        location.reload();
       });
     },
     handleOpenDrawer() {

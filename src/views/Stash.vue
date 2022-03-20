@@ -1,14 +1,16 @@
 <template>
   <v-card>
-    {{ stash }}
+    {{ id }}
   </v-card>
 </template>
 
 <script>
 export default {
   name: "Stash",
-  props: {
-    stash: Object,
+  props: ["id"],
+
+  created() {
+    console.log(this.id);
   },
 };
 </script>

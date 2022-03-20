@@ -29,11 +29,7 @@ export default {
   }),
   computed: {
     logged() {
-      return (
-        this.$store.state.logged ||
-        this.$route.name === "login" ||
-        this.$route.name === "signup"
-      );
+      return this.$store.state.logged;
     },
     stashes() {
       return firestore.collection("stashes");
@@ -47,20 +43,22 @@ export default {
       this.$refs.drawer.handleOpenDrawer();
     },
     async load() {
-      const stashes = await this.stashes
-        .where("users", "array-contains", this.$store.state.userId)
-        .get();
+      if (this.$store.state.logged) {
+        const stashes = await this.stashes
+          .where("users", "array-contains", this.$store.state.userId)
+          .get();
 
-      this.$store.commit(
-        "setStashes",
-        stashes.docs.map((el) => ({
-          // DATA
-          id: el.id,
-          ...el.data(),
-        }))
-      );
+        this.$store.commit(
+          "setStashes",
+          stashes.docs.map((el) => ({
+            // DATA
+            id: el.id,
+            ...el.data(),
+          }))
+        );
+      }
 
-      if (this.$store.state.logged) setTimeout(this.load, 5000);
+      setTimeout(this.load, 5000);
     },
   },
 };

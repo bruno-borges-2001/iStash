@@ -33,14 +33,17 @@ const routes = [
     component: MyStashes,
     meta: {
       requiresAuth: true,
+      backRoute: "/",
     },
   },
   {
     path: "/stash/:id",
     name: "stash",
     component: Stash,
+    props: true,
     meta: {
       requiresAuth: true,
+      backRoute: "/stashes",
     },
   },
   {
@@ -49,17 +52,24 @@ const routes = [
     component: CreateStash,
     meta: {
       requiresAuth: true,
+      backRoute: "/stashes",
     },
   },
   {
     path: "/login",
     name: "login",
     component: Login,
+    meta: {
+      backRoute: "/",
+    },
   },
   {
     path: "/signup",
     name: "signup",
     component: SignUp,
+    meta: {
+      backRoute: "/",
+    },
   },
 ];
 

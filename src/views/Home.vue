@@ -19,7 +19,7 @@ export default {
   computed: {},
   methods: {
     handleMyStashes() {
-      this.$store.dispatch("pushRoute", "stashes");
+      this.$router.push("/stashes");
     },
   },
 };
