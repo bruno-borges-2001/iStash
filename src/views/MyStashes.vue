@@ -25,8 +25,7 @@
 <script>
 import StashButton from "../components/StashButton.vue";
 
-import Stash from "../models/Stash.ts";
-import StashUser, { UserStatus } from "../models/StashUser.ts";
+import Stash from "../models/Stash";
 
 export default {
   name: "MyStashes",
@@ -50,14 +49,16 @@ export default {
   },
   methods: {
     handleStashClick(id) {
-      this.$router.push("/stash/" + id);
+      this.$store.dispatch("removeStash", id);
+      // this.$router.push("/stash/" + id);
     },
     handleCreateStash() {
       const { uid, name } = this.currentUser;
-      const users = [new StashUser(uid, name, UserStatus.OWNER)];
+      const usersInfo = [{ uid, name, userStatus: -1 }];
 
-      const stash = new Stash("Teste " + this.stashCount, false, users);
-      console.log(stash);
+      const stash = new Stash("Teste " + this.stashCount, false, usersInfo);
+
+      this.$store.dispatch("addNewStash", stash);
       // this.$router.push("/create");
     },
   },

@@ -13,6 +13,8 @@
 import Header from "./components/Header.vue";
 import Drawer from "./components/Drawer.vue";
 
+import Stash from "./models/Stash";
+
 import firestore from "@/plugins/firebase/firestore";
 
 export default {
@@ -46,16 +48,27 @@ export default {
       if (this.$store.state.logged) {
         const stashes = await this.stashes
           .where("users", "array-contains", this.$store.state.userId)
+          .orderBy("date")
           .get();
 
-        this.$store.commit(
-          "setStashes",
-          stashes.docs.map((el) => ({
-            // DATA
-            id: el.id,
-            ...el.data(),
-          }))
-        );
+        if (stashes) {
+          this.$store.commit(
+            "setStashes",
+            stashes.docs.map((el) => {
+              const data = el.data();
+
+              return new Stash(
+                data.name,
+                data.shared || null,
+                data.usersInfo,
+                data.products,
+                data.rules,
+                el.id,
+                data.date
+              );
+            })
+          );
+        }
       }
 
       setTimeout(this.load, 5000);

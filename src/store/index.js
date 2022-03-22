@@ -38,6 +38,17 @@ export default new Vuex.Store({
           .then((doc) => doc.exists && commit("setUserData", doc.data()));
       }
     },
+    addNewStash({ state, commit }, stash) {
+      commit("setStashes", [...state.myStashes, stash]);
+    },
+    removeStash({ state, commit }, id) {
+      const element = state.myStashes.find((el) => el.id === id);
+      element.remove();
+      commit(
+        "setStashes",
+        state.myStashes.filter((el) => el.id !== id)
+      );
+    },
   },
   modules: {},
 });
