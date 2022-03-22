@@ -25,6 +25,9 @@
 <script>
 import StashButton from "../components/StashButton.vue";
 
+import Stash from "../models/Stash.ts";
+import StashUser, { UserStatus } from "../models/StashUser.ts";
+
 export default {
   name: "MyStashes",
   data: () => ({
@@ -41,13 +44,21 @@ export default {
     stashCount() {
       return this.stashes.length;
     },
+    currentUser() {
+      return this.$store.state.currentUser;
+    },
   },
   methods: {
     handleStashClick(id) {
       this.$router.push("/stash/" + id);
     },
     handleCreateStash() {
-      this.$router.push("/create");
+      const { uid, name } = this.currentUser;
+      const users = [new StashUser(uid, name, UserStatus.OWNER)];
+
+      const stash = new Stash("Teste " + this.stashCount, false, users);
+      console.log(stash);
+      // this.$router.push("/create");
     },
   },
 };

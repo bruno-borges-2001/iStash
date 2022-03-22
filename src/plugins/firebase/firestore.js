@@ -7,6 +7,18 @@ const collections = {
   users: db.collection("users"),
 };
 
+function addValue(document, value) {
+  const ref = db.collection(document).doc();
+
+  updateValue(document, ref.id, { id: ref.id, ...value });
+
+  return ref.id;
+}
+
+async function updateValue(document, id, value) {
+  await db.collection(document).doc(id).set(value);
+}
+
 export default db;
 
-export { collections };
+export { collections, addValue, updateValue };
