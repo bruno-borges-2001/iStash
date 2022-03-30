@@ -1,5 +1,5 @@
 <template>
-  <v-card id="signup-card" class="pa-5 d-flex flex-column" elevation="5">
+  <Card class="pa-5 d-flex flex-column" elevation="5">
     <!-- HEADER -->
     <h1 class="mb-4">{{ $t("button.signup") }}</h1>
     <!-- INPUT FIELDS -->
@@ -37,15 +37,19 @@
     <v-btn class="align-self-end mt-2" color="primary" @click="handleSignUp">
       {{ $t("button.signupshort") }}
     </v-btn>
-  </v-card>
+  </Card>
 </template>
 
 <script>
 import auth from "@/plugins/firebase/auth";
 import firestore from "@/plugins/firebase/firestore";
+import Card from "@/layouts/Card";
 
 export default {
   name: "Login",
+  components: {
+    Card,
+  },
   data() {
     return {
       name: null,
@@ -114,15 +118,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-#signup-card {
-  width: 25rem;
-  position: relative;
-  margin: 0 1rem;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-</style>

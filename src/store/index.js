@@ -1,9 +1,8 @@
+import db from "@/plugins/firebase/firestore";
 import Vue from "vue";
 import Vuex from "vuex";
 
 Vue.use(Vuex);
-
-import db from "@/plugins/firebase/firestore";
 
 export default new Vuex.Store({
   state: {

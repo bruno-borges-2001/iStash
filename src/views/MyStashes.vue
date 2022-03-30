@@ -11,12 +11,13 @@
         :key="i"
         :stash="el"
         :onclick="() => handleStashClick(el.id)"
+        class="stash-button"
       ></s-button>
     </div>
     <div class="center-text" v-else>
-      It appears that you don't have any stashes, why don't you create one?
+      {{ $t("message.nostashes") }}
     </div>
-    <v-btn class="mt-4" id="create-button" @click="handleCreateStash">
+    <v-btn id="create-button" @click="handleCreateStash">
       <v-icon size="60" color="#A9A9A9">mdi-plus</v-icon>
     </v-btn>
   </div>
@@ -25,7 +26,7 @@
 <script>
 import StashButton from "../components/StashButton.vue";
 
-import Stash from "../models/Stash";
+// import Stash from "../models/Stash";
 
 export default {
   name: "MyStashes",
@@ -53,13 +54,13 @@ export default {
       // this.$router.push("/stash/" + id);
     },
     handleCreateStash() {
-      const { uid, name } = this.currentUser;
-      const usersInfo = [{ uid, name, userStatus: -1 }];
+      // const { uid, name } = this.currentUser;
+      // const usersInfo = [{ uid, name, userStatus: -1 }];
 
-      const stash = new Stash("Teste " + this.stashCount, false, usersInfo);
+      // const stash = new Stash("Teste " + this.stashCount, false, usersInfo);
 
-      this.$store.dispatch("addNewStash", stash);
-      // this.$router.push("/create");
+      // this.$store.dispatch("addNewStash", stash);
+      this.$router.push("/create");
     },
   },
 };
@@ -77,5 +78,9 @@ export default {
 
 .center-text {
   text-align: center;
+}
+
+.stash-button {
+  margin-bottom: 1rem;
 }
 </style>

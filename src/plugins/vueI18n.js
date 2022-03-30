@@ -10,6 +10,10 @@ const messages = {
       signup: "Don't have an account?",
       forgotpassword: "Forgot your password?",
       mystashes: "My Stashes",
+      sharedstash: "Shared Stash",
+      inviteusers: "Invite Users",
+      nostashes:
+        "It appears that you don't have any stashes, why don't you create one?",
     },
     button: {
       login: "Log In",
@@ -25,6 +29,7 @@ const messages = {
       name: "Name",
       password: "Password",
       confirmpassword: "Confirm Password",
+      product: "Product | Products",
     },
     error: {
       required: "Required field",
@@ -43,6 +48,10 @@ const messages = {
       signup: "Não possui uma conta?",
       forgotpassword: "Esqueceu sua senha?",
       mystashes: "Meus Stashes",
+      sharedstash: "Stash Compartilhado",
+      inviteusers: "Convidar Usuários",
+      nostashes:
+        "Parece que você não possui nenhum Stash, você gostaria de criar um?",
     },
     button: {
       login: "Entrar",
@@ -58,6 +67,7 @@ const messages = {
       name: "Nome",
       password: "Senha",
       confirmpassword: "Confirmar Senha",
+      product: "Produto | Produtos",
     },
     error: {
       required: "Campo obrigatório",

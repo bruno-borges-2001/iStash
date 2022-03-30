@@ -11,19 +11,38 @@
     <v-spacer></v-spacer>
 
     <v-app-bar-nav-icon
+      v-if="logged"
       :class="!logged && 'hidden'"
       @click.stop="openDrawer"
     ></v-app-bar-nav-icon>
-    <!-- <div v-if="!logged">
-      <v-btn icon @click="() => $changeLocale('pt-BR')">PT-BR</v-btn>
-      <v-btn icon @click="() => $changeLocale('en-US')">EN-US</v-btn>
-    </div> -->
+    <v-menu offset-y v-else>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn dark v-bind="attrs" v-on="on" plain small class="pa-1">
+          {{ selectedLocale }}
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item
+          v-for="(item, index) in locales"
+          :key="index"
+          @click="selectedLocale = item"
+        >
+          <v-list-item-title>{{ item }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </v-app-bar>
 </template>
 
 <script>
+import { getLocale, changeLocale } from "../plugins/vueI18n";
+
 export default {
   name: "Header",
+  data: () => ({
+    locales: ["pt-BR", "en-US"],
+    selectedLocale: getLocale(),
+  }),
   computed: {
     route() {
       return this.$route;
@@ -39,6 +58,11 @@ export default {
     handleHome() {
       let route;
       if ((route = this.route.meta.backRoute)) this.$router.replace(route);
+    },
+  },
+  watch: {
+    selectedLocale(newValue, oldValue) {
+      if (newValue !== oldValue) changeLocale(newValue);
     },
   },
 };
@@ -63,5 +87,9 @@ span {
 } */
 .hidden {
   visibility: hidden;
+}
+
+.v-input__control > div {
+  background-color: transparent !important;
 }
 </style>

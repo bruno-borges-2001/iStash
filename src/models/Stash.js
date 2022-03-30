@@ -3,6 +3,7 @@ import {
   removeValue,
   updateValue,
 } from "../plugins/firebase/firestore";
+import router from "../router";
 
 export default class Stash {
   id;
@@ -48,6 +49,8 @@ export default class Stash {
         date: this.date,
       }).then((id) => {
         this.id = id;
+
+        router.replace("/stash/" + id);
       });
     }
   }

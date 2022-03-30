@@ -1,5 +1,5 @@
 <template>
-  <v-card id="login-card" class="pa-5 d-flex flex-column" elevation="5">
+  <Card class="pa-5 d-flex flex-column" elevation="5">
     <!-- HEADER -->
     <v-btn
       v-if="forgotPasswordScreen"
@@ -61,13 +61,18 @@
     >
       {{ $t("button.login") }}
     </v-btn>
-  </v-card>
+  </Card>
 </template>
 
 <script>
 import auth from "@/plugins/firebase/auth";
+import Card from "@/layouts/Card";
+
 export default {
   name: "Login",
+  components: {
+    Card,
+  },
   data() {
     return {
       email: null,
@@ -136,14 +141,3 @@ export default {
   },
 };
 </script>
-
-<style>
-#login-card {
-  width: 25rem;
-  margin: 0 1rem;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-</style>

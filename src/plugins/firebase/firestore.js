@@ -16,11 +16,17 @@ async function addValue(document, value) {
 }
 
 async function updateValue(document, id, value) {
-  await db.collection(document).doc(id).set(value);
+  await db
+    .collection(document)
+    .doc(id)
+    .set(value);
 }
 
 function removeValue(document, id) {
-  return db.collection(document).doc(id).delete();
+  return db
+    .collection(document)
+    .doc(id)
+    .delete();
 }
 
 export default db;
