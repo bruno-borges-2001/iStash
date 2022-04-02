@@ -14,10 +14,13 @@ const messages = {
       inviteusers: "Invite Users",
       nostashes:
         "It appears that you don't have any stashes, why don't you create one?",
+      adduser: "Add User",
+      addproduct: "Add Product",
     },
     button: {
       login: "Log In",
       logout: "Logout",
+      save: "Save",
       signup: "Sign Up",
       signupimp: "Sign Up",
       signupshort: "Sign Up",
@@ -52,10 +55,13 @@ const messages = {
       inviteusers: "Convidar Usuários",
       nostashes:
         "Parece que você não possui nenhum Stash, você gostaria de criar um?",
+      adduser: "Adicionar Usuário",
+      addproduct: "Adicionar Produto",
     },
     button: {
       login: "Entrar",
       logout: "Sair",
+      save: "Salvar",
       signup: "Criar uma conta",
       signupimp: "Crie uma conta",
       signupshort: "Criar conta",

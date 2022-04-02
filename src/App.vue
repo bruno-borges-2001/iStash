@@ -34,7 +34,10 @@ export default {
       return this.$store.state.logged;
     },
     stashes() {
-      return firestore.collection("stashes");
+      return firestore
+        .collection("stashes")
+        .where("users", "array-contains", this.$store.state.userId)
+        .orderBy("date");
     },
   },
   created() {
@@ -46,10 +49,7 @@ export default {
     },
     async load() {
       if (this.$store.state.logged) {
-        const stashes = await this.stashes
-          .where("users", "array-contains", this.$store.state.userId)
-          .orderBy("date")
-          .get();
+        const stashes = await this.stashes.get();
 
         if (stashes) {
           this.$store.commit(

@@ -97,9 +97,9 @@ export default {
         uid: userAuth.uid,
       };
 
-      firestore.collections.users.doc(userAuth.uid).set(newUser);
+      firestore.collection("users").doc(userAuth.uid).set(newUser);
 
-      this.$store.dispatch("goBack", true);
+      this.$router.replace("/");
     },
     parseError({ code }) {
       switch (code) {
