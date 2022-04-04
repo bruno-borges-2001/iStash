@@ -57,6 +57,11 @@ export default {
     selectedValue() {
       return this.data[this.selectedIndex];
     },
+    getData() {
+      if (!this.selectedIndex) return false;
+
+      return { ...this.selectedValue, userStatus: 1 };
+    },
   },
 
   methods: {

@@ -33,9 +33,9 @@ export default {
   }),
   methods: {
     handleSubmit() {
-      this.onSubmit();
-
-      this.dialog = false;
+      if (this.onSubmit()) {
+        this.dialog = false;
+      }
     },
   },
   watch: {

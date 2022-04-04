@@ -19,7 +19,7 @@
       >
         <v-card-title>{{ $t("message.inviteusers") }}</v-card-title>
 
-        <v-card v-for="item in users" :key="item.uid" class="user-button">
+        <v-card v-for="item in users" :key="item.uid" class="card-button">
           <v-card-title>{{ item.name }}</v-card-title>
           <v-card-subtitle>{{ item.email }}</v-card-subtitle>
           <v-btn
@@ -48,10 +48,43 @@
       </v-card>
       <v-card class="section px-4 py-2" v-if="!isMobile || tab == 2">
         <v-card-title>{{ $tc("keys.product", 2) }}</v-card-title>
-        <v-dialog>
+        <v-card
+          v-for="(item, index) in products"
+          :key="index"
+          class="card-button"
+        >
+          <v-card-title>{{ item.name }}</v-card-title>
+          <v-card-subtitle>
+            <div title="Quantidade">
+              <v-icon>mdi-archive</v-icon>
+              <span class="pl-2">{{ item.quantity }}</span>
+            </div>
+            <v-spacer></v-spacer>
+            <div title="Controle: Lista de Compras" v-if="item.rule !== null">
+              <v-icon>mdi-basket</v-icon>
+              <span class="pl-2">{{ item.rule }}</span>
+            </div>
+          </v-card-subtitle>
+          <v-btn
+            style="position: absolute; right: 10px; top: 10px"
+            icon
+            @click="products = products.filter((_, i) => i !== index)"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card>
+        <v-dialog
+          :submitMessage="$t('button.save')"
+          :onSubmit="handleNewProduct"
+          @close="clearDialogData"
+          class="ma-2"
+        >
           <template v-slot:button>
             <v-icon left> mdi-plus </v-icon>
             {{ $t("message.addproduct") }}
+          </template>
+          <template v-slot:default>
+            <NewProductDialog ref="productDialog" />
           </template>
         </v-dialog>
       </v-card>
@@ -86,6 +119,7 @@
 <script>
 import Dialog from "../components/Dialog.vue";
 import InviteUserDialog from "../components/InviteUserDialog.vue";
+import NewProductDialog from "../components/NewProductDialog.vue";
 
 import Stash from "../models/Stash";
 
@@ -94,6 +128,7 @@ export default {
   components: {
     "v-dialog": Dialog,
     InviteUserDialog,
+    NewProductDialog,
   },
   data: () => ({
     tab: 0,
@@ -176,29 +211,43 @@ export default {
       this.width = window.innerWidth;
     },
     handleAddUser() {
-      const value = this.$refs.userDialog.selectedValue;
+      const value = this.$refs.userDialog.getData();
+
+      if (!value) return false;
 
       this.users = [...this.users, value];
+
+      return true;
+    },
+
+    handleNewProduct() {
+      const value = this.$refs.productDialog.getData();
+
+      if (!value) return false;
+
+      this.products = [...this.products, value];
+
+      return true;
     },
 
     saveData() {
       const { uid, name } = this.currentUser;
       const { name: stashName, shared, users, products } = this;
 
-      const newStash = new Stash(
+      const newStash = new Stash();
+      newStash.setValues(
         stashName,
         shared,
         [{ uid, name, userStatus: -1 }, ...users],
         products
       );
 
-      console.log(newStash);
-
       this.$store.dispatch("addNewStash", newStash);
     },
 
     clearDialogData() {
-      this.$refs.userDialog.clearData();
+      if (this.$refs.userDialog) this.$refs.userDialog.clearData();
+      if (this.$refs.productDialog) this.$refs.productDialog.clearData();
     },
   },
   watch: {
@@ -225,7 +274,7 @@ export default {
   margin-bottom: 1rem;
 }
 
-.user-button:not(:last-child) {
+.card-button:not(:last-child) {
   margin-bottom: 1rem;
 }
 </style>

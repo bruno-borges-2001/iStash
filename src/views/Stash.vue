@@ -1,6 +1,11 @@
 <template>
   <v-card>
-    {{ id }}
+    <v-card>
+      <h1 v-for="item in stash.usersInfo" :key="item.id">{{ item.name }}</h1>
+    </v-card>
+    <v-card>
+      <h1 v-for="item in stash.products" :key="item.id">{{ item.name }}</h1>
+    </v-card>
   </v-card>
 </template>
 
@@ -9,8 +14,12 @@ export default {
   name: "Stash",
   props: ["id"],
 
-  created() {
-    console.log(this.id);
+  data: () => ({}),
+
+  computed: {
+    stash() {
+      return this.$store.state.myStashes.find((el) => el.id === this.id);
+    },
   },
 };
 </script>

@@ -1,5 +1,5 @@
 import {
-  addValue,
+  getDocumentRef,
   removeValue,
   updateValue,
 } from "../plugins/firebase/firestore";
@@ -18,41 +18,54 @@ export default class Stash {
   date;
 
   constructor(
-    _name,
+    _id = null,
+    _name = "",
     _shared = false,
     _users = [],
     _products = [],
-    _rules = [],
-    _id = null,
     _date = null
   ) {
-    this.name = _name;
-    this.shared = _shared;
-
-    this.usersInfo = _users;
-    this.users = _users.map((el) => el.uid);
-    this.products = _products;
-    this.rules = _rules;
-
     if (_id) {
       this.id = _id;
+      this.name = _name;
+      this.shared = _shared;
+
+      this.usersInfo = _users;
+      this.users = _users.map((el) => el.uid);
+      this.products = _products;
       this.date = _date;
     } else {
+      const ref = getDocumentRef("stashes");
+      this.id = ref.id;
       this.date = Date.now();
-      addValue("stashes", {
-        name: this.name,
-        shared: this.shared,
-        users: this.users,
-        usersInfo: this.usersInfo,
-        products: this.products,
-        rules: this.rules,
-        date: this.date,
-      }).then((id) => {
-        this.id = id;
 
-        router.replace("/stash/" + id);
-      });
+      this.users = [];
+      this.usersInfo = [];
+      this.products = [];
     }
+  }
+
+  setValues(_name = "", _shared = false, _users = [], _products = []) {
+    this.name = _name;
+    this.shared = _shared;
+    this.usersInfo = _users;
+    this.users = _users.map((el) => el.uid);
+
+    this.products = _products.map((el) => ({
+      id: getDocumentRef("products").id,
+      ...el,
+    }));
+
+    updateValue("stashes", this.id, {
+      name: this.name,
+      shared: this.shared,
+      users: this.users,
+      usersInfo: this.usersInfo,
+      products: this.products,
+      date: this.date,
+    });
+
+    router.replace("/stash/" + this.id);
   }
 
   addUser(_user) {
@@ -74,20 +87,16 @@ export default class Stash {
     this.update();
   }
 
+  updateProduct(_id, _newProduct) {
+    const index = this.products.findIndex((el) => el.id === _id);
+
+    this.products[index] = _newProduct;
+
+    this.update();
+  }
+
   removeProduct(_id) {
     this.products = this.products.filter((el) => el.id !== _id);
-
-    this.update();
-  }
-
-  addRule(_rule) {
-    this.rules.push(_rule);
-
-    this.update();
-  }
-
-  removeRule(_id) {
-    this.rules = this.rules.filter((el) => el.id !== _id);
 
     this.update();
   }
@@ -100,7 +109,6 @@ export default class Stash {
       users: this.users,
       usersInfo: this.usersInfo,
       products: this.products,
-      rules: this.rules,
     });
   }
 

@@ -16,6 +16,10 @@ const messages = {
         "It appears that you don't have any stashes, why don't you create one?",
       adduser: "Add User",
       addproduct: "Add Product",
+      initialquantity: "Initial amount",
+      controlshoppinglist: "Control: Add to Shopping List",
+      controlhint:
+        "Controls the amount needed for this product to be added to the Shopping List",
     },
     button: {
       login: "Log In",
@@ -42,6 +46,8 @@ const messages = {
       badformat: "Badly formatted email",
       weakpassword: "Please, choose a stronger password",
       isrequired: "{param} is required",
+      invalidvalue: "Invalid value",
+      unity: "Unities must have integer values",
     },
   },
   "pt-BR": {
@@ -57,6 +63,10 @@ const messages = {
         "Parece que você não possui nenhum Stash, você gostaria de criar um?",
       adduser: "Adicionar Usuário",
       addproduct: "Adicionar Produto",
+      initialquantity: "Quantidade inicial",
+      controlshoppinglist: "Controle: Adicionar à Lista de Compras",
+      controlhint:
+        "Controla a quantidade necessária para um produto ser adicionado à lista de compras",
     },
     button: {
       login: "Entrar",
@@ -83,6 +93,8 @@ const messages = {
       badformat: "Email mal formatado",
       weakpassword: "Por favor, insira uma senha mais forte",
       isrequired: "{param} é obrigatório",
+      invalidvalue: "Valor inválido",
+      unity: "Unidades devem possuir valores inteiros",
     },
   },
 };

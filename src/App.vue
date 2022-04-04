@@ -56,14 +56,13 @@ export default {
             "setStashes",
             stashes.docs.map((el) => {
               const data = el.data();
-
               return new Stash(
+                el.id,
                 data.name,
-                data.shared || null,
+                data.shared,
                 data.usersInfo,
                 data.products,
                 data.rules,
-                el.id,
                 data.date
               );
             })
