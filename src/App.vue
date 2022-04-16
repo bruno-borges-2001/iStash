@@ -24,9 +24,8 @@ export default {
     "app-drawer": Drawer,
   },
   data: () => ({
-    users: [],
-    groups: [],
-    products: [],
+    firstLoading: true,
+
     drawer: null,
   }),
   computed: {
@@ -43,11 +42,46 @@ export default {
   created() {
     this.load();
   },
+
+  beforeDestroy() {
+    const saveData = {
+      stashes: this.$store.state.myStashes,
+    };
+
+    sessionStorage.setItem("savedData", JSON.stringify(saveData));
+  },
+
   methods: {
     openDrawer() {
       this.$refs.drawer.handleOpenDrawer();
     },
+    parseSavedData(data) {
+      const parsedData = JSON.parse(data);
+      return {
+        ...parsedData,
+        stashes: parsedData.stashes.map(
+          (el) =>
+            new Stash(
+              el.id,
+              el.name,
+              el.shared,
+              el.usersInfo,
+              el.products,
+              el.rules,
+              el.date
+            )
+        ),
+      };
+    },
     async load() {
+      const saveData = sessionStorage.getItem("savedData");
+
+      if (saveData) {
+        const parsedData = this.parseSavedData(saveData);
+        this.$store.commit("setSavedData", parsedData);
+        sessionStorage.removeItem("savedData");
+      }
+
       if (this.$store.state.logged) {
         const stashes = await this.stashes.get();
 
@@ -69,7 +103,6 @@ export default {
           );
         }
       }
-
       setTimeout(this.load, 5000);
     },
   },

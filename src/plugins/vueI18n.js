@@ -37,6 +37,8 @@ const messages = {
       password: "Password",
       confirmpassword: "Confirm Password",
       product: "Product | Products",
+      user: "User | Users",
+      setting: "Setting | Settings",
     },
     error: {
       required: "Required field",
@@ -84,6 +86,8 @@ const messages = {
       password: "Senha",
       confirmpassword: "Confirmar Senha",
       product: "Produto | Produtos",
+      user: "Usuário | Usuários",
+      setting: "Configuração | Configurações",
     },
     error: {
       required: "Campo obrigatório",

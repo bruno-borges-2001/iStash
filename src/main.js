@@ -25,5 +25,9 @@ auth.onAuthStateChanged((user) => {
       i18n,
       render: (h) => h(App),
     }).$mount("#app");
+
+    window.addEventListener("beforeunload", () => {
+      app.$destroy();
+    });
   }
 });
