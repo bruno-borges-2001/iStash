@@ -20,8 +20,6 @@ export default {
 #card {
   max-width: 25rem;
   width: 90%;
-  position: relative;
-  margin: 0 1rem;
   position: absolute;
   top: 50%;
   left: 50%;
