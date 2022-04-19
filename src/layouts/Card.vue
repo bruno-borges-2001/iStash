@@ -18,7 +18,8 @@ export default {
 
 <style scoped>
 #card {
-  width: 25rem;
+  max-width: 25rem;
+  width: 90%;
   position: relative;
   margin: 0 1rem;
   position: absolute;

@@ -19,7 +19,7 @@
       <router-view></router-view>
     </v-main>
 
-    <app-drawer :model="drawer" ref="drawer"></app-drawer>
+    <app-drawer :model="drawer" ref="drawer" v-if="logged"></app-drawer>
   </v-app>
 </template>
 
