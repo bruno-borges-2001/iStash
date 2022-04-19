@@ -1,38 +1,35 @@
 <template>
-  <Card class="pa-5 d-flex flex-column" elevation="5">
+  <Card>
     <!-- HEADER -->
     <v-btn
       v-if="forgotPasswordScreen"
       icon
       @click="handleBack"
       class="ml-n3 mt-n3"
-      ><v-icon>mdi-arrow-left</v-icon></v-btn
     >
-    <h1 class="mb-4">
+      <v-icon>mdi-arrow-left</v-icon>
+    </v-btn>
+    <h1>
       {{
         forgotPasswordScreen ? $t("button.forgotpassword") : $t("button.login")
       }}
     </h1>
     <!-- INPUT FIELDS -->
-    <v-text-field
-      v-model="email"
+    <TextInput
       placeholder="Email"
-      class="flex-grow-0"
-      :rules="[rules.required, rules.email, emailErrorMessage]"
-      @input="error = null"
-    ></v-text-field>
-    <v-text-field
+      required
+      email
+      v-model="email"
+      :rules="[emailErrorMessage]"
+    ></TextInput>
+    <PasswordInput
       v-if="!forgotPasswordScreen"
+      required
       v-model="password"
       :placeholder="$t('keys.password')"
-      :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-      :type="showPassword ? 'text' : 'password'"
-      class="flex-grow-0"
-      @click:append="showPassword = !showPassword"
-      :rules="[rules.required, passwordErrorMessage]"
-      @input="error = null"
-      @keypress="({ keyCode }) => keyCode === 13 && handleLogin()"
-    ></v-text-field>
+      :rules="[passwordErrorMessage]"
+      :onKeypress="({ keyCode }) => keyCode === 13 && handleLogin()"
+    ></PasswordInput>
     <!-- SECONDARY ACTIONS -->
     <span v-if="!forgotPasswordScreen"
       >{{ $t("message.signup") }}
@@ -42,8 +39,6 @@
       >{{ $t("message.forgotpassword") }}
       <a @click="handleForgotPassword">{{ $t("button.clickhere") }}</a>
     </span>
-
-    <span v-if="error">{{ error }} </span>
     <!-- MAIN ACTIONS -->
     <v-btn
       v-if="forgotPasswordScreen"
@@ -68,28 +63,25 @@
 import auth from "@/plugins/firebase/auth";
 import Card from "@/layouts/Card";
 
+import TextInput from "@/components/Inputs/Input";
+import PasswordInput from "@/components/Inputs/PasswordInput";
+
 export default {
   name: "Login",
   components: {
     Card,
+    TextInput,
+    PasswordInput,
   },
   data() {
     return {
       email: null,
       password: null,
-      error: null,
+
       emailError: null,
       passwordError: null,
-      showPassword: false,
+
       forgotPasswordScreen: false,
-      rules: {
-        required: (value) => !!value || this.$t("error.required"),
-        email: (value) => {
-          const pattern =
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-          return pattern.test(value) || this.$t("error.invalidemail");
-        },
-      },
     };
   },
   computed: {
@@ -98,6 +90,14 @@ export default {
     },
     passwordErrorMessage() {
       return this.passwordError === null || this.passwordError;
+    },
+  },
+  watch: {
+    email() {
+      this.emailError = null;
+    },
+    password() {
+      this.passwordError = null;
     },
   },
   methods: {
@@ -116,6 +116,14 @@ export default {
       this.forgotPasswordScreen = false;
     },
     handleLogin() {
+      if (!this.email || !this.password)
+        return this.$notify({
+          group: "center",
+          title: this.$t("keys.error"),
+          text: this.$t("message.fillrequiredfields"),
+          type: "error",
+        });
+
       auth.signInWithEmailAndPassword(this.email, this.password).then(
         () => this.$router.push("/"),
         (error) => this.parseError(error)
@@ -124,17 +132,17 @@ export default {
     parseError({ code }) {
       switch (code) {
         case "auth/user-not-found":
-          this.emailError = "User not found";
+          this.emailError = this.$t("error.usernotfound");
           break;
         case "auth/invalid-email":
-          if (this.email.length === 0) this.emailError = "Email is required";
-          else this.emailError = "Badly formatted email";
+          if (this.email.length === 0)
+            this.emailError = this.$t("error.isrequired", { param: "Email" });
+          else this.emailError = this.$t("error.badformat");
           break;
         case "auth/wrong-password":
-          this.passwordError = "Wrong password";
+          this.passwordError = this.$t("error.invalidpassword");
           break;
         case "auth/too-many-requests":
-          this.error = "Too many requests";
           break;
       }
     },

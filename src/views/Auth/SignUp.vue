@@ -1,38 +1,35 @@
 <template>
-  <Card class="pa-5 d-flex flex-column" elevation="5">
+  <Card>
     <!-- HEADER -->
     <h1 class="mb-4">{{ $t("button.signup") }}</h1>
     <!-- INPUT FIELDS -->
-    <v-text-field
+    <TextInput
       v-model="name"
+      required
       :placeholder="$t('keys.name')"
-      class="flex-grow-0"
-      :rules="[rules.required]"
-      @input="nameError = null"
-    ></v-text-field>
-    <v-text-field
+      :onInput="() => (nameError = null)"
+    ></TextInput>
+    <TextInput
       v-model="email"
       placeholder="Email"
-      class="flex-grow-0"
-      :rules="[rules.required, rules.email]"
-      @input="emailError = null"
-    ></v-text-field>
-    <v-text-field
+      required
+      email
+      :rules="[emailErrorMessage]"
+      :onInput="() => (emailError = null)"
+    ></TextInput>
+    <PasswordInput
       v-model="password"
+      required
+      hidePasswordButton
       :placeholder="$t('keys.password')"
-      class="flex-grow-0"
-      type="password"
-      :rules="[rules.required, passwordErrorMessage]"
-    ></v-text-field>
-    <v-text-field
+      :rules="[passwordErrorMessage]"
+    ></PasswordInput>
+    <PasswordInput
       v-model="confirmPassword"
+      required
       :placeholder="$t('keys.confirmpassword')"
-      :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-      :type="showPassword ? 'text' : 'password'"
-      :rules="[rules.required, confirmedPassword]"
-      class="flex-grow-0"
-      @click:append="showPassword = !showPassword"
-    ></v-text-field>
+      :rules="[confirmedPassword]"
+    ></PasswordInput>
     <!-- MAIN ACTIONS -->
     <v-btn class="align-self-end mt-2" color="primary" @click="handleSignUp">
       {{ $t("button.signupshort") }}
@@ -45,10 +42,15 @@ import auth from "@/plugins/firebase/auth";
 import firestore from "@/plugins/firebase/firestore";
 import Card from "@/layouts/Card";
 
+import TextInput from "@/components/Inputs/Input";
+import PasswordInput from "@/components/Inputs/PasswordInput";
+
 export default {
-  name: "Login",
+  name: "SignUp",
   components: {
     Card,
+    TextInput,
+    PasswordInput,
   },
   data() {
     return {
@@ -85,6 +87,14 @@ export default {
   },
   methods: {
     handleSignUp() {
+      if (!this.name || !this.email || !this.password || !this.confirmPassword)
+        return this.$notify({
+          group: "center",
+          title: this.$t("keys.error"),
+          text: this.$t("message.fillrequiredfields"),
+          type: "error",
+        });
+
       auth.createUserWithEmailAndPassword(this.email, this.password).then(
         (a) => this.handleSignUpSuccess(a.user),
         (error) => this.parseError(error)

@@ -29,8 +29,8 @@ export default new Vuex.Store({
       state.myStashes = value;
       state.loaded = true;
     },
-    setSavedData(state, value) {
-      state = value;
+    setSavedData(_state, value) {
+      _state = value;
     },
   },
   actions: {

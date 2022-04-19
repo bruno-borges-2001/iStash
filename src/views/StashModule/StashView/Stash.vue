@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import LoadingIndicator from "../components/LoadingIndicator.vue";
+import LoadingIndicator from "../../../components/LoadingIndicator.vue";
 
 export default {
   name: "Stash",

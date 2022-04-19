@@ -117,11 +117,11 @@
 </template>
 
 <script>
-import Dialog from "../components/Dialog.vue";
-import InviteUserDialog from "../components/InviteUserDialog.vue";
-import NewProductDialog from "../components/NewProductDialog.vue";
+import Dialog from "../../layouts/Dialog.vue";
+import InviteUserDialog from "../../components/InviteUserDialog.vue";
+import NewProductDialog from "../../components/NewProductDialog.vue";
 
-import Stash from "../models/Stash";
+import Stash from "../../models/Stash";
 
 export default {
   name: "Create",

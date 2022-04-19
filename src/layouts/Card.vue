@@ -1,5 +1,5 @@
 <template>
-  <Main>
+  <Main class="pa-5 d-flex flex-column">
     <v-card id="card" class="pa-5 d-flex flex-column" elevation="5"
       ><slot
     /></v-card>

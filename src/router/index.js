@@ -3,13 +3,15 @@ import VueRouter from "vue-router";
 
 import auth from "@/plugins/firebase/auth";
 
-import Home from "@/views/Home.vue";
-import Login from "@/views/Login.vue";
-import SignUp from "@/views/SignUp.vue";
-import MyStashes from "@/views/MyStashes.vue";
-import CreateStash from "@/views/CreateStash.vue";
-import Stash from "@/views/Stash.vue";
-import NotLogged from "@/views/NotLogged.vue";
+import {
+  Home,
+  Login,
+  SignUp,
+  StashesList,
+  CreateStash,
+  Stash,
+  NotLogged,
+} from "@/views";
 
 Vue.use(VueRouter);
 
@@ -30,7 +32,7 @@ const routes = [
   {
     path: "/stashes",
     name: "stashes",
-    component: MyStashes,
+    component: StashesList,
     meta: {
       requiresAuth: true,
       backRoute: "/",
@@ -60,7 +62,7 @@ const routes = [
     name: "login",
     component: Login,
     meta: {
-      backRoute: "/",
+      backRoute: "/index",
     },
   },
   {
@@ -68,7 +70,7 @@ const routes = [
     name: "signup",
     component: SignUp,
     meta: {
-      backRoute: "/",
+      backRoute: "/index",
     },
   },
 ];

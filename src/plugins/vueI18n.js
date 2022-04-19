@@ -20,6 +20,7 @@ const messages = {
       controlshoppinglist: "Control: Add to Shopping List",
       controlhint:
         "Controls the amount needed for this product to be added to the Shopping List",
+      fillrequiredfields: "Please, fill the all the fields",
     },
     button: {
       login: "Log In",
@@ -39,10 +40,12 @@ const messages = {
       product: "Product | Products",
       user: "User | Users",
       setting: "Setting | Settings",
+      error: "Error",
     },
     error: {
       required: "Required field",
       invalidemail: "Invalid email",
+      invalidpassword: "Invalid password",
       notmatch: "Password doesn't match",
       usernotfound: "User not found",
       badformat: "Badly formatted email",
@@ -69,6 +72,7 @@ const messages = {
       controlshoppinglist: "Controle: Adicionar à Lista de Compras",
       controlhint:
         "Controla a quantidade necessária para um produto ser adicionado à lista de compras",
+      fillrequiredfields: "Por favor, preencha todos os campos",
     },
     button: {
       login: "Entrar",
@@ -88,10 +92,12 @@ const messages = {
       product: "Produto | Produtos",
       user: "Usuário | Usuários",
       setting: "Configuração | Configurações",
+      error: "Erro",
     },
     error: {
       required: "Campo obrigatório",
       invalidemail: "Email inválido",
+      invalidpassword: "Senha inválida",
       notmatch: "Senhas não são iguais",
       usernotfound: "Usuário não encontrado",
       badformat: "Email mal formatado",

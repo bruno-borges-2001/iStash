@@ -1,4 +1,6 @@
 import Vue from "vue";
+import Notifications from "vue-notification";
+import velocity from "velocity-animate";
 
 import App from "./App.vue";
 import "./registerServiceWorker";
@@ -11,6 +13,8 @@ import vuetify from "@/plugins/vuetify";
 import auth from "@/plugins/firebase/auth";
 
 Vue.config.productionTip = false;
+
+Vue.use(Notifications, { velocity });
 
 let app;
 
