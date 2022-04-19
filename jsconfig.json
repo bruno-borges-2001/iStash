@@ -7,6 +7,6 @@
     "paths": {
       "@/*": ["components/*"]
     }
-  },
-  "include": ["src/**/*.vue", "src/**/*.js"]
+  }
+  // "include": ["src/**/*.vue", "src/**/*.js"]
 }

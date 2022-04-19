@@ -3,4 +3,5 @@ module.exports = {
     name: "iStash",
     themeColor: "#303F9F",
   },
+  filenameHashing: false,
 };
