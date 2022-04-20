@@ -45,8 +45,8 @@ export default {
     users() {
       return firestore
         .collection("users")
-        .where("email", ">=", this.searchValue)
-        .where("email", "<=", this.searchValue + "\uf8ff");
+        .where("email", ">=", this.searchValue.toLowerCase())
+        .where("email", "<=", this.searchValue.toLowerCase() + "\uf8ff");
     },
     noShowUsers() {
       return [
@@ -58,7 +58,7 @@ export default {
       return this.data[this.selectedIndex];
     },
     getData() {
-      if (!this.selectedIndex) return false;
+      if (this.selectedIndex === null) return false;
 
       return { ...this.selectedValue, userStatus: 1 };
     },

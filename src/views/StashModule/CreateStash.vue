@@ -57,12 +57,12 @@
           <v-card-subtitle>
             <div title="Quantidade">
               <v-icon>mdi-archive</v-icon>
-              <span class="pl-2">{{ item.quantity }}</span>
+              <span class="pl-2">{{ `${item.quantity} ${item.unity}` }}</span>
             </div>
             <v-spacer></v-spacer>
             <div title="Controle: Lista de Compras" v-if="item.rule !== null">
               <v-icon>mdi-basket</v-icon>
-              <span class="pl-2">{{ item.rule }}</span>
+              <span class="pl-2">{{ `${item.rule} ${item.unity}` }}</span>
             </div>
           </v-card-subtitle>
           <v-btn
@@ -211,7 +211,7 @@ export default {
       this.width = window.innerWidth;
     },
     handleAddUser() {
-      const value = this.$refs.userDialog.getData();
+      const value = this.$refs.userDialog.getData;
 
       if (!value) return false;
 
