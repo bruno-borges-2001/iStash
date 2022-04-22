@@ -5,6 +5,7 @@ import auth from "@/plugins/firebase/auth";
 
 import {
   Home,
+  Notification,
   Login,
   SignUp,
   StashesList,
@@ -55,6 +56,16 @@ const routes = [
     meta: {
       requiresAuth: true,
       backRoute: "/stashes",
+    },
+  },
+  {
+    path: "/notifications",
+    name: "notifications",
+    component: Notification,
+    meta: {
+      requiresAuth: true,
+      backRoute: "$back",
+      drawerPage: true,
     },
   },
   {

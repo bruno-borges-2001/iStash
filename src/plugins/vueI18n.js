@@ -21,6 +21,8 @@ const messages = {
       controlhint:
         "Controls the amount needed for this product to be added to the Shopping List",
       fillrequiredfields: "Please, fill the all the fields",
+      invitemessage:
+        "User {user} invited you to participate in the Stash {stash}, do you accept the invite?",
     },
     button: {
       login: "Log In",
@@ -41,6 +43,7 @@ const messages = {
       user: "User | Users",
       setting: "Setting | Settings",
       error: "Error",
+      notifications: "Notifications",
     },
     error: {
       required: "Required field",
@@ -53,7 +56,10 @@ const messages = {
       isrequired: "{param} is required",
       invalidvalue: "Invalid value",
       unity: "Unities must have integer values",
+      internalerror: "Internal Error",
     },
+    nolongershared:
+      "The Stash owner disabled the shared Stash option, invitation has been canceled",
   },
   "pt-BR": {
     message: {
@@ -73,6 +79,8 @@ const messages = {
       controlhint:
         "Controla a quantidade necessária para um produto ser adicionado à lista de compras",
       fillrequiredfields: "Por favor, preencha todos os campos",
+      invitemessage:
+        "O Usuário {user} convidou você para participar do Stash {stash}, você aceita o convite?",
     },
     button: {
       login: "Entrar",
@@ -93,6 +101,7 @@ const messages = {
       user: "Usuário | Usuários",
       setting: "Configuração | Configurações",
       error: "Erro",
+      notifications: "Notificações",
     },
     error: {
       required: "Campo obrigatório",
@@ -105,6 +114,9 @@ const messages = {
       isrequired: "{param} é obrigatório",
       invalidvalue: "Valor inválido",
       unity: "Unidades devem possuir valores inteiros",
+      internalerror: "Erro Interno",
+      nolongershared:
+        "O dono do Stash desabilitou a opção de Stash compartilhado, o convite foi anulado",
     },
   },
 };

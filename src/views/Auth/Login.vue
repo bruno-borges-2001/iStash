@@ -67,7 +67,7 @@ import TextInput from "@/components/Inputs/Input";
 import PasswordInput from "@/components/Inputs/PasswordInput";
 
 export default {
-  name: "Login",
+  name: "LogIn",
   components: {
     Card,
     TextInput,
@@ -124,10 +124,12 @@ export default {
           type: "error",
         });
 
-      auth.signInWithEmailAndPassword(this.email, this.password).then(
-        () => this.$router.push("/"),
-        (error) => this.parseError(error)
-      );
+      auth
+        .signInWithEmailAndPassword(this.email.toLowerCase(), this.password)
+        .then(
+          () => this.$router.push("/"),
+          (error) => this.parseError(error)
+        );
     },
     parseError({ code }) {
       switch (code) {

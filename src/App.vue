@@ -2,20 +2,7 @@
   <v-app>
     <Header :openDrawer="openDrawer" />
     <v-main id="app">
-      <notifications
-        ignoreDuplicates
-        animation-type="velocity"
-        :animation="animation"
-        position="bottom center"
-        group="center"
-        classes="notification"
-      />
-      <notifications
-        ignoreDuplicates
-        position="bottom right"
-        group="right"
-        classes="notification"
-      />
+      <Notification group="center" />
       <router-view></router-view>
     </v-main>
 
@@ -26,6 +13,7 @@
 <script>
 import Header from "./components/Header.vue";
 import Drawer from "./components/Drawer.vue";
+import Notification from "./components/Notification.vue";
 
 import Stash from "./models/Stash";
 
@@ -36,6 +24,7 @@ export default {
   components: {
     Header,
     "app-drawer": Drawer,
+    Notification,
   },
   data: () => ({
     firstLoading: true,
@@ -51,21 +40,6 @@ export default {
         .collection("stashes")
         .where("users", "array-contains", this.$store.state.userId)
         .orderBy("date");
-    },
-    animation() {
-      return {
-        enter(element) {
-          let height = element.clientHeight;
-          return {
-            height: [height, 0],
-            opacity: [1, 0],
-          };
-        },
-        leave: {
-          height: 0,
-          opacity: 0,
-        },
-      };
     },
   },
   created() {
@@ -94,6 +68,8 @@ export default {
               el.id,
               el.name,
               el.shared,
+              el.users,
+              el.invites,
               el.usersInfo,
               el.products,
               el.rules,
@@ -123,6 +99,8 @@ export default {
                 el.id,
                 data.name,
                 data.shared,
+                data.users,
+                data.invites,
                 data.usersInfo,
                 data.products,
                 data.rules,
@@ -162,49 +140,5 @@ html {
 
 .button {
   width: 15rem;
-}
-
-.notification {
-  font-size: 1rem;
-  padding: 1rem;
-
-  margin: 0.5rem;
-  color: white;
-  background: rgb(2, 0, 36);
-
-  border-radius: 8px;
-}
-.notification > .notification-title {
-  font-size: 1.2rem;
-}
-
-.notification > .notification-title {
-  border-bottom: 1px solid gray;
-  margin-bottom: 5px;
-}
-
-.notification.success {
-  background: radial-gradient(
-    circle,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(27, 180, 14, 0.9) 0%,
-    rgba(12, 122, 0, 0.4) 100%
-  );
-}
-.notification.info {
-  background: radial-gradient(
-    circle,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(221, 195, 31, 0.9) 0%,
-    rgba(232, 229, 35, 0.4) 100%
-  );
-}
-.notification.error {
-  background: radial-gradient(
-    circle,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(238, 22, 22, 0.9) 0%,
-    rgba(236, 12, 12, 0.4) 100%
-  );
 }
 </style>

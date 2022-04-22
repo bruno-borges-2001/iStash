@@ -1,4 +1,5 @@
 export { default as Home } from "./Home.vue";
+export { default as Notification } from "./NotificationPage.vue";
 
 export { default as Stash } from "./StashModule/StashView/Stash.vue";
 export { default as CreateStash } from "./StashModule/CreateStash.vue";

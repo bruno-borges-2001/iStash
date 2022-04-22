@@ -5,12 +5,15 @@ import {
 } from "../plugins/firebase/firestore";
 import router from "../router";
 
+import { ACCEPTED, INVITED, REJECTED } from "../helpers/UserStatus";
+
 export default class Stash {
   id;
   name;
   shared = false;
 
   users = [];
+  invites = [];
   usersInfo = [];
   products = [];
   rules = [];
@@ -22,6 +25,8 @@ export default class Stash {
     _name = "",
     _shared = false,
     _users = [],
+    _invites = [],
+    _usersInfo = [],
     _products = [],
     _date = null
   ) {
@@ -30,8 +35,9 @@ export default class Stash {
       this.name = _name;
       this.shared = _shared;
 
-      this.usersInfo = _users;
-      this.users = _users.map((el) => el.uid);
+      this.usersInfo = _usersInfo;
+      this.users = _users;
+      this.invites = _invites;
       this.products = _products;
       this.date = _date;
     } else {
@@ -49,7 +55,14 @@ export default class Stash {
     this.name = _name;
     this.shared = _shared;
     this.usersInfo = _users;
-    this.users = _users.map((el) => el.uid);
+
+    this.users = _users
+      .filter((el) => el.userStatus !== INVITED && el.userStatus !== REJECTED)
+      .map((el) => el.uid);
+
+    this.invites = _users
+      .filter((el) => el.userStatus === INVITED)
+      .map((el) => el.uid);
 
     this.products = _products.map((el) => ({
       id: getDocumentRef("products").id,
@@ -60,6 +73,7 @@ export default class Stash {
       name: this.name,
       shared: this.shared,
       users: this.users,
+      invites: this.invites,
       usersInfo: this.usersInfo,
       products: this.products,
       date: this.date,
@@ -69,7 +83,9 @@ export default class Stash {
   }
 
   addUser(_user) {
-    this.users.push(_user);
+    this.usersInfo.push(_user);
+    if (_user.userStatus === INVITED) this.invites.push(_user.uid);
+    else if (_user.userStatus === ACCEPTED) this.users.push(_user.uid);
 
     this.update();
   }
@@ -107,6 +123,7 @@ export default class Stash {
       name: this.name,
       shared: this.shared,
       users: this.users,
+      invites: this.invites,
       usersInfo: this.usersInfo,
       products: this.products,
     });
@@ -114,5 +131,21 @@ export default class Stash {
 
   remove() {
     return removeValue("stashes", this.id);
+  }
+
+  acceptInvite(_id) {
+    if (!this.invites.includes(_id)) return 999;
+
+    if (!this.usersInfo.find((el) => el.uid === _id)) return 1;
+
+    this.invites.filter((el) => el !== _id);
+    this.users.push(_id);
+
+    const userIndex = this.usersInfo.findIndex((el) => el.uid === _id);
+    this.usersInfo[userIndex].userStatus = ACCEPTED;
+
+    this.update();
+
+    return 0;
   }
 }

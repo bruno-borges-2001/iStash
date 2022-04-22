@@ -8,7 +8,7 @@
 
 <script>
 import Main from "@/layouts/Main.vue";
-import ModuleButton from "../components/ModuleButton.vue";
+import ModuleButton from "../components/Buttons/ModuleButton.vue";
 
 export default {
   name: "Home",

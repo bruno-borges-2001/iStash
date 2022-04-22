@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import StashButton from "../../components/StashButton.vue";
+import StashButton from "../../components/Buttons/StashButton.vue";
 import LoadingIndicator from "../../components/LoadingIndicator.vue";
 
 export default {

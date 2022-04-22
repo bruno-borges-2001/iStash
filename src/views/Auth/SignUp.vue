@@ -95,10 +95,12 @@ export default {
           type: "error",
         });
 
-      auth.createUserWithEmailAndPassword(this.email, this.password).then(
-        (a) => this.handleSignUpSuccess(a.user),
-        (error) => this.parseError(error)
-      );
+      auth
+        .createUserWithEmailAndPassword(this.email.toLowerCase(), this.password)
+        .then(
+          (a) => this.handleSignUpSuccess(a.user),
+          (error) => this.parseError(error)
+        );
     },
     handleSignUpSuccess(userAuth) {
       const newUser = {

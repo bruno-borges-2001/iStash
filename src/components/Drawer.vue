@@ -13,6 +13,17 @@
 
       <v-divider></v-divider>
 
+      <v-list-item
+        link
+        @click="handleNotifications"
+        :disabled="route.name === 'notifications'"
+      >
+        <v-list-item-icon> <v-icon>mdi-bell</v-icon></v-list-item-icon>
+        <v-list-item-title>{{ $t("keys.notifications") }}</v-list-item-title>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
       <v-list-item link @click="handleSignOut">
         <v-list-item-title>{{ $t("button.logout") }}</v-list-item-title>
       </v-list-item>
@@ -34,6 +45,7 @@ import { changeLocale } from "@/plugins/vueI18n";
 import auth from "@/plugins/firebase/auth";
 
 export default {
+  name: "AppDrawer",
   data: () => ({
     drawer: false,
   }),
@@ -44,6 +56,9 @@ export default {
     now() {
       return new Date();
     },
+    route() {
+      return this.$route;
+    },
   },
   methods: {
     handleSignOut() {
@@ -51,6 +66,9 @@ export default {
         this.drawer = false;
         location.reload();
       });
+    },
+    handleNotifications() {
+      this.$router.push({ name: "notifications" });
     },
     handleOpenDrawer() {
       this.drawer = true;

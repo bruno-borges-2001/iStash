@@ -6,7 +6,7 @@
 
     <v-spacer></v-spacer>
 
-    <v-toolbar-title class="text-bold">iStash</v-toolbar-title>
+    <v-toolbar-title class="text-bold">{{ title }}</v-toolbar-title>
 
     <v-spacer></v-spacer>
 
@@ -38,7 +38,7 @@
 import { getLocale, changeLocale } from "../plugins/vueI18n";
 
 export default {
-  name: "Header",
+  name: "HeaderComponent",
   data: () => ({
     locales: ["pt-BR", "en-US"],
     selectedLocale: getLocale(),
@@ -50,6 +50,13 @@ export default {
     logged() {
       return this.$store.state.logged;
     },
+    title() {
+      if (this.route.name === "notifications") {
+        return this.$t("keys.notifications");
+      }
+
+      return "iStash";
+    },
   },
   props: {
     openDrawer: { type: Function, required: true },
@@ -57,7 +64,10 @@ export default {
   methods: {
     handleHome() {
       let route;
-      if ((route = this.route.meta.backRoute)) this.$router.replace(route);
+      if ((route = this.route.meta.backRoute)) {
+        if (route === "$back") this.$router.go(-1);
+        else this.$router.replace(route);
+      }
     },
   },
   watch: {
