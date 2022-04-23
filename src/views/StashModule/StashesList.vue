@@ -47,7 +47,7 @@ export default {
       return this.$store.state.currentUser;
     },
     loaded() {
-      return this.$store.state.loaded;
+      return this.$store.state.stashesLoaded;
     },
   },
   methods: {

@@ -11,6 +11,7 @@
 
 <script>
 export default {
+  name: "NotificationComponent",
   props: {
     group: String,
     position: { type: String, default: "bottom center" },

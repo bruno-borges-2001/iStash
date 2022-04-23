@@ -13,9 +13,11 @@ export default new Vuex.Store({
 
     // STASH
     myStashes: [],
+    myInvites: [],
 
     // OTHER
-    loaded: false,
+    stashesLoaded: false,
+    invitesLoaded: false,
   },
   mutations: {
     login(state, userId) {
@@ -27,7 +29,11 @@ export default new Vuex.Store({
     },
     setStashes(state, value) {
       state.myStashes = value;
-      state.loaded = true;
+      state.stashesLoaded = true;
+    },
+    setInvites(state, value) {
+      state.myInvites = value;
+      state.invitesLoaded = true;
     },
     setSavedData(_state, value) {
       _state = value;

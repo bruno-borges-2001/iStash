@@ -23,6 +23,8 @@ const messages = {
       fillrequiredfields: "Please, fill the all the fields",
       invitemessage:
         "User {user} invited you to participate in the Stash {stash}, do you accept the invite?",
+      noinvites: "No invites",
+      acceptsuccess: "Invite accepted successfully",
     },
     button: {
       login: "Log In",
@@ -44,6 +46,7 @@ const messages = {
       setting: "Setting | Settings",
       error: "Error",
       notifications: "Notifications",
+      success: "Success",
     },
     error: {
       required: "Required field",
@@ -81,6 +84,8 @@ const messages = {
       fillrequiredfields: "Por favor, preencha todos os campos",
       invitemessage:
         "O Usuário {user} convidou você para participar do Stash {stash}, você aceita o convite?",
+      noinvites: "Sem convites",
+      acceptsuccess: "Convite aceito com sucesso",
     },
     button: {
       login: "Entrar",
@@ -102,6 +107,7 @@ const messages = {
       setting: "Configuração | Configurações",
       error: "Erro",
       notifications: "Notificações",
+      success: "Sucesso",
     },
     error: {
       required: "Campo obrigatório",

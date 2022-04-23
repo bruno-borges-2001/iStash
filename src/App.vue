@@ -18,6 +18,7 @@ import Notification from "./components/Notification.vue";
 import Stash from "./models/Stash";
 
 import firestore from "@/plugins/firebase/firestore";
+import { OWNER } from "@/helpers/UserStatus";
 
 export default {
   name: "App",
@@ -36,10 +37,19 @@ export default {
       return this.$store.state.logged;
     },
     stashes() {
-      return firestore
-        .collection("stashes")
+      return firestore.collection("stashes");
+    },
+    userStashes() {
+      return this.stashes
         .where("users", "array-contains", this.$store.state.userId)
         .orderBy("date");
+    },
+    userInvites() {
+      return this.stashes.where(
+        "invites",
+        "array-contains",
+        this.$store.state.userId
+      );
     },
   },
   created() {
@@ -62,7 +72,7 @@ export default {
       const parsedData = JSON.parse(data);
       return {
         ...parsedData,
-        stashes: parsedData.stashes.map(
+        stashes: parsedData.stashes?.map(
           (el) =>
             new Stash(
               el.id,
@@ -72,10 +82,23 @@ export default {
               el.invites,
               el.usersInfo,
               el.products,
-              el.rules,
               el.date
             )
         ),
+        invites: parsedData.invites?.map((el) => ({
+          id: el.id,
+          message: el.message,
+          stash: new Stash(
+            el.stash.id,
+            el.stash.name,
+            el.stash.shared,
+            el.stash.users,
+            el.stash.invites,
+            el.stash.usersInfo,
+            el.stash.products,
+            el.stash.date
+          ),
+        })),
       };
     },
     async load() {
@@ -87,30 +110,73 @@ export default {
         sessionStorage.removeItem("savedData");
       }
 
-      if (this.$store.state.logged) {
-        const stashes = await this.stashes.get();
+      let promises = [];
 
-        if (stashes) {
-          this.$store.commit(
-            "setStashes",
-            stashes.docs.map((el) => {
-              const data = el.data();
-              return new Stash(
-                el.id,
-                data.name,
-                data.shared,
-                data.users,
-                data.invites,
-                data.usersInfo,
-                data.products,
-                data.rules,
-                data.date
-              );
-            })
-          );
-        }
+      if (this.$store.state.logged) {
+        promises.push(new Promise(this.loadStashes));
+        promises.push(new Promise(this.loadInvites));
       }
-      setTimeout(this.load, 5000);
+
+      Promise.all(promises).then(() => setTimeout(this.load, 5 * 1000));
+    },
+
+    async loadStashes(resolve) {
+      const stashes = await this.userStashes.get();
+
+      if (stashes) {
+        this.$store.commit(
+          "setStashes",
+          stashes.docs.map((el) => {
+            const data = el.data();
+            return new Stash(
+              el.id,
+              data.name,
+              data.shared,
+              data.users,
+              data.invites,
+              data.usersInfo,
+              data.products,
+              data.date
+            );
+          })
+        );
+      }
+
+      resolve();
+    },
+    async loadInvites(resolve) {
+      const stashes = await this.userInvites.get();
+
+      if (stashes) {
+        this.$store.commit(
+          "setInvites",
+          stashes.docs
+            .filter((el) => el.data().shared)
+            .map((el) => {
+              const data = el.data();
+              return {
+                id: el.id,
+                message: this.$t("message.invitemessage", {
+                  user: data.usersInfo.find((el) => el.userStatus === OWNER)
+                    .name,
+                  stash: data.name,
+                }),
+                stash: new Stash(
+                  el.id,
+                  data.name,
+                  data.shared,
+                  data.users,
+                  data.invites,
+                  data.usersInfo,
+                  data.products,
+                  data.date
+                ),
+              };
+            })
+        );
+      }
+
+      resolve();
     },
   },
 };

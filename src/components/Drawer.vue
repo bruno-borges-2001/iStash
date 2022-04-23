@@ -18,7 +18,11 @@
         @click="handleNotifications"
         :disabled="route.name === 'notifications'"
       >
-        <v-list-item-icon> <v-icon>mdi-bell</v-icon></v-list-item-icon>
+        <v-list-item-icon>
+          <v-icon>{{
+            $store.state.myInvites.length > 0 ? "mdi-bell-badge" : "mdi-bell"
+          }}</v-icon></v-list-item-icon
+        >
         <v-list-item-title>{{ $t("keys.notifications") }}</v-list-item-title>
       </v-list-item>
 

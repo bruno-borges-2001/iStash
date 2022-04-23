@@ -118,7 +118,7 @@ export default class Stash {
   }
 
   update() {
-    updateValue("stashes", {
+    updateValue("stashes", this.id, {
       id: this.id,
       name: this.name,
       shared: this.shared,
@@ -126,6 +126,7 @@ export default class Stash {
       invites: this.invites,
       usersInfo: this.usersInfo,
       products: this.products,
+      date: this.date,
     });
   }
 
@@ -138,7 +139,7 @@ export default class Stash {
 
     if (!this.usersInfo.find((el) => el.uid === _id)) return 1;
 
-    this.invites.filter((el) => el !== _id);
+    this.invites = this.invites.filter((el) => el !== _id);
     this.users.push(_id);
 
     const userIndex = this.usersInfo.findIndex((el) => el.uid === _id);

@@ -17,6 +17,7 @@
 
 <script>
 export default {
+  name: "TextInput",
   data() {
     return {
       error: true,
