@@ -55,29 +55,4 @@ export default {
   border-bottom: 1px solid gray;
   margin-bottom: 5px;
 }
-
-.notification.success {
-  background: radial-gradient(
-    circle,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(27, 180, 14, 0.9) 0%,
-    rgba(12, 122, 0, 0.4) 100%
-  );
-}
-.notification.info {
-  background: radial-gradient(
-    circle,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(221, 195, 31, 0.9) 0%,
-    rgba(232, 229, 35, 0.4) 100%
-  );
-}
-.notification.error {
-  background: radial-gradient(
-    circle,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(238, 22, 22, 0.9) 0%,
-    rgba(236, 12, 12, 0.4) 100%
-  );
-}
 </style>

@@ -25,6 +25,10 @@ const messages = {
         "User {user} invited you to participate in the Stash {stash}, do you accept the invite?",
       noinvites: "No invites",
       acceptsuccess: "Invite accepted successfully",
+      rejectsuccess: "Invite rejected successfully",
+      removesuccess: "Stash removed successfully",
+      createdby: "by: {name}",
+      fillrequiredfield: "Please, fill the required fields",
     },
     button: {
       login: "Log In",
@@ -41,12 +45,15 @@ const messages = {
       name: "Name",
       password: "Password",
       confirmpassword: "Confirm Password",
-      product: "Product | Products",
+      product: "Products | Product | Products",
+      controlledproduct:
+        "Controlled Products | Controlled Product | Controlled Products",
       user: "User | Users",
       setting: "Setting | Settings",
       error: "Error",
       notifications: "Notifications",
       success: "Success",
+      owner: "Owner",
     },
     error: {
       required: "Required field",
@@ -63,6 +70,7 @@ const messages = {
     },
     nolongershared:
       "The Stash owner disabled the shared Stash option, invitation has been canceled",
+    lengtherror: "Field length exceeded permitted maximum",
   },
   "pt-BR": {
     message: {
@@ -86,6 +94,10 @@ const messages = {
         "O Usuário {user} convidou você para participar do Stash {stash}, você aceita o convite?",
       noinvites: "Sem convites",
       acceptsuccess: "Convite aceito com sucesso",
+      rejectsuccess: "Convite rejeitado com sucesso",
+      removesuccess: "Stash removido com sucesso",
+      createdby: "por: {name}",
+      fillrequiredfield: "Por favor, preencha os campos requeridos",
     },
     button: {
       login: "Entrar",
@@ -102,12 +114,15 @@ const messages = {
       name: "Nome",
       password: "Senha",
       confirmpassword: "Confirmar Senha",
-      product: "Produto | Produtos",
+      product: "Produtos | Produto | Produtos",
+      controlledproduct:
+        "Produtos Controlados | Produto Controlado | Produtos Controlados",
       user: "Usuário | Usuários",
       setting: "Configuração | Configurações",
       error: "Erro",
       notifications: "Notificações",
       success: "Sucesso",
+      owner: "Criador",
     },
     error: {
       required: "Campo obrigatório",
@@ -123,6 +138,7 @@ const messages = {
       internalerror: "Erro Interno",
       nolongershared:
         "O dono do Stash desabilitou a opção de Stash compartilhado, o convite foi anulado",
+      lengtherror: "Tamanho do campo excedeu o máximo permitido",
     },
   },
 };

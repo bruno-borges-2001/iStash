@@ -149,4 +149,19 @@ export default class Stash {
 
     return 0;
   }
+
+  rejectInvite(_id) {
+    if (!this.invites.includes(_id)) return 999;
+
+    if (!this.usersInfo.find((el) => el.uid === _id)) return 1;
+
+    this.invites = this.invites.filter((el) => el !== _id);
+
+    const userIndex = this.usersInfo.findIndex((el) => el.uid === _id);
+    this.usersInfo[userIndex].userStatus = REJECTED;
+
+    this.update();
+
+    return 0;
+  }
 }

@@ -5,6 +5,7 @@
     <div v-if="loaded" class="d-flex full-width align-center flex-column">
       <div
         class="d-flex full-width align-center flex-column"
+        style="padding-top: 1rem"
         v-if="stashCount > 0"
       >
         <s-button

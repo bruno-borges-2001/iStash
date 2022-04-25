@@ -5,8 +5,12 @@
         <v-card-title>Stash</v-card-title>
         <v-text-field
           v-model="name"
+          counter
           :label="$t('keys.name')"
-          :rules="[(value) => !showError || validateTab || 'Campo Obrigatório']"
+          :rules="[
+            (value) => value.length <= 25 || $t('error.lengtherror'),
+            (value) => !showError || validateTab || $t('error.required'),
+          ]"
         ></v-text-field>
         <v-switch
           v-model="shared"
@@ -124,7 +128,7 @@ import NewProductDialog from "../../components/Dialogs/NewProductDialog.vue";
 import Stash from "../../models/Stash";
 
 export default {
-  name: "Create",
+  name: "CreateStash",
   components: {
     "v-dialog": Dialog,
     InviteUserDialog,
@@ -168,6 +172,22 @@ export default {
       switch (this.tab) {
         case 0:
           if (this.name.length === 0) {
+            this.$notify({
+              group: "center",
+              title: this.$t("keys.error"),
+              text: this.$t("message.fillrequiredfields"),
+              type: "error",
+            });
+            return false;
+          }
+
+          if (this.name.length > 25) {
+            this.$notify({
+              group: "center",
+              title: this.$t("keys.error"),
+              text: this.$t("error.lengtherror"),
+              type: "error",
+            });
             return false;
           }
         case 1:

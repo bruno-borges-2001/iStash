@@ -19,10 +19,9 @@
         :disabled="route.name === 'notifications'"
       >
         <v-list-item-icon>
-          <v-icon>{{
-            $store.state.myInvites.length > 0 ? "mdi-bell-badge" : "mdi-bell"
-          }}</v-icon></v-list-item-icon
-        >
+          <v-icon> mdi-bell </v-icon>
+          <div id="badge" v-if="$store.state.myInvites.length > 0"></div>
+        </v-list-item-icon>
         <v-list-item-title>{{ $t("keys.notifications") }}</v-list-item-title>
       </v-list-item>
 
@@ -84,4 +83,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+#badge {
+  content: "";
+  height: 0px;
+  width: 0px;
+  border: solid 5px red;
+  border-radius: 100%;
+  transform: translateX(-10px);
+}
+</style>
