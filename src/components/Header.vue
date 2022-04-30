@@ -55,6 +55,12 @@ export default {
         return this.$t("keys.notifications");
       }
 
+      if (this.route.name === "stash") {
+        return this.$store.state.myStashes.find(
+          (el) => el.id === this.route.params.id
+        )?.name;
+      }
+
       return "iStash";
     },
   },

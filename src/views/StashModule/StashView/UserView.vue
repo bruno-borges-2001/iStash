@@ -4,7 +4,7 @@
   >
     <p class="mb-0">{{ $t("message.by") }}</p>
     <h1>{{ owner.name }}</h1>
-    <v-switch label="Shared" v-model="switchValue" />
+    <v-switch :label="$t('message.sharedstash')" v-model="switchValue" />
     <v-card
       elevation="5"
       :disabled="!stash.shared"
@@ -13,24 +13,43 @@
       <header class="d-flex align-center">
         <v-text-field
           prepend-inner-icon="mdi-magnify"
-          placeholder="Search user"
+          :placeholder="$t('message.searchuser')"
           v-model="searchFilter"
         ></v-text-field>
-        <v-btn icon>
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
+        <v-dialog
+          :submitMessage="$t('button.save')"
+          :onSubmit="handleAddUser"
+          @close="clearDialogData"
+          class="ma-2"
+          iconButton
+        >
+          <template v-slot:button>
+            <v-icon> mdi-plus </v-icon>
+          </template>
+          <template v-slot:default>
+            <invite-user-dialog :usersList="users" ref="userDialog" />
+          </template>
+        </v-dialog>
       </header>
-      <div style="height: calc(100% - 70px)">
+      <div style="max-height: calc(100% - 70px); overflow-y: auto">
         <div v-if="usersList.length > 0">
           <v-card
             v-for="item in usersList"
-            :key="item.id"
+            :key="item.uid"
             class="user-card full-width mt-2"
-            elevation="4"
+            elevation="9"
+            style="border: 1px solid #aaa3"
           >
             <v-card-title class="text-h4 text-capitalize justify-center pb-0">
               {{ item.name }}
             </v-card-title>
+            <v-btn
+              v-if="isOwner && item.userStatus === 1"
+              @click="cancelInvite(item.uid)"
+              class="cancel-btn"
+              icon
+              ><v-icon>mdi-close</v-icon></v-btn
+            >
             <v-card-actions style="padding-top: 0">
               <v-spacer></v-spacer>
               <div
@@ -48,7 +67,11 @@
           </v-card>
         </div>
         <div class="full-height d-flex justify-center align-center" v-else>
-          {{ $t("message.nousers") }}
+          {{
+            searchFilter.length > 0
+              ? $t("message.nosearch")
+              : $t("message.nousers")
+          }}
         </div>
       </div>
     </v-card>
@@ -56,9 +79,12 @@
 </template>
 
 <script>
+import Dialog from "../../../layouts/Dialog.vue";
 import { OWNER, INVITED, REJECTED, ACCEPTED } from "@/helpers/UserStatus";
+import InviteUserDialog from "@/components/Dialogs/InviteUserDialog.vue";
 
 export default {
+  components: { "v-dialog": Dialog, InviteUserDialog },
   data: () => ({
     switchValue: false,
     searchFilter: "",
@@ -77,7 +103,12 @@ export default {
     usersList() {
       return this.users
         ?.filter((el) => el.userStatus !== OWNER && el.userStatus !== REJECTED)
-        .sort((a) => -a.userStatus);
+        .sort((a) => -a.userStatus)
+        .filter(
+          (el) =>
+            el.name.includes(this.searchFilter) ||
+            el.email.split("@")[0].includes(this.searchFilter)
+        );
     },
   },
   methods: {
@@ -93,6 +124,21 @@ export default {
     },
     handleRemoveUser(_id) {
       this.stash.removeUser(_id);
+    },
+    handleAddUser() {
+      const value = this.$refs.userDialog.getData;
+
+      if (!value) return false;
+
+      this.stash.addUser(value);
+
+      return true;
+    },
+    cancelInvite(_id) {
+      this.stash.rejectInvite(_id, true);
+    },
+    clearDialogData() {
+      if (this.$refs.userDialog) this.$refs.userDialog.clearData();
     },
   },
   props: {
@@ -121,5 +167,11 @@ export default {
   max-height: 650px;
   max-width: 1120px;
   padding: 0 4rem;
+}
+
+.cancel-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
 }
 </style>

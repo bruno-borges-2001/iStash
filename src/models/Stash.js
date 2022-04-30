@@ -86,7 +86,13 @@ export default class Stash {
   }
 
   addUser(_user) {
-    this.usersInfo.push(_user);
+    let index;
+    if ((index = this.usersInfo.findIndex((el) => el.uid === _user.uid)) >= 0) {
+      this.usersInfo[index].userStatus = _user.userStatus;
+    } else {
+      this.usersInfo.push(_user);
+    }
+
     if (_user.userStatus === INVITED) this.invites.push(_user.uid);
     else if (_user.userStatus === ACCEPTED) this.users.push(_user.uid);
 
@@ -144,15 +150,19 @@ export default class Stash {
     return 0;
   }
 
-  rejectInvite(_id) {
+  rejectInvite(_id, del = false) {
     if (!this.invites.includes(_id)) return 999;
 
     if (!this.usersInfo.find((el) => el.uid === _id)) return 1;
 
     this.invites = this.invites.filter((el) => el !== _id);
 
-    const userIndex = this.usersInfo.findIndex((el) => el.uid === _id);
-    this.usersInfo[userIndex].userStatus = REJECTED;
+    if (del) {
+      this.usersInfo = this.usersInfo.filter((el) => el.uid !== _id);
+    } else {
+      const userIndex = this.usersInfo.findIndex((el) => el.uid === _id);
+      this.usersInfo[userIndex].userStatus = REJECTED;
+    }
 
     this.update();
 

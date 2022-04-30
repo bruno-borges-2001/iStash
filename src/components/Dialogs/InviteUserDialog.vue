@@ -51,7 +51,7 @@ export default {
     noShowUsers() {
       return [
         this.$store.state.currentUser.uid,
-        ...this.usersList.map((el) => el.uid),
+        ...this.usersList.filter((el) => el.userStatus > 0).map((el) => el.uid),
       ];
     },
     selectedValue() {

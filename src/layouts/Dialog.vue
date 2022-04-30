@@ -2,7 +2,7 @@
   <div class="text-center">
     <v-dialog v-model="dialog">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn dense v-bind="attrs" v-on="on">
+        <v-btn :icon="iconButton" dense v-bind="attrs" v-on="on">
           <slot name="button">Click me</slot>
         </v-btn>
       </template>
@@ -24,10 +24,11 @@
 
 <script>
 export default {
+  name: "DialogLayout",
   model: {
     event: "onClose",
   },
-  props: { onSubmit: Function, submitMessage: String },
+  props: { onSubmit: Function, submitMessage: String, iconButton: Boolean },
   data: () => ({
     dialog: false,
   }),
