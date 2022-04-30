@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="9">
+  <v-card class="my-2" elevation="9">
     <v-card-text class="text--primary">{{ message }}</v-card-text>
     <v-divider></v-divider>
     <v-card-actions class="d-flex full-width">

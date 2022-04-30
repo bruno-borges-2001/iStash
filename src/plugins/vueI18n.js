@@ -14,6 +14,7 @@ const messages = {
       inviteusers: "Invite Users",
       nostashes:
         "It appears that you don't have any stashes, why don't you create one?",
+      nousers: "No users sharing this Stash",
       adduser: "Add User",
       addproduct: "Add Product",
       initialquantity: "Initial amount",
@@ -28,6 +29,7 @@ const messages = {
       rejectsuccess: "Invite rejected successfully",
       removesuccess: "Stash removed successfully",
       createdby: "by: {name}",
+      by: "by",
       fillrequiredfield: "Please, fill the required fields",
     },
     button: {
@@ -54,6 +56,7 @@ const messages = {
       notifications: "Notifications",
       success: "Success",
       owner: "Owner",
+      invited: "Invited",
     },
     error: {
       required: "Required field",
@@ -83,6 +86,7 @@ const messages = {
       inviteusers: "Convidar Usuários",
       nostashes:
         "Parece que você não possui nenhum Stash, você gostaria de criar um?",
+      nousers: "Sem usuários compartilhando esse Stash",
       adduser: "Adicionar Usuário",
       addproduct: "Adicionar Produto",
       initialquantity: "Quantidade inicial",
@@ -97,6 +101,7 @@ const messages = {
       rejectsuccess: "Convite rejeitado com sucesso",
       removesuccess: "Stash removido com sucesso",
       createdby: "por: {name}",
+      by: "por",
       fillrequiredfield: "Por favor, preencha os campos requeridos",
     },
     button: {
@@ -123,6 +128,7 @@ const messages = {
       notifications: "Notificações",
       success: "Sucesso",
       owner: "Criador",
+      invited: "Convidado",
     },
     error: {
       required: "Campo obrigatório",

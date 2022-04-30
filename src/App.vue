@@ -207,4 +207,8 @@ html {
 .button {
   width: 15rem;
 }
+
+[disabled] {
+  opacity: 0.6;
+}
 </style>

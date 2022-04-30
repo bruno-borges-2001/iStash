@@ -1,11 +1,10 @@
+import { ACCEPTED, INVITED, REJECTED } from "../helpers/UserStatus";
 import {
   getDocumentRef,
   removeValue,
   updateValue,
 } from "../plugins/firebase/firestore";
 import router from "../router";
-
-import { ACCEPTED, INVITED, REJECTED } from "../helpers/UserStatus";
 
 export default class Stash {
   id;
@@ -69,7 +68,13 @@ export default class Stash {
       ...el,
     }));
 
-    updateValue("stashes", this.id, {
+    this.update();
+
+    router.replace("/stash/" + this.id);
+  }
+
+  buildTemplate() {
+    return {
       name: this.name,
       shared: this.shared,
       users: this.users,
@@ -77,9 +82,7 @@ export default class Stash {
       usersInfo: this.usersInfo,
       products: this.products,
       date: this.date,
-    });
-
-    router.replace("/stash/" + this.id);
+    };
   }
 
   addUser(_user) {
@@ -118,16 +121,7 @@ export default class Stash {
   }
 
   update() {
-    updateValue("stashes", this.id, {
-      id: this.id,
-      name: this.name,
-      shared: this.shared,
-      users: this.users,
-      invites: this.invites,
-      usersInfo: this.usersInfo,
-      products: this.products,
-      date: this.date,
-    });
+    updateValue("stashes", this.id, this.buildTemplate());
   }
 
   remove() {
@@ -163,5 +157,11 @@ export default class Stash {
     this.update();
 
     return 0;
+  }
+
+  setShared(val) {
+    this.shared = val;
+
+    this.update();
   }
 }

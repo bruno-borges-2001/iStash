@@ -1,27 +1,15 @@
 <template>
   <v-card id="content-wrapper">
     <v-card class="content">
-      <v-tabs-items v-model="tab" v-if="stash">
-        <v-tab-item :key="tabsList[0].label">
-          <v-card>
-            <h1 v-for="item in stash.products" :key="item.id">
-              {{ item.name }}
-            </h1>
-          </v-card>
+      <v-tabs-items class="full-height" v-model="tab" v-if="stash">
+        <v-tab-item :key="tabsList[0].label" class="full-height">
+          <product-view />
         </v-tab-item>
-        <v-tab-item :key="tabsList[1].label">
-          <v-card>
-            <h1 v-for="item in stash.usersInfo" :key="item.id">
-              {{ item.name }}
-            </h1>
-          </v-card>
+        <v-tab-item :key="tabsList[1].label" class="full-height">
+          <user-view :stash="stash" class="full-height" />
         </v-tab-item>
-        <v-tab-item :key="tabsList[2].label">
-          <v-card>
-            <h1 v-for="item in stash.products" :key="item.id">
-              {{ item.name }}
-            </h1>
-          </v-card>
+        <v-tab-item :key="tabsList[2].label" class="full-height">
+          <settings-view />
         </v-tab-item>
       </v-tabs-items>
       <LoadingIndicator v-else />
@@ -38,13 +26,19 @@
 
 <script>
 import LoadingIndicator from "../../../components/LoadingIndicator.vue";
+import ProductView from "./ProductView.vue";
+import UserView from "./UserView.vue";
+import SettingsView from "./SettingsView.vue";
 
 export default {
-  name: "Stash",
+  name: "StashView",
   props: ["id"],
 
   components: {
     LoadingIndicator,
+    UserView,
+    ProductView,
+    SettingsView,
   },
 
   data: () => ({
@@ -60,6 +54,9 @@ export default {
   computed: {
     stash() {
       return this.$store.state.myStashes?.find((el) => el.id === this.id);
+    },
+    users() {
+      return this.stash?.usersInfo;
     },
   },
 };
