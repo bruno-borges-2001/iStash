@@ -15,7 +15,9 @@ const messages = {
       nostashes:
         "It appears that you don't have any stashes, why don't you create one?",
       nousers: "No users sharing this Stash",
-      nosearch: "No user fits the search",
+      noproducts: "No products in this Stash",
+      nosearchuser: "No user fits the search",
+      nosearchproduct: "No product fits the search",
       adduser: "Add User",
       addproduct: "Add Product",
       initialquantity: "Initial amount",
@@ -33,6 +35,7 @@ const messages = {
       by: "by",
       fillrequiredfield: "Please, fill the required fields",
       searchuser: "Search user",
+      ago: "{time} ago",
     },
     button: {
       login: "Log In",
@@ -89,7 +92,9 @@ const messages = {
       nostashes:
         "Parece que você não possui nenhum Stash, você gostaria de criar um?",
       nousers: "Sem usuários compartilhando esse Stash",
-      nosearch: "Nenhum usuário corresponde com a busca",
+      noproducts: "Sem produtos nesse Stash",
+      nosearchuser: "Nenhum usuário corresponde com a busca",
+      nosearchproduct: "Nenhum produto corresponde com a busca",
       adduser: "Adicionar Usuário",
       addproduct: "Adicionar Produto",
       initialquantity: "Quantidade inicial",
@@ -107,6 +112,8 @@ const messages = {
       by: "por",
       fillrequiredfield: "Por favor, preencha os campos requeridos",
       searchuser: "Procurar usuário",
+      mismatchversion: "Versão atual diferente da do banco de dados",
+      ago: "há {time}",
     },
     button: {
       login: "Entrar",
@@ -129,6 +136,7 @@ const messages = {
       user: "Usuário | Usuários",
       setting: "Configuração | Configurações",
       error: "Erro",
+      warning: "Aviso",
       notifications: "Notificações",
       success: "Sucesso",
       owner: "Criador",

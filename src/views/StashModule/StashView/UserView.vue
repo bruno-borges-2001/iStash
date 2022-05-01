@@ -22,6 +22,7 @@
           @close="clearDialogData"
           class="ma-2"
           iconButton
+          v-if="isOwner"
         >
           <template v-slot:button>
             <v-icon> mdi-plus </v-icon>
@@ -69,7 +70,7 @@
         <div class="full-height d-flex justify-center align-center" v-else>
           {{
             searchFilter.length > 0
-              ? $t("message.nosearch")
+              ? $t("message.nosearchuser")
               : $t("message.nousers")
           }}
         </div>

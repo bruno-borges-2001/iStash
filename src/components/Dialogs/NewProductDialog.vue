@@ -9,6 +9,7 @@
             :label="$t('keys.name')"
             v-model="name"
             :rules="nameRules"
+            counter
           >
           </v-text-field>
         </v-col>
@@ -73,7 +74,10 @@ export default {
   }),
   computed: {
     nameRules() {
-      return [(value) => value?.length > 0 || this.$t("error.required")];
+      return [
+        (value) => value?.length > 0 || this.$t("error.required"),
+        (value) => value?.length < 25 || this.$t("error.lengtherror"),
+      ];
     },
     numberRules() {
       return [
@@ -94,12 +98,12 @@ export default {
       this.slQuantity = 0;
       this.$refs.productForm.resetValidation();
     },
-    validateDate() {
+    validateData() {
       return this.$refs.productForm.validate();
     },
 
     getData() {
-      if (this.validateDate()) {
+      if (this.validateData()) {
         const { name, quantity, unity, slControl, slQuantity } = this;
 
         let convertedQuantity = 0;
@@ -118,6 +122,8 @@ export default {
           quantity: convertedQuantity,
           unity,
           rule: slControl ? convertedSlQuantity : null,
+          lastUpdatedBy: this.$store.state.currentUser.name,
+          lastUpdatedAt: new Date(),
         };
       }
 

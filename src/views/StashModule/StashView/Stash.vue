@@ -3,7 +3,7 @@
     <v-card class="content">
       <v-tabs-items class="full-height" v-model="tab" v-if="stash">
         <v-tab-item :key="tabsList[0].label" class="full-height">
-          <product-view />
+          <product-view :stash="stash" class="full-height" />
         </v-tab-item>
         <v-tab-item :key="tabsList[1].label" class="full-height">
           <user-view :stash="stash" class="full-height" />

@@ -136,7 +136,8 @@ export default {
               data.invites,
               data.usersInfo,
               data.products,
-              data.date
+              data.date,
+              data.version
             );
           })
         );
@@ -184,7 +185,7 @@ export default {
 
 <style>
 html {
-  overflow-y: auto;
+  overflow-y: auto !important;
 }
 #app {
   padding: 0;

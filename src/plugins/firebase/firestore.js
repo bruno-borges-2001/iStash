@@ -1,3 +1,4 @@
+import Vue from "vue";
 import firebase from "./index";
 
 const db = firebase.firestore();
@@ -13,7 +14,22 @@ function getDocumentRef(document) {
 }
 
 async function updateValue(document, id, value) {
-  await db.collection(document).doc(id).set(value);
+  try {
+    const lastData = await db.collection(document).doc(id).get();
+
+    if (lastData.data().version >= value.version) {
+      Vue.notify({
+        group: "center",
+        title: this.$t("keys.warning"),
+        text: this.$t("message.mismatchversion"),
+        type: "warning",
+      });
+    } else {
+      await db.collection(document).doc(id).set(value);
+    }
+  } catch (ex) {
+    console.table(ex);
+  }
 }
 
 function removeValue(document, id) {

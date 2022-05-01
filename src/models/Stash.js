@@ -15,9 +15,9 @@ export default class Stash {
   invites = [];
   usersInfo = [];
   products = [];
-  rules = [];
 
   date;
+  version;
 
   constructor(
     _id = null,
@@ -27,7 +27,8 @@ export default class Stash {
     _invites = [],
     _usersInfo = [],
     _products = [],
-    _date = null
+    _date = null,
+    _version = 1
   ) {
     if (_id) {
       this.id = _id;
@@ -39,6 +40,7 @@ export default class Stash {
       this.invites = _invites;
       this.products = _products;
       this.date = _date;
+      this.version = _version;
     } else {
       const ref = getDocumentRef("stashes");
       this.id = ref.id;
@@ -47,6 +49,7 @@ export default class Stash {
       this.users = [];
       this.usersInfo = [];
       this.products = [];
+      this.version = 0;
     }
   }
 
@@ -82,6 +85,7 @@ export default class Stash {
       usersInfo: this.usersInfo,
       products: this.products,
       date: this.date,
+      version: this.version + 1,
     };
   }
 
@@ -127,7 +131,9 @@ export default class Stash {
   }
 
   update() {
-    updateValue("stashes", this.id, this.buildTemplate());
+    updateValue("stashes", this.id, this.buildTemplate()).then(
+      () => (this.version += 1)
+    );
   }
 
   remove() {
