@@ -55,13 +55,14 @@
               <v-spacer></v-spacer>
               <div
                 v-if="item.userStatus !== 2"
-                style="color: green; font-size: 1.5rem"
+                class="d-flex align-end"
+                style="color: green; height: 36px;"
               >
                 {{ userStatus(item.userStatus) }}
               </div>
               <div v-else>
                 <v-btn v-if="isOwner" icon @click="handleRemoveUser(item.uid)">
-                  <v-icon color="#d90310">mdi-trash-can</v-icon>
+                  <v-icon>mdi-trash-can</v-icon>
                 </v-btn>
               </div>
             </v-card-actions>

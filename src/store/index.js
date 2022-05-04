@@ -18,6 +18,8 @@ export default new Vuex.Store({
     // OTHER
     stashesLoaded: false,
     invitesLoaded: false,
+
+    updateData: true,
   },
   mutations: {
     login(state, userId) {
@@ -37,6 +39,12 @@ export default new Vuex.Store({
     },
     setSavedData(_state, value) {
       _state = value;
+    },
+    enableUpdateData(state) {
+      state.updateData = true;
+    },
+    disableUpdateData(state) {
+      state.updateData = false;
     },
   },
   actions: {

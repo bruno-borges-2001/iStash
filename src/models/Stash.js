@@ -5,6 +5,7 @@ import {
   updateValue,
 } from "../plugins/firebase/firestore";
 import router from "../router";
+import {debounce} from "../helpers/timingFunctions"
 
 export default class Stash {
   id;
@@ -132,7 +133,9 @@ export default class Stash {
 
   update() {
     updateValue("stashes", this.id, this.buildTemplate()).then(
-      () => (this.version += 1)
+      () => debounce(() => 
+        this.version += 1
+      , 5000)
     );
   }
 

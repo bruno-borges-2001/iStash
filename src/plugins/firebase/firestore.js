@@ -1,4 +1,4 @@
-import Vue from "vue";
+// import Vue from "vue";
 import firebase from "./index";
 
 const db = firebase.firestore();
@@ -17,18 +17,18 @@ async function updateValue(document, id, value) {
   try {
     const lastData = await db.collection(document).doc(id).get();
 
-    if (lastData.data().version >= value.version) {
-      Vue.notify({
-        group: "center",
-        title: this.$t("keys.warning"),
-        text: this.$t("message.mismatchversion"),
-        type: "warning",
-      });
+    if (lastData.data().version > value.version) {
+      // Vue.notify({
+      //   group: "center",
+      //   title: this.$t("keys.warning"),
+      //   text: this.$t("message.mismatchversion"),
+      //   type: "warning",
+      // });
     } else {
       await db.collection(document).doc(id).set(value);
     }
   } catch (ex) {
-    console.table(ex);
+    console.log(ex);
   }
 }
 

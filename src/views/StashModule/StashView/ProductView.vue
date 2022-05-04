@@ -23,22 +23,21 @@
         </template>
       </v-dialog>
     </header>
-    <div style="max-height: 75vh" class="full-height full-width">
+    <div
+      style="max-height: 75vh; max-width: 1000px"
+      class="full-height full-width"
+    >
       <div
         style="max-height: 75vh; overflow: auto"
+        class="full-height"
         v-if="productsList.length > 0"
       >
-        <v-card
-          style="margin-top: 0.5rem"
+        <product-card
           v-for="(item, index) in productsList"
           :key="index"
-        >
-          <v-card-title>{{ item.name }}</v-card-title>
-          <v-card-text>
-            {{ item.lastUpdatedBy }} -
-            {{ item.formattedLastUpdatedAt }}
-          </v-card-text>
-        </v-card>
+          :product="item"
+          :stashRef="stash"
+        />
       </div>
       <div class="full-height d-flex justify-center align-center" v-else>
         <loading-indicator v-if="!stash"> </loading-indicator>
@@ -60,10 +59,16 @@ import NewProductDialog from "@/components/Dialogs/NewProductDialog.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
 
 import { formatDate } from "@/helpers/formatter";
+import ProductCard from "@/components/Cards/ProductCard.vue";
 
 export default {
   name: "ProductView",
-  components: { "v-dialog": Dialog, NewProductDialog, LoadingIndicator },
+  components: {
+    "v-dialog": Dialog,
+    NewProductDialog,
+    LoadingIndicator,
+    ProductCard,
+  },
   props: {
     stash: Object,
   },

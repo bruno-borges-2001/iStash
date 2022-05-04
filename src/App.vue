@@ -112,7 +112,7 @@ export default {
 
       let promises = [];
 
-      if (this.$store.state.logged) {
+      if (this.$store.state.logged && this.$store.state.updateData) {
         promises.push(new Promise(this.loadStashes));
         promises.push(new Promise(this.loadInvites));
       }
