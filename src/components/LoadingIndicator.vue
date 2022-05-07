@@ -1,6 +1,9 @@
 <template>
   <div id="loading-container">
-    <v-progress-circular :size="80" indeterminate></v-progress-circular>
+    <v-progress-circular
+      :size="size"
+      :indeterminate="active"
+    ></v-progress-circular>
   </div>
 </template>
 

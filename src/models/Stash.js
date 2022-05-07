@@ -5,7 +5,7 @@ import {
   updateValue,
 } from "../plugins/firebase/firestore";
 import router from "../router";
-import {debounce} from "../helpers/timingFunctions"
+import { debounce } from "../helpers/timingFunctions";
 
 export default class Stash {
   id;
@@ -117,12 +117,12 @@ export default class Stash {
     this.update();
   }
 
-  updateProduct(_id, _newProduct) {
+  async updateProduct(_id, _newProduct) {
     const index = this.products.findIndex((el) => el.id === _id);
 
     this.products[index] = _newProduct;
 
-    this.update();
+    await this.update();
   }
 
   removeProduct(_id) {
@@ -131,11 +131,9 @@ export default class Stash {
     this.update();
   }
 
-  update() {
-    updateValue("stashes", this.id, this.buildTemplate()).then(
-      () => debounce(() => 
-        this.version += 1
-      , 5000)
+  async update() {
+    await updateValue("stashes", this.id, this.buildTemplate()).then(() =>
+      debounce(() => (this.version += 1), 5000)
     );
   }
 

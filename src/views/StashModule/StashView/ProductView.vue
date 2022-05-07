@@ -79,10 +79,12 @@ export default {
     productsList() {
       return this.stash?.products
         .filter((el) => el.name.includes(this.searchFilter.toLowerCase()))
-        .map((el) => ({
-          ...el,
-          formattedLastUpdatedAt: this.formatDate(el.lastUpdatedAt),
-        }));
+        .map((el) => {
+          return {
+            ...el,
+            formattedLastUpdatedAt: this.formatDate(el.lastUpdatedAt),
+          };
+        });
     },
   },
   methods: {
@@ -101,9 +103,7 @@ export default {
     formatDate(lastUpdatedAt) {
       let date;
       if ("seconds" in lastUpdatedAt)
-        date = new Date(
-          lastUpdatedAt.seconds * 1000 + lastUpdatedAt.nanoseconds / 1000
-        );
+        date = new Date(lastUpdatedAt.seconds * 1000);
       else date = new Date(lastUpdatedAt);
 
       const diffTime = Math.abs(new Date() - date);

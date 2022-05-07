@@ -16,6 +16,7 @@ export default {
   name: "CounterComponent",
   data: () => ({
     buffer: 0,
+    overrideValue: null,
   }),
   props: {
     id: String,
@@ -24,7 +25,9 @@ export default {
   },
   computed: {
     showValue() {
-      return this.value + this.buffer;
+      return this.overrideValue !== null
+        ? this.overrideValue + this.buffer
+        : this.value + this.buffer;
     },
   },
   methods: {
@@ -40,7 +43,7 @@ export default {
           this.onChange(this.showValue);
           this.$store.commit("enableUpdateData");
         },
-        1000,
+        500,
         `COUNTER-${this.id}`
       );
     },
@@ -56,14 +59,21 @@ export default {
           this.onChange(this.showValue);
           this.$store.commit("enableUpdateData");
         },
-        1000,
+        500,
         `COUNTER-${this.id}`
       );
+    },
+    override(value) {
+      this.overrideValue = value;
     },
   },
   watch: {
     value() {
+      if (this.overrideValue !== null && this.buffer !== 0) {
+        this.onChange(this.showValue);
+      }
       this.buffer = 0;
+      this.overrideValue = null;
     },
   },
 };

@@ -66,6 +66,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export default {
   data: () => ({
+    id: null,
     name: "",
     quantity: 0,
     unity: "Un",
@@ -94,6 +95,7 @@ export default {
   },
   methods: {
     clearData() {
+      this.id = null;
       this.name = "";
       this.quantity = 0;
       this.slControl = false;
@@ -102,6 +104,16 @@ export default {
     },
     validateData() {
       return this.$refs.productForm.validate();
+    },
+
+    setEditData(data) {
+      const { id, name, quantity, rule, unity } = data;
+      this.id = id;
+      this.name = name;
+      this.quantity = quantity;
+      this.slControl = rule !== null;
+      this.slQuantity = rule ?? 0;
+      this.unity = unity;
     },
 
     getData() {
@@ -120,7 +132,7 @@ export default {
         }
 
         return {
-          id: uuidv4(),
+          id: this.id ?? uuidv4(),
           name,
           quantity: convertedQuantity,
           unity,
