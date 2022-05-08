@@ -12,8 +12,9 @@
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
     "skipLibCheck": true,
+    "allowJs": true
   },
-  "include": ["src", "vite.config.ts"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "vueCompilerOptions": {
     "experimentalCompatMode": 2, // delete after migrating to vue3 (or nuxt3)
