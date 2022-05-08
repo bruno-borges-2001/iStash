@@ -25,6 +25,9 @@
           <v-spacer></v-spacer>
           <v-card-actions>
             <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="editDialog = false">
+              {{ $t("keys.cancel") }}
+            </v-btn>
             <v-btn color="primary" text @click="handleEditSubmit">
               {{ $t("button.save") }}
             </v-btn>
@@ -44,7 +47,7 @@
     <v-card-actions>
       <v-card-text>
         {{ product.lastUpdatedBy }} -
-        {{ product.formattedLastUpdatedAt }}
+        {{ formattedLastUpdatedAt }}
       </v-card-text>
     </v-card-actions>
 
@@ -58,6 +61,7 @@
 </template>
 
 <script>
+import { formatDate } from "@/helpers/formatter";
 import Counter from "../Counter.vue";
 import NewProductDialog from "../Dialogs/NewProductDialog.vue";
 export default {
@@ -66,6 +70,7 @@ export default {
   data: () => ({
     editDialog: false,
     updating: false,
+    overrideUpdateDate: null,
   }),
   props: {
     product: Object,
@@ -80,6 +85,30 @@ export default {
         { title: "Editar", onClick: () => {} },
         { title: "Excluir", onClick: this.handleRemove },
       ];
+    },
+    formattedLastUpdatedAt() {
+      if (this.overrideUpdateDate) return this.overrideUpdateDate;
+
+      let date;
+      if ("seconds" in this.product.lastUpdatedAt)
+        date = new Date(this.product.lastUpdatedAt.seconds * 1000);
+      else date = new Date(this.product.lastUpdatedAt);
+
+      const diffTime = Math.abs(new Date() - date);
+      const diffMinutes = Math.ceil(diffTime / (1000 * 60));
+      if (diffMinutes < 2) return this.$t("message.now");
+
+      if (diffMinutes < 60)
+        return this.$t("message.ago", { time: diffMinutes + "min" });
+
+      const diffHours = Math.ceil(diffMinutes / 60);
+      if (diffHours < 24)
+        return this.$t("message.ago", { time: diffHours + "h" });
+
+      const diffDays = Math.ceil(diffHours / 24);
+      if (diffDays < 7) return this.$t("message.ago", { time: diffDays + "d" });
+
+      return formatDate(date);
     },
   },
   methods: {
@@ -126,6 +155,14 @@ export default {
   watch: {
     editDialog(value) {
       if (!value) this.clearDialogData();
+    },
+    updating(value) {
+      if (value) {
+        this.overrideUpdateDate = this.$t("message.now");
+      }
+    },
+    product() {
+      this.overrideUpdateDate = null;
     },
   },
 };

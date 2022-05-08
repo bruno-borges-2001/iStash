@@ -58,7 +58,6 @@ import Dialog from "../../../layouts/Dialog.vue";
 import NewProductDialog from "@/components/Dialogs/NewProductDialog.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
 
-import { formatDate } from "@/helpers/formatter";
 import ProductCard from "@/components/Cards/ProductCard.vue";
 
 export default {
@@ -77,14 +76,9 @@ export default {
   }),
   computed: {
     productsList() {
-      return this.stash?.products
-        .filter((el) => el.name.includes(this.searchFilter.toLowerCase()))
-        .map((el) => {
-          return {
-            ...el,
-            formattedLastUpdatedAt: this.formatDate(el.lastUpdatedAt),
-          };
-        });
+      return this.stash?.products.filter((el) =>
+        el.name.includes(this.searchFilter.toLowerCase())
+      );
     },
   },
   methods: {
@@ -99,26 +93,6 @@ export default {
       this.stash?.addProduct(value);
 
       return true;
-    },
-    formatDate(lastUpdatedAt) {
-      let date;
-      if ("seconds" in lastUpdatedAt)
-        date = new Date(lastUpdatedAt.seconds * 1000);
-      else date = new Date(lastUpdatedAt);
-
-      const diffTime = Math.abs(new Date() - date);
-      const diffMinutes = Math.ceil(diffTime / (1000 * 60));
-      if (diffMinutes < 60)
-        return this.$t("message.ago", { time: diffMinutes + "min" });
-
-      const diffHours = Math.ceil(diffMinutes / 60);
-      if (diffHours < 24)
-        return this.$t("message.ago", { time: diffHours + "h" });
-
-      const diffDays = Math.ceil(diffHours / 24);
-      if (diffDays < 7) return this.$t("message.ago", { time: diffDays + "d" });
-
-      return formatDate(date);
     },
   },
 };

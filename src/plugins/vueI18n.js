@@ -36,6 +36,7 @@ const messages = {
       fillrequiredfield: "Please, fill the required fields",
       searchuser: "Search user",
       ago: "{time} ago",
+      now: "now",
     },
     button: {
       login: "Log In",
@@ -62,6 +63,7 @@ const messages = {
       success: "Success",
       owner: "Owner",
       invited: "Invited",
+      cancel: "Cancel",
     },
     error: {
       required: "Required field",
@@ -114,6 +116,7 @@ const messages = {
       searchuser: "Procurar usuário",
       mismatchversion: "Versão atual diferente da do banco de dados",
       ago: "há {time}",
+      now: "agora",
     },
     button: {
       login: "Entrar",
@@ -141,6 +144,7 @@ const messages = {
       success: "Sucesso",
       owner: "Criador",
       invited: "Convidado",
+      cancel: "Cancelar",
     },
     error: {
       required: "Campo obrigatório",

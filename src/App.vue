@@ -19,6 +19,7 @@ import Stash from "./models/Stash";
 
 import firestore from "@/plugins/firebase/firestore";
 import { OWNER } from "@/helpers/UserStatus";
+import { diff } from "@/helpers/diff";
 
 export default {
   name: "App",
@@ -119,28 +120,34 @@ export default {
 
       Promise.all(promises).then(() => setTimeout(this.load, 5 * 1000));
     },
-
     async loadStashes(resolve) {
       const stashes = await this.userStashes.get();
 
       if (stashes) {
-        this.$store.commit(
-          "setStashes",
-          stashes.docs.map((el) => {
-            const data = el.data();
-            return new Stash(
-              el.id,
-              data.name,
-              data.shared,
-              data.users,
-              data.invites,
-              data.usersInfo,
-              data.products,
-              data.date,
-              data.version
-            );
-          })
-        );
+        const parsedData = stashes.docs.map((el) => {
+          const data = el.data();
+          return new Stash(
+            el.id,
+            data.name,
+            data.shared,
+            data.users,
+            data.invites,
+            data.usersInfo,
+            data.products,
+            data.date,
+            data.version
+          );
+        });
+
+        parsedData.forEach((el) => {
+          if (
+            this.$store.state.myStashes &&
+            this.$store.state.myStashes.version < el.version
+          )
+            diff(el.products, this.$store.getters.getStash(el.id)?.products);
+        });
+
+        this.$store.commit("setStashes", parsedData);
       }
 
       resolve();

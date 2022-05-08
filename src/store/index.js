@@ -70,5 +70,10 @@ export default new Vuex.Store({
       );
     },
   },
+  getters: {
+    getStash: (state) => (id) => {
+      return state.myStashes.find((el) => el.id === id);
+    },
+  },
   modules: {},
 });
