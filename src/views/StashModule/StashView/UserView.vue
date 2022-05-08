@@ -56,7 +56,7 @@
               <div
                 v-if="item.userStatus !== 2"
                 class="d-flex align-end"
-                style="color: green; height: 36px;"
+                style="color: green; height: 36px"
               >
                 {{ userStatus(item.userStatus) }}
               </div>
@@ -82,8 +82,13 @@
 
 <script>
 import Dialog from "../../../layouts/Dialog.vue";
-import { OWNER, INVITED, REJECTED, ACCEPTED } from "@/helpers/UserStatus";
-import InviteUserDialog from "@/components/Dialogs/InviteUserDialog.vue";
+import {
+  OWNER,
+  INVITED,
+  REJECTED,
+  ACCEPTED,
+} from "../../../helpers/UserStatus";
+import InviteUserDialog from "../../../components/Dialogs/InviteUserDialog.vue";
 
 export default {
   components: { "v-dialog": Dialog, InviteUserDialog },

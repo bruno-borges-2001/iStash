@@ -1,24 +1,20 @@
 {
   "name": "istash",
-  "version": "0.1.0",
   "private": true,
+  "version": "0.0.0",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "serve": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "host": "vite preview --host"
   },
   "dependencies": {
-    "core-js": "^3.6.5",
-    "deepmerge": "^4.2.2",
-    "eslint-plugin-vue": "^8.6.0",
     "firebase": "^8.6.7",
     "node-sass": "^7.0.1",
     "register-service-worker": "^1.7.1",
-    "sass": "~1.32",
-    "sass-loader": "^12.6.0",
-    "style-loader": "^2.0.0",
     "velocity-animate": "^1.5.2",
-    "vue": "^2.6.11",
+    "vite-plugin-vue2": "^2.0.0",
+    "vue": "^2.6.14",
     "vue-i18n": "^8.25.0",
     "vue-notification": "^1.3.20",
     "vue-router": "^3.2.0",
@@ -26,15 +22,22 @@
     "vuex": "^3.4.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.5.4",
+    "@types/node": "^17.0.31",
+    "@types/velocity-animate": "^2.0.1",
+    "@types/vue": "^2.0.0",
+    "@vitejs/plugin-vue": "^2.3.1",
     "@vue/cli-plugin-babel": "^4.5.0",
     "@vue/cli-plugin-pwa": "^4.5.0",
     "@vue/cli-plugin-router": "^4.5.0",
     "@vue/cli-plugin-vuex": "^4.5.0",
     "@vue/eslint-config-prettier": "^6.0.0",
-    "less": "^3.9.0",
-    "less-loader": "^4.1.0",
-    "vue-template-compiler": "^2.6.11",
-    "webpack": "^4.0.0"
+    "@vue/runtime-dom": "^3.2.33",
+    "sass": "~1.32",
+    "sass-loader": "^12.6.0",
+    "style-loader": "^2.0.0",
+    "typescript": "^4.5.4",
+    "vite": "^2.9.7",
+    "vite-plugin-pwa": "^0.12.0",
+    "vue-tsc": "^0.34.7"
   }
 }

@@ -43,11 +43,12 @@
   </v-navigation-drawer>
 </template>
 
-<script>
-import { changeLocale } from "@/plugins/vueI18n";
-import auth from "@/plugins/firebase/auth";
+<script lang="ts">
+import { changeLocale } from "../plugins/vueI18n";
+import auth from "../plugins/firebase/auth";
+import Vue from "vue";
 
-export default {
+export default Vue.extend({
   name: "AppDrawer",
   data: () => ({
     drawer: false,
@@ -76,11 +77,11 @@ export default {
     handleOpenDrawer() {
       this.drawer = true;
     },
-    changeLanguage(locale) {
+    changeLanguage(locale: "pt-BR" | "en-US") {
       changeLocale(locale);
     },
   },
-};
+});
 </script>
 
 <style scoped>

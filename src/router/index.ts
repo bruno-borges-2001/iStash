@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import auth from "@/plugins/firebase/auth";
+import auth from "../plugins/firebase/auth";
 
 import {
   Home,
@@ -12,7 +12,7 @@ import {
   CreateStash,
   Stash,
   NotLogged,
-} from "@/views";
+} from "../views";
 
 Vue.use(VueRouter);
 
@@ -88,7 +88,7 @@ const routes = [
 
 const router = new VueRouter({
   mode: "history",
-  base: process.env.BASE_URL,
+  base: ".",
   routes,
 });
 

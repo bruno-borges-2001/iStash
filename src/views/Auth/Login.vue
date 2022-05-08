@@ -60,11 +60,11 @@
 </template>
 
 <script>
-import auth from "@/plugins/firebase/auth";
-import Card from "@/layouts/Card";
+import auth from "../../plugins/firebase/auth";
 
-import TextInput from "@/components/Inputs/Input";
-import PasswordInput from "@/components/Inputs/PasswordInput";
+import Card from "../../layouts/Card.vue";
+import TextInput from "../../components/Inputs/Input.vue";
+import PasswordInput from "../../components/Inputs/PasswordInput.vue";
 
 export default {
   name: "LogIn",

@@ -6,14 +6,15 @@
   </Main>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue";
 import Main from "./Main.vue";
 
-export default {
+export default Vue.extend({
   components: {
     Main,
   },
-};
+});
 </script>
 
 <style scoped>

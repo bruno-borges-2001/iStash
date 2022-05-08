@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { formatDate } from "@/helpers/formatter";
+import { formatDate } from "../../helpers/formatter";
 import Counter from "../Counter.vue";
 import NewProductDialog from "../Dialogs/NewProductDialog.vue";
 export default {

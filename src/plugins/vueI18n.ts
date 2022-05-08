@@ -205,13 +205,13 @@ const i18n = new VueI18n({
   locale: window.navigator.language,
   fallbackLocale: "en-US",
   messages,
-  dateTimeFormats,
+  dateTimeFormats: dateTimeFormats as VueI18n.DateTimeFormats,
   numberFormats,
 });
 
 export default i18n;
 
-export function changeLocale(newLocale) {
+export function changeLocale(newLocale: "pt-BR" | "en-US") {
   i18n.locale = newLocale;
 }
 

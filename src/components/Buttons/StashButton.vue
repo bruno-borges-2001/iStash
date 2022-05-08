@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { OWNER, INVITED, REJECTED } from "@/helpers/UserStatus";
+import { OWNER, INVITED, REJECTED } from "../../helpers/UserStatus";
 export default {
   name: "StashButton",
   props: {

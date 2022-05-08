@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import InviteCard from "@/components/InviteCard";
-import LoadingIndicator from "@/components/LoadingIndicator";
+import InviteCard from "../components/InviteCard.vue";
+import LoadingIndicator from "../components/LoadingIndicator.vue";
 
-import Main from "@/layouts/Main.vue";
+import Main from "../layouts/Main.vue";
 
 export default {
   components: { Main, LoadingIndicator, InviteCard },

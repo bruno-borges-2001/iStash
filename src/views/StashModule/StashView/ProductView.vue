@@ -55,10 +55,10 @@
 
 <script>
 import Dialog from "../../../layouts/Dialog.vue";
-import NewProductDialog from "@/components/Dialogs/NewProductDialog.vue";
-import LoadingIndicator from "@/components/LoadingIndicator.vue";
+import NewProductDialog from "../../../components/Dialogs/NewProductDialog.vue";
+import LoadingIndicator from "../../../components/LoadingIndicator.vue";
 
-import ProductCard from "@/components/Cards/ProductCard.vue";
+import ProductCard from "../../../components/Cards/ProductCard.vue";
 
 export default {
   name: "ProductView",

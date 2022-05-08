@@ -1,6 +1,9 @@
-import db from "@/plugins/firebase/firestore";
+import db from "../plugins/firebase/firestore";
 import Vue from "vue";
 import Vuex from "vuex";
+
+import Stash from "../models/Stash";
+import { Invite } from "../types";
 
 Vue.use(Vuex);
 
@@ -12,8 +15,8 @@ export default new Vuex.Store({
     userId: null,
 
     // STASH
-    myStashes: [],
-    myInvites: [],
+    myStashes: [] as Stash[],
+    myInvites: [] as Invite[],
 
     // OTHER
     stashesLoaded: false,
@@ -48,7 +51,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    login({ commit }, currentUser) {
+    login({ commit }, currentUser: string) {
       commit("login", currentUser);
 
       if (currentUser) {
@@ -58,11 +61,11 @@ export default new Vuex.Store({
           .then((doc) => doc.exists && commit("setUserData", doc.data()));
       }
     },
-    addNewStash({ state, commit }, stash) {
+    addNewStash({ state, commit }, stash: Stash) {
       commit("setStashes", [...state.myStashes, stash]);
     },
-    removeStash({ state, commit }, id) {
-      const element = state.myStashes.find((el) => el.id === id);
+    removeStash({ state, commit }, id: string) {
+      const element = state.myStashes.find((el) => el.id === id)!;
       element.remove();
       commit(
         "setStashes",
@@ -71,7 +74,7 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    getStash: (state) => (id) => {
+    getStash: (state) => (id: string) => {
       return state.myStashes.find((el) => el.id === id);
     },
   },

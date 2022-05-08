@@ -10,18 +10,22 @@
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue";
 import Header from "./components/Header.vue";
 import Drawer from "./components/Drawer.vue";
 import Notification from "./components/Notification.vue";
 
 import Stash from "./models/Stash";
 
-import firestore from "@/plugins/firebase/firestore";
-import { OWNER } from "@/helpers/UserStatus";
-import { diff } from "@/helpers/diff";
+import firestore from "./plugins/firebase/firestore";
+import { OWNER } from "./helpers/UserStatus";
+import { diff } from "./helpers/diff";
+import { Invite, Document, Query, User } from "./types";
 
-export default {
+type Resolve = (value?: unknown) => void;
+
+export default Vue.extend({
   name: "App",
   components: {
     Header,
@@ -37,15 +41,15 @@ export default {
     logged() {
       return this.$store.state.logged;
     },
-    stashes() {
+    stashes(): Document {
       return firestore.collection("stashes");
     },
-    userStashes() {
+    userStashes(): Query {
       return this.stashes
         .where("users", "array-contains", this.$store.state.userId)
         .orderBy("date");
     },
-    userInvites() {
+    userInvites(): Query {
       return this.stashes.where(
         "invites",
         "array-contains",
@@ -67,26 +71,25 @@ export default {
 
   methods: {
     openDrawer() {
-      this.$refs.drawer.handleOpenDrawer();
+      (this.$refs.drawer as any).handleOpenDrawer();
     },
-    parseSavedData(data) {
+    parseSavedData(data: string) {
       const parsedData = JSON.parse(data);
       return {
         ...parsedData,
-        stashes: parsedData.stashes?.map(
-          (el) =>
-            new Stash(
-              el.id,
-              el.name,
-              el.shared,
-              el.users,
-              el.invites,
-              el.usersInfo,
-              el.products,
-              el.date
-            )
-        ),
-        invites: parsedData.invites?.map((el) => ({
+        stashes: parsedData.stashes?.map((el: Stash) => {
+          return new Stash(
+            el.id,
+            el.name,
+            el.shared,
+            el.users,
+            el.invites,
+            el.usersInfo,
+            el.products,
+            el.date
+          );
+        }),
+        invites: parsedData.invites?.map((el: Invite) => ({
           id: el.id,
           message: el.message,
           stash: new Stash(
@@ -120,7 +123,7 @@ export default {
 
       Promise.all(promises).then(() => setTimeout(this.load, 5 * 1000));
     },
-    async loadStashes(resolve) {
+    async loadStashes(resolve: Resolve) {
       const stashes = await this.userStashes.get();
 
       if (stashes) {
@@ -152,7 +155,7 @@ export default {
 
       resolve();
     },
-    async loadInvites(resolve) {
+    async loadInvites(resolve: Resolve) {
       const stashes = await this.userInvites.get();
 
       if (stashes) {
@@ -165,8 +168,9 @@ export default {
               return {
                 id: el.id,
                 message: this.$t("message.invitemessage", {
-                  user: data.usersInfo.find((el) => el.userStatus === OWNER)
-                    .name,
+                  user: data.usersInfo.find(
+                    (el: User) => el.userStatus === OWNER
+                  ).name,
                   stash: data.name,
                 }),
                 stash: new Stash(
@@ -187,7 +191,7 @@ export default {
       resolve();
     },
   },
-};
+});
 </script>
 
 <style>

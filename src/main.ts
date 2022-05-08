@@ -3,20 +3,19 @@ import Notifications from "vue-notification";
 import velocity from "velocity-animate";
 
 import App from "./App.vue";
-import "./registerServiceWorker";
 
 import store from "./store";
 import router from "./router";
 
-import i18n from "@/plugins/vueI18n";
-import vuetify from "@/plugins/vuetify";
-import auth from "@/plugins/firebase/auth";
+import i18n from "./plugins/vueI18n";
+import vuetify from "./plugins/vuetify";
+import auth from "./plugins/firebase/auth";
 
 Vue.config.productionTip = false;
 
 Vue.use(Notifications, { velocity });
 
-let app;
+let app: any;
 
 auth.onAuthStateChanged((user) => {
   store.dispatch("login", user ? user.uid : null);

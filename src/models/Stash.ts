@@ -6,29 +6,30 @@ import {
 } from "../plugins/firebase/firestore";
 import router from "../router";
 import { debounce } from "../helpers/timingFunctions";
+import { Product, User } from "../types";
 
 export default class Stash {
-  id;
-  name;
+  id: string;
+  name?: string;
   shared = false;
 
-  users = [];
-  invites = [];
-  usersInfo = [];
-  products = [];
+  users: string[] = [];
+  invites: string[] = [];
+  usersInfo: User[] = [];
+  products: Product[] = [];
 
-  date;
-  version;
+  date: number | null;
+  version: number;
 
   constructor(
-    _id = null,
+    _id: string | null = null,
     _name = "",
     _shared = false,
-    _users = [],
-    _invites = [],
-    _usersInfo = [],
-    _products = [],
-    _date = null,
+    _users: string[] = [],
+    _invites: string[] = [],
+    _usersInfo: User[] = [],
+    _products: Product[] = [],
+    _date: number | null = null,
     _version = 1
   ) {
     if (_id) {
@@ -54,7 +55,12 @@ export default class Stash {
     }
   }
 
-  setValues(_name = "", _shared = false, _users = [], _products = []) {
+  setValues(
+    _name = "",
+    _shared = false,
+    _users: User[] = [],
+    _products: Product[] = []
+  ) {
     this.name = _name;
     this.shared = _shared;
     this.usersInfo = _users;
@@ -67,10 +73,7 @@ export default class Stash {
       .filter((el) => el.userStatus === INVITED)
       .map((el) => el.uid);
 
-    this.products = _products.map((el) => ({
-      id: getDocumentRef("products").id,
-      ...el,
-    }));
+    this.products = _products;
 
     this.update();
 
@@ -90,7 +93,7 @@ export default class Stash {
     };
   }
 
-  addUser(_user) {
+  addUser(_user: User) {
     let index;
     if ((index = this.usersInfo.findIndex((el) => el.uid === _user.uid)) >= 0) {
       this.usersInfo[index].userStatus = _user.userStatus;
@@ -104,20 +107,20 @@ export default class Stash {
     this.update();
   }
 
-  removeUser(_uid) {
+  removeUser(_uid: string) {
     this.users = this.users.filter((el) => el !== _uid);
     this.usersInfo = this.usersInfo.filter((el) => el.uid !== _uid);
 
     this.update();
   }
 
-  addProduct(_product) {
+  addProduct(_product: Product) {
     this.products.push(_product);
 
     this.update();
   }
 
-  async updateProduct(_id, _newProduct) {
+  async updateProduct(_id: string, _newProduct: Product) {
     const index = this.products.findIndex((el) => el.id === _id);
 
     this.products[index] = _newProduct;
@@ -125,7 +128,7 @@ export default class Stash {
     await this.update();
   }
 
-  removeProduct(_id) {
+  removeProduct(_id: string) {
     this.products = this.products.filter((el) => el.id !== _id);
 
     this.update();
@@ -141,7 +144,7 @@ export default class Stash {
     return removeValue("stashes", this.id);
   }
 
-  acceptInvite(_id) {
+  acceptInvite(_id: string) {
     if (!this.invites.includes(_id)) return 999;
 
     if (!this.usersInfo.find((el) => el.uid === _id)) return 1;
@@ -157,7 +160,7 @@ export default class Stash {
     return 0;
   }
 
-  rejectInvite(_id, del = false) {
+  rejectInvite(_id: string, del = false) {
     if (!this.invites.includes(_id)) return 999;
 
     if (!this.usersInfo.find((el) => el.uid === _id)) return 1;
@@ -176,7 +179,7 @@ export default class Stash {
     return 0;
   }
 
-  setShared(val) {
+  setShared(val: boolean) {
     this.shared = val;
 
     this.update();

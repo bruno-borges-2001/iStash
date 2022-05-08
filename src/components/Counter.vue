@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { debounce } from "@/helpers/timingFunctions";
+import { debounce } from "../helpers/timingFunctions";
 export default {
   name: "CounterComponent",
   data: () => ({

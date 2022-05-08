@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import firestore from "@/plugins/firebase/firestore";
+import firestore from "../../plugins/firebase/firestore";
 
 export default {
   props: {
