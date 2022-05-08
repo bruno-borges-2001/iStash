@@ -6,7 +6,10 @@
  * @param  {Object} obj2 The object to compare against it
  * @return {Object}      An object of differences between the two
  */
-export function diff(data, local) {
+
+import { Product } from "../types";
+
+export function diff(data: Product[], local: Product[]) {
   // Make sure an object to compare is provided
   if (!local || Object.prototype.toString.call(local) !== "[object Object]") {
     return data;
@@ -16,8 +19,8 @@ export function diff(data, local) {
   // Variables
   //
 
-  var diffs = {};
-  var key;
+  var diffs: { [id: string]: any } = {};
+  var key: string;
 
   //
   // Methods
@@ -29,8 +32,13 @@ export function diff(data, local) {
    * @param  {*}      item2 The second item
    * @param  {String} key   The key in our object
    */
-  var compare = function (item1, item2, id, key) {
-    if (item1 !== item2) diff[id][key] = { oldValue: item2, newValue: item1 };
+  var compare = function (
+    item1: unknown,
+    item2: unknown,
+    id: string,
+    key: string
+  ) {
+    if (item1 !== item2) diffs[id][key] = { oldValue: item2, newValue: item1 };
   };
 
   //
@@ -42,11 +50,16 @@ export function diff(data, local) {
     data.forEach((el) => {
       const localEl = local.find((x) => x.id === el.id);
 
-      if (!localEl) diff[el.id][key] = { message: "newproduct" };
+      if (!localEl) return (diffs[el.id][key] = { message: "newproduct" });
 
       for (key in ["name", "quantity", "rule", "unity"]) {
         if (data.hasOwnProperty(key)) {
-          compare(el[key], localEl[key], key);
+          compare(
+            el[key as keyof Product],
+            localEl[key as keyof Product],
+            el.id,
+            key
+          );
         }
       }
     });
@@ -54,11 +67,16 @@ export function diff(data, local) {
     local.forEach((el) => {
       const dataEl = data.find((x) => x.id === el.id);
 
-      if (!dataEl) diff[el.id][key] = { message: "removedproduct" };
+      if (!dataEl) return (diffs[el.id][key] = { message: "removedproduct" });
 
       for (key in ["name", "quantity", "rule", "unity"]) {
         if (data.hasOwnProperty(key)) {
-          compare(dataEl[key], el[key], key);
+          compare(
+            dataEl[key as keyof Product],
+            el[key as keyof Product],
+            el.id,
+            key
+          );
         }
       }
     });

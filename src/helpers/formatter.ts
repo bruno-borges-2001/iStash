@@ -1,7 +1,6 @@
 import { getLocale } from "../plugins/vueI18n";
 
-export function formatDate(date) {
-  console.log(date);
+export function formatDate(date: number | Date) {
   return new Intl.DateTimeFormat(getLocale(), {
     day: "2-digit",
     month: "2-digit",

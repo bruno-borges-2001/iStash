@@ -38,7 +38,7 @@ export default Vue.extend({
     drawer: null,
   }),
   computed: {
-    logged() {
+    logged(): boolean {
       return this.$store.state.logged;
     },
     stashes(): Document {
@@ -70,7 +70,7 @@ export default Vue.extend({
   },
 
   methods: {
-    openDrawer() {
+    openDrawer(): void {
       (this.$refs.drawer as any).handleOpenDrawer();
     },
     parseSavedData(data: string) {
@@ -123,7 +123,7 @@ export default Vue.extend({
 
       Promise.all(promises).then(() => setTimeout(this.load, 5 * 1000));
     },
-    async loadStashes(resolve: Resolve) {
+    async loadStashes(resolve: Resolve): Promise<void> {
       const stashes = await this.userStashes.get();
 
       if (stashes) {
@@ -155,7 +155,7 @@ export default Vue.extend({
 
       resolve();
     },
-    async loadInvites(resolve: Resolve) {
+    async loadInvites(resolve: Resolve): Promise<void> {
       const stashes = await this.userInvites.get();
 
       if (stashes) {
