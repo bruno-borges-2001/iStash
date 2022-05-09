@@ -65,7 +65,9 @@ export default {
 <style scoped>
 #create-button {
   height: 10rem;
-  width: 60%;
+  width: 80%;
+
+  max-width: 1012px;
 
   border: 0.4rem dashed #a9a9a9;
   border-radius: 0.8rem;

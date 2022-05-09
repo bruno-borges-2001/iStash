@@ -108,10 +108,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .stash-button {
   height: 10rem !important;
-  width: 60% !important;
+  width: 80% !important;
+
+  max-width: 1012px !important;
 
   border-radius: 0.8rem !important;
   background-color: lightgray;

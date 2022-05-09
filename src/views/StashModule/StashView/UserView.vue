@@ -41,7 +41,7 @@
             elevation="9"
             style="border: 1px solid #aaa3"
           >
-            <v-card-title class="text-h4 text-capitalize justify-center pb-0">
+            <v-card-title class="text-capitalize justify-center pb-0 name-span">
               {{ item.name }}
             </v-card-title>
             <v-btn
@@ -165,20 +165,20 @@ export default {
 </script>
 
 <style scoped>
-.user-card {
-  max-width: 1000px;
-}
-
 .users-container {
   height: 90%;
   max-height: 650px;
   max-width: 1120px;
-  padding: 0 4rem;
+  padding: 0 2rem;
 }
 
 .cancel-btn {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
+}
+
+.name-span {
+  font-size: 2rem;
 }
 </style>
