@@ -6,9 +6,12 @@
           <product-view :stash="stash" class="full-height" />
         </v-tab-item>
         <v-tab-item :key="tabsList[1].label" class="full-height">
-          <user-view :stash="stash" class="full-height" />
+          <shopping-list :stash="stash" class="full-height" />
         </v-tab-item>
         <v-tab-item :key="tabsList[2].label" class="full-height">
+          <user-view :stash="stash" class="full-height" />
+        </v-tab-item>
+        <v-tab-item :key="tabsList[3].label" class="full-height">
           <settings-view />
         </v-tab-item>
       </v-tabs-items>
@@ -29,6 +32,7 @@ import LoadingIndicator from "../../../components/LoadingIndicator.vue";
 import ProductView from "./ProductView.vue";
 import UserView from "./UserView.vue";
 import SettingsView from "./SettingsView.vue";
+import ShoppingList from "./ShoppingList.vue";
 
 export default {
   name: "StashView",
@@ -39,13 +43,15 @@ export default {
     UserView,
     ProductView,
     SettingsView,
+    ShoppingList,
   },
 
   data: () => ({
     tab: null,
 
     tabsList: [
-      { label: "product", icon: "mdi-basket-outline" },
+      { label: "product", icon: "mdi-archive-outline" },
+      { label: "shoppinglist", icon: "mdi-basket-outline" },
       { label: "user", icon: "mdi-account-multiple" },
       { label: "setting", icon: "mdi-cog" },
     ],

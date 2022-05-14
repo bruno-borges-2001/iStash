@@ -2,9 +2,7 @@
   <div class="d-flex align-center justify-center">
     <v-btn icon @click="handleDecrement"><v-icon>mdi-minus</v-icon></v-btn>
 
-    <div class="counter-input">
-      {{ showValue }}
-    </div>
+    <div class="counter-input">{{ showValue }}</div>
 
     <v-btn icon @click="handleIncrement"><v-icon>mdi-plus</v-icon></v-btn>
   </div>
@@ -86,7 +84,7 @@ export default {
   max-width: 3rem;
   padding: 0.25rem;
   text-align: center;
-  width: 3rem;
+  width: 5rem;
   border: 1px solid #777;
   border-radius: 0.25rem;
 }

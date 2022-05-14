@@ -52,7 +52,7 @@ export function diff(data: Product[], local: Product[]) {
 
       if (!localEl) return (diffs[el.id][key] = { message: "newproduct" });
 
-      for (key in ["name", "quantity", "rule", "unity"]) {
+      for (key in ["name", "quantity", "rule", "unit"]) {
         if (data.hasOwnProperty(key)) {
           compare(
             el[key as keyof Product],
@@ -69,7 +69,7 @@ export function diff(data: Product[], local: Product[]) {
 
       if (!dataEl) return (diffs[el.id][key] = { message: "removedproduct" });
 
-      for (key in ["name", "quantity", "rule", "unity"]) {
+      for (key in ["name", "quantity", "rule", "unit"]) {
         if (data.hasOwnProperty(key)) {
           compare(
             dataEl[key as keyof Product],

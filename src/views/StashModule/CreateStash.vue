@@ -58,17 +58,14 @@
           class="card-button"
         >
           <v-card-title>{{ item.name }}</v-card-title>
-          <v-card-subtitle>
-            <div title="Quantidade">
-              <v-icon>mdi-archive</v-icon>
-              <span class="pl-2">{{ `${item.quantity} ${item.unity}` }}</span>
-            </div>
-            <v-spacer></v-spacer>
-            <div title="Controle: Lista de Compras" v-if="item.rule !== null">
-              <v-icon>mdi-basket</v-icon>
-              <span class="pl-2">{{ `${item.rule} ${item.unity}` }}</span>
-            </div>
-          </v-card-subtitle>
+          <v-card-text>
+            <v-icon>mdi-archive</v-icon>
+            <span class="pl-2">{{ `${item.quantity} ${item.unit}` }}</span>
+          </v-card-text>
+          <v-card-text v-if="item.rule !== null">
+            <v-icon>mdi-basket</v-icon>
+            <span class="pl-2">{{ `${item.rule} ${item.unit}` }}</span>
+          </v-card-text>
           <v-btn
             style="position: absolute; right: 10px; top: 10px"
             icon
@@ -103,7 +100,7 @@
       @click="handleBackButton"
       v-if="showBackButton"
     >
-      <v-icon>{{ "mdi-chevron-left" }}</v-icon>
+      <v-icon>mdi-chevron-left</v-icon>
     </v-btn>
 
     <v-btn
@@ -296,5 +293,9 @@ export default {
 
 .card-button:not(:last-child) {
   margin-bottom: 1rem;
+}
+
+.v-card__text + .v-card__text {
+  padding-top: 0;
 }
 </style>

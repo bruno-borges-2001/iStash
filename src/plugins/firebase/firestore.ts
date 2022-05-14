@@ -24,7 +24,7 @@ async function updateValue(document: string, id: string, value: any) {
   try {
     const lastData = await db.collection(document).doc(id).get();
 
-    if (lastData.data()!.version > value.version) {
+    if (lastData.data()?.version > value.version) {
       Vue.notify({
         group: "center",
         title: t("keys.warning") as string,

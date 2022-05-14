@@ -14,7 +14,7 @@ export interface Product {
   name: string;
   quantity: number;
   rule: number | null;
-  unity: string;
+  unit: string;
 }
 
 export interface Invite {

@@ -1,6 +1,18 @@
 <template>
   <v-card style="margin-top: 0.5rem; position: relative" :disabled="updating">
     <v-card-title>{{ product.name }}</v-card-title>
+    <v-card-subtitle class="rule-wrapper" v-if="product.unit !== 'Un'">
+      <div class="rule-container">
+        <v-icon>mdi-archive</v-icon>
+        <span>{{ product.quantity }} {{ product.unit }}</span>
+      </div>
+    </v-card-subtitle>
+    <v-card-subtitle class="rule-wrapper">
+      <div class="rule-container" v-if="product.rule !== null">
+        <v-icon>mdi-basket</v-icon>
+        <span>{{ product.rule }} {{ product.unit }}</span>
+      </div>
+    </v-card-subtitle>
 
     <div class="options-menu">
       <v-menu offset-y>
@@ -40,15 +52,18 @@
       :id="product.id"
       :value="product.quantity"
       :onChange="handleCounter"
+      v-if="product.unit === 'Un'"
       class="counter"
       ref="productCounter"
     />
 
-    <v-card-actions>
-      <v-card-text>
+    <v-card-actions style="padding: 0">
+      <v-spacer></v-spacer>
+
+      <span style="padding: 1rem">
         {{ product.lastUpdatedBy }} -
         {{ formattedLastUpdatedAt }}
-      </v-card-text>
+      </span>
     </v-card-actions>
 
     <v-progress-circular
@@ -143,7 +158,7 @@ export default {
         .updateProduct(this.product.id, value)
         .finally(() => (this.updating = false));
 
-      this.$refs.productCounter.override(value.quantity);
+      this.$refs.productCounter?.override(value.quantity);
 
       this.editDialog = false;
       return true;
@@ -168,11 +183,11 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .counter {
   position: absolute;
   top: 50%;
-  right: 5rem;
+  right: 20%;
   transform: translateY(-50%);
 }
 
@@ -187,5 +202,18 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.rule-wrapper {
+  padding-bottom: 0 !important;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+
+  .rule-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 }
 </style>

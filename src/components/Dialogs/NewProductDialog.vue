@@ -31,7 +31,7 @@
         </v-col>
         <v-col>
           <v-combobox
-            v-model="unity"
+            v-model="unit"
             label="Unidade"
             :items="unities"
           ></v-combobox>
@@ -69,7 +69,7 @@ export default {
     id: null,
     name: "",
     quantity: 0,
-    unity: "Un",
+    unit: "Un",
     slControl: false,
     slQuantity: 0,
 
@@ -87,9 +87,9 @@ export default {
         (value) =>
           (value !== null && value >= 0) || this.$t("error.invalidvalue"),
         (value) =>
-          this.unity !== "Un" ||
+          this.unit !== "Un" ||
           parseInt(value) === parseFloat(value) ||
-          this.$t("error.unity"),
+          this.$t("error.unit"),
       ];
     },
   },
@@ -107,23 +107,23 @@ export default {
     },
 
     setEditData(data) {
-      const { id, name, quantity, rule, unity } = data;
+      const { id, name, quantity, rule, unit } = data;
       this.id = id;
       this.name = name;
       this.quantity = quantity;
       this.slControl = rule !== null;
       this.slQuantity = rule ?? 0;
-      this.unity = unity;
+      this.unit = unit;
     },
 
     getData() {
       if (this.validateData()) {
-        const { name, quantity, unity, slControl, slQuantity } = this;
+        const { name, quantity, unit, slControl, slQuantity } = this;
 
         let convertedQuantity = 0;
         let convertedSlQuantity = 0;
 
-        if (unity === "Un") {
+        if (unit === "Un") {
           convertedQuantity = parseInt(quantity);
           convertedSlQuantity = parseInt(slQuantity);
         } else {
@@ -135,7 +135,7 @@ export default {
           id: this.id ?? uuidv4(),
           name,
           quantity: convertedQuantity,
-          unity,
+          unit,
           rule: slControl ? convertedSlQuantity : null,
           lastUpdatedBy: this.$store.state.currentUser.name,
           lastUpdatedAt: new Date(),
