@@ -59,6 +59,7 @@ const messages = {
       expected: "Expected",
       unit: "Unit",
       shoppinglist: "Shopping List",
+      shoppinglistshort: "Shopping",
       controlledproduct:
         "Controlled Products | Controlled Product | Controlled Products",
       user: "User | Users",
@@ -144,6 +145,7 @@ const messages = {
       expected: "Esperado",
       unit: "Unidade",
       shoppinglist: "Lista de compras",
+      shoppinglistshort: "Compras",
       controlledproduct:
         "Produtos Controlados | Produto Controlado | Produtos Controlados",
       user: "Usuário | Usuários",

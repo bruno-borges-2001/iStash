@@ -1,7 +1,12 @@
 <template>
   <v-card class="v-btn stash-button" @click="onclick">
     <v-card-title class="pb-0">{{ stash.name }}</v-card-title>
-    <div class="top-right">
+    <div
+      :class="[
+        'top-right',
+        $vuetify.breakpoint.smAndDown && 'small-menu-container',
+      ]"
+    >
       <v-btn icon v-on:click.stop v-if="showWarning">
         <v-icon color="yellow">mdi-alert</v-icon>
       </v-btn>
@@ -108,7 +113,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .stash-button {
   height: 10rem !important;
   width: 80% !important;
@@ -139,5 +144,15 @@ export default {
 
 .product-label > i {
   margin-right: 6px;
+}
+
+.small-menu-container {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+
+  & > * + * {
+    margin: 0;
+  }
 }
 </style>
