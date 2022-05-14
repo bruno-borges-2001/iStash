@@ -6,6 +6,7 @@
       <router-view></router-view>
     </v-main>
 
+    <reload-prompt />
     <app-drawer :model="drawer" ref="drawer" v-if="logged"></app-drawer>
   </v-app>
 </template>
@@ -22,6 +23,7 @@ import firestore from "./plugins/firebase/firestore";
 import { OWNER } from "./helpers/UserStatus";
 import { diff } from "./helpers/diff";
 import { Invite, Document, Query, User } from "./types";
+import ReloadPrompt from "./components/ReloadPrompt.vue";
 
 type Resolve = (value?: unknown) => void;
 
@@ -31,6 +33,7 @@ export default Vue.extend({
     Header,
     "app-drawer": Drawer,
     Notification,
+    ReloadPrompt,
   },
   data: () => ({
     firstLoading: true,
