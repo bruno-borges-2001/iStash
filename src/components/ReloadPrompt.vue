@@ -1,5 +1,5 @@
 <script>
-import useRegisterSW from "@/mixins/useRegisterSW";
+import useRegisterSW from "../mixins/useRegisterSW";
 
 export default {
   name: "reload-prompt",
