@@ -1,10 +1,16 @@
 <script>
 import useRegisterSW from "../mixins/useRegisterSW";
 
-export default {
+export default Vue.extend({
   name: "reload-prompt",
+  data: () => ({
+    closed: false,
+  }),
   mixins: [useRegisterSW],
   methods: {
+    close() {
+      this.closed = true;
+    },
     handleSWManualUpdates(r) {
       r &&
         setInterval(() => {
@@ -12,11 +18,15 @@ export default {
         }, intervalMS);
     },
   },
-};
+});
 </script>
 
 <template>
-  <div v-if="offlineReady || needRefresh" class="pwa-toast" role="alert">
+  <div
+    v-if="!closed && (offlineReady || needRefresh)"
+    class="pwa-toast"
+    role="alert"
+  >
     <div class="message">
       <span v-if="offlineReady"> App ready to work offline </span>
       <span v-else>
