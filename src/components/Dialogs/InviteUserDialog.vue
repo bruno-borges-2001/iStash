@@ -58,7 +58,7 @@ export default {
       return this.data[this.selectedIndex];
     },
     getData() {
-      if (this.selectedIndex === null) return false;
+      if (isNaN(this.selectedIndex)) return false;
 
       return { ...this.selectedValue, userStatus: 1 };
     },

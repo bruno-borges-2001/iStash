@@ -38,6 +38,7 @@ const messages = {
       searchuser: "Search user",
       ago: "{time} ago",
       now: "now",
+      itemsperpage: "Products per page"
     },
     button: {
       login: "Log In",
@@ -70,6 +71,7 @@ const messages = {
       owner: "Owner",
       invited: "Invited",
       cancel: "Cancel",
+      of: "of"
     },
     error: {
       required: "Required field",
@@ -124,6 +126,7 @@ const messages = {
       mismatchversion: "Versão atual diferente da do banco de dados",
       ago: "há {time}",
       now: "agora",
+      itemsperpage: "Produtos por página"
     },
     button: {
       login: "Entrar",
@@ -157,6 +160,7 @@ const messages = {
       owner: "Criador",
       invited: "Convidado",
       cancel: "Cancelar",
+      of: "de",
     },
     error: {
       required: "Campo obrigatório",

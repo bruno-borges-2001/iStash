@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     clearDialogData() {
-      if (this.$refs.userDialog) this.$refs.userDialog.clearData();
+      if (this.$refs.productDialog) this.$refs.productDialog.clearData();
     },
     handleNewProduct() {
       const value = this.$refs.productDialog.getData();

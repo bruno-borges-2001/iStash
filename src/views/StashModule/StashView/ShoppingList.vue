@@ -24,19 +24,33 @@
       style="max-height: 75vh; max-width: 1000px"
       class="full-height full-width"
     >
-      <div
-        style="max-height: 75vh; overflow: auto"
-        class="full-height"
-        v-if="shoppingList.length > 0"
-      >
-        <v-data-table :headers="headers" :items="shoppingList">
-          <template v-slot:[`item.actions`]="{ item }">
-            <v-icon small @click="ignoreProductList.push(item.id)">
-              mdi-close
-            </v-icon>
-          </template>
-        </v-data-table>
-      </div>
+      <v-layout v-resize="onResize" column v-if="shoppingList.length > 0">
+        <div style="max-height: 75vh; overflow: auto" class="full-height">
+          <v-data-table
+            :headers="headers"
+            :items="shoppingList"
+            :hide-default-headers="isMobile"
+            :hide-default-footer="isMobile"
+            :disable-pagination="isMobile"
+            :footer-props="footerProps"
+            :class="{ mobile: isMobile }"
+          >
+            <template v-slot:[`item.actions`]="{ item }">
+              <v-icon
+                class="text-xs-right"
+                small
+                @click="ignoreProductList.push(item.id)"
+              >
+                mdi-close
+              </v-icon>
+            </template>
+            <template v-slot:[`footer.page-text`]="items">
+              {{ items.pageStart }} - {{ items.pageStop }} {{ $t("keys.of") }}
+              {{ items.itemsLength }}
+            </template>
+          </v-data-table>
+        </div>
+      </v-layout>
       <div class="full-height d-flex justify-center align-center" v-else>
         <loading-indicator v-if="!stash"> </loading-indicator>
         <div v-else>
@@ -74,6 +88,7 @@ export default {
   },
   data: () => ({
     searchFilter: "",
+    isMobile: false,
     ignoreProductList: [],
   }),
   computed: {
@@ -95,8 +110,17 @@ export default {
         { text: "", value: "actions", sortable: false },
       ];
     },
+    footerProps() {
+      return {
+        itemsPerPageText: this.$t("message.itemsperpage"),
+      };
+    },
   },
   methods: {
+    onResize() {
+      if (window.innerWidth < 769) this.isMobile = true;
+      else this.isMobile = false;
+    },
     createPDF() {
       const pdfName = this.$t("keys.shoppinglist");
       const head = [this.headers.map((el) => el.text)];
@@ -126,5 +150,63 @@ export default {
   .v-data-table__wrapper {
     height: calc(100% - 70px);
   }
+}
+.mobile {
+  color: #333;
+}
+
+@media screen and (max-width: 768px) {
+  .mobile table.v-table tr {
+    max-width: 100%;
+    position: relative;
+    display: block;
+  }
+
+  .mobile table.v-table tr:nth-child(odd) {
+    border-left: 6px solid deeppink;
+  }
+
+  .mobile table.v-table tr:nth-child(even) {
+    border-left: 6px solid cyan;
+  }
+
+  .mobile table.v-table tr td {
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid #f5f5f5;
+    height: auto;
+    padding: 10px;
+  }
+
+  .mobile table.v-table tr td ul li:before {
+    content: attr(data-label);
+    padding-right: 0.5em;
+    text-align: left;
+    display: block;
+    color: #999;
+  }
+  .v-datatable__actions__select {
+    width: 50%;
+    margin: 0px;
+    justify-content: flex-start;
+  }
+  .mobile .theme--light.v-table tbody tr:hover:not(.v-datatable__expand-row) {
+    background: transparent;
+  }
+}
+.flex-content {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.flex-item {
+  padding: 5px;
+  width: 50%;
+  height: 40px;
+  font-weight: bold;
 }
 </style>

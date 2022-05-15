@@ -48,6 +48,7 @@ export default Vue.extend({
     },
     updateServiceWorker() {
       this.updateSW && (this.updateSW as (val: boolean) => void)(true)
+      location.reload()
     },
     handleSWManualUpdates(swRegistration: any) {}, 
     handleSWRegisterError(error: any) {} 
