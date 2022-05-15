@@ -60,7 +60,7 @@ export default {
     tabsList() {
       return [
         { label: "product", icon: "mdi-archive-outline" },
-        { label: "shoppinglist", icon: "mdi-basket-outline" },
+        { label: this.shoppingListLabel, icon: "mdi-basket-outline" },
         { label: "user", icon: "mdi-account-multiple" },
         { label: "setting", icon: "mdi-cog" },
       ];
