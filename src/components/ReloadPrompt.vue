@@ -1,16 +1,13 @@
 <script>
+import Vue from "vue";
 import useRegisterSW from "../mixins/useRegisterSW";
+
+const intervalMS = 60 * 60 * 1000;
 
 export default Vue.extend({
   name: "reload-prompt",
-  data: () => ({
-    closed: false,
-  }),
   mixins: [useRegisterSW],
   methods: {
-    close() {
-      this.closed = true;
-    },
     handleSWManualUpdates(r) {
       r &&
         setInterval(() => {
@@ -22,19 +19,15 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div
-    v-if="!closed && (offlineReady || needRefresh)"
-    class="pwa-toast"
-    role="alert"
-  >
+  <div v-if="offlineReady || needRefresh" class="pwa-toast" role="alert">
     <div class="message">
       <span v-if="offlineReady"> App ready to work offline </span>
       <span v-else>
         New content available, click on reload button to update.
       </span>
     </div>
-    <button v-if="needRefresh" @click="updateServiceWorker()">Reload</button>
-    <button @click="close">Close</button>
+    <button v-if="needRefresh" @click="updateServiceWorker">Reload</button>
+    <button @click="closePromptUpdateSW">Close</button>
   </div>
 </template>
 
