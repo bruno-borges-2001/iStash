@@ -29,6 +29,7 @@ const messages = {
       invitemessage:
         "User {user} invited you to participate in the Stash {stash}, do you accept the invite?",
       noinvites: "No invites",
+      nochanges: "No changes",
       acceptsuccess: "Invite accepted successfully",
       rejectsuccess: "Invite rejected successfully",
       removesuccess: "Stash removed successfully",
@@ -41,7 +42,7 @@ const messages = {
       itemsperpage: "Products per page",
       renamestash: "Rename Stash",
       deletestash: "Delete Stash",
-      areyousure: "Are you sure?"
+      areyousure: "Are you sure?",
     },
     button: {
       login: "Log In",
@@ -53,7 +54,7 @@ const messages = {
       forgotpassword: "Forgot Password",
       clickhere: "Click Here",
       sendemail: "Send email",
-      rename: "Rename"
+      rename: "Rename",
     },
     keys: {
       name: "Name",
@@ -75,7 +76,8 @@ const messages = {
       owner: "Owner",
       invited: "Invited",
       cancel: "Cancel",
-      of: "of"
+      of: "of",
+      changes: "Changes",
     },
     error: {
       required: "Required field",
@@ -89,10 +91,10 @@ const messages = {
       invalidvalue: "Invalid value",
       unit: "Unities must have integer values",
       internalerror: "Internal Error",
+      nolongershared:
+        "The Stash owner disabled the shared Stash option, invitation has been canceled",
+      lengtherror: "Field length exceeded permitted maximum",
     },
-    nolongershared:
-      "The Stash owner disabled the shared Stash option, invitation has been canceled",
-    lengtherror: "Field length exceeded permitted maximum",
   },
   "pt-BR": {
     message: {
@@ -120,6 +122,7 @@ const messages = {
       invitemessage:
         "O Usuário {user} convidou você para participar do Stash {stash}, você aceita o convite?",
       noinvites: "Sem convites",
+      nochanges: "Sem mudanças",
       acceptsuccess: "Convite aceito com sucesso",
       rejectsuccess: "Convite rejeitado com sucesso",
       removesuccess: "Stash removido com sucesso",
@@ -133,7 +136,7 @@ const messages = {
       itemsperpage: "Produtos por página",
       renamestash: "Renomear o Stash",
       deletestash: "Apagar o Stash",
-      areyousure: "Você tem certeza?"
+      areyousure: "Você tem certeza?",
     },
     button: {
       login: "Entrar",
@@ -145,7 +148,7 @@ const messages = {
       forgotpassword: "Esqueci a senha",
       clickhere: "Clique aqui",
       sendemail: "Enviar email",
-      rename: "Renomear"
+      rename: "Renomear",
     },
     keys: {
       name: "Nome",
@@ -169,6 +172,7 @@ const messages = {
       invited: "Convidado",
       cancel: "Cancelar",
       of: "de",
+      changes: "Mudanças",
     },
     error: {
       required: "Campo obrigatório",

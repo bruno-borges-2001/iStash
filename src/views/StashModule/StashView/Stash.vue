@@ -55,9 +55,7 @@ export default Vue.extend({
 
   computed: {
     stash(): Stash {
-      return this.$store.state.myStashes?.find(
-        (el: Stash) => el.id === this.id
-      );
+      return this.$store.getters.getStash(this.id);
     },
     users(): User[] {
       return this.stash?.usersInfo;

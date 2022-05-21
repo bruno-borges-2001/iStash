@@ -7,5 +7,7 @@ export default function (store: Store<State>) {
     return Promise.resolve();
   }
 
-  return getState().then((state) => store.commit("setSavedData", state));
+  return getState().then((state) => {
+    store.commit("setSavedData", state);
+  });
 }

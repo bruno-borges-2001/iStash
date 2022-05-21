@@ -7,6 +7,7 @@ import firebase from "firebase";
 const { t } = i18n;
 
 const db = firebaseSrc.firestore();
+
 db.settings({ merge: true });
 
 const collections = {
@@ -32,15 +33,20 @@ async function updateValue(document: string, id: string, value: any) {
         type: "warning",
       });
     } else {
-      await db.collection(document).doc(id).set(value);
+      const newValue = { ...value };
+      if (newValue.version < 0) {
+        newValue.version = 1;
+      }
+
+      await db.collection(document).doc(id).set(newValue);
     }
-  } catch (ex) {
-    console.log(ex);
-  }
+  } catch (ex) {}
 }
 
-function removeValue(document: string, id: string) {
-  return db.collection(document).doc(id).delete();
+async function removeValue(document: string, id: string) {
+  try {
+    return db.collection(document).doc(id).delete();
+  } catch (ex) {}
 }
 
 export default db;

@@ -19,12 +19,13 @@ import Notification from "./components/Notification.vue";
 
 import Stash from "./models/Stash";
 
-import firestore from "./plugins/firebase/firestore";
+import firestore, { updateValue } from "./plugins/firebase/firestore";
 import { OWNER } from "./helpers/UserStatus";
 import { diff } from "./helpers/diff";
 import { Invite, Document, Query, User } from "./types";
 import ReloadPrompt from "./components/ReloadPrompt.vue";
 import { getState } from "./store/storage";
+import createStash from "./helpers/createStash";
 
 type Resolve = (value?: unknown) => void;
 
@@ -81,31 +82,11 @@ export default Vue.extend({
       const parsedData = JSON.parse(data);
       return {
         ...parsedData,
-        stashes: parsedData.stashes?.map((el: Stash) => {
-          return new Stash(
-            el.id,
-            el.name,
-            el.shared,
-            el.users,
-            el.invites,
-            el.usersInfo,
-            el.products,
-            el.date
-          );
-        }),
+        stashes: parsedData.stashes?.map(createStash),
         invites: parsedData.invites?.map((el: Invite) => ({
           id: el.id,
           message: el.message,
-          stash: new Stash(
-            el.stash.id,
-            el.stash.name,
-            el.stash.shared,
-            el.stash.users,
-            el.stash.invites,
-            el.stash.usersInfo,
-            el.stash.products,
-            el.stash.date
-          ),
+          stash: createStash(el.stash),
         })),
       };
     },
@@ -120,7 +101,6 @@ export default Vue.extend({
 
         Promise.all(promises).then(() => setTimeout(this.load, 5 * 1000));
       } else {
-        console.log("loading cache");
         getState().then((state) => {
           this.$store.commit("setSavedData", state);
 
@@ -131,31 +111,46 @@ export default Vue.extend({
     async loadStashes(resolve: Resolve): Promise<void> {
       const stashes = await this.userStashes.get();
 
+      this.$store.state.myStashes
+        ?.filter((el: Stash) => el.version < 0)
+        .forEach((item: Stash) => {
+          updateValue("stashes", item.id, item.buildTemplate());
+        });
+
       if (stashes) {
         const parsedData = stashes.docs.map((el) => {
           const data = el.data();
-          return new Stash(
-            el.id,
-            data.name,
-            data.shared,
-            data.users,
-            data.invites,
-            data.usersInfo,
-            data.products,
-            data.date,
-            data.version
-          );
+          return createStash(data as Stash);
         });
 
-        parsedData.forEach((el) => {
-          if (
-            this.$store.state.myStashes &&
-            this.$store.state.myStashes.version < el.version
-          )
-            diff(el.products, this.$store.getters.getStash(el.id)?.products);
-        });
+        const diffs = parsedData.reduce((prev, el) => {
+          if (this.$store.state.myStashes) {
+            const localData = this.$store.getters.getStash(el.id);
 
-        this.$store.commit("setStashes", parsedData);
+            if (!localData) return {};
+
+            if (localData.version < el.version) {
+              const next = {
+                ...prev,
+                [el.id]: diff(el.products, localData.products),
+              };
+
+              if (localData.name !== el.name) {
+                (next as any)[el.id]["name"] = {
+                  newName: el.name,
+                  oldName: localData.name,
+                };
+              }
+            } else if (localData.version > el.version) {
+              updateValue("stashes", el.id, localData.buildTemplate());
+            }
+          }
+          return prev;
+        }, {});
+
+        if (Object.values(diffs).length === 0)
+          this.$store.commit("setStashes", parsedData);
+        else this.$store.commit("setDiffs", { diffs, data: parsedData });
       }
 
       resolve();
@@ -178,16 +173,7 @@ export default Vue.extend({
                   ).name,
                   stash: data.name,
                 }),
-                stash: new Stash(
-                  el.id,
-                  data.name,
-                  data.shared,
-                  data.users,
-                  data.invites,
-                  data.usersInfo,
-                  data.products,
-                  data.date
-                ),
+                stash: createStash(data as Stash),
               };
             })
         );

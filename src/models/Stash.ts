@@ -61,7 +61,8 @@ export default class Stash {
     _name = "",
     _shared = false,
     _users: User[] = [],
-    _products: Product[] = []
+    _products: Product[] = [],
+    _version = 0
   ) {
     this.name = _name;
     this.shared = _shared;
@@ -77,13 +78,16 @@ export default class Stash {
 
     this.products = _products;
 
+    this.version = _version;
+
     this.update();
 
-    router.replace("/stash/" + this.id);
+    setTimeout(() => router.replace("/stash/" + this.id));
   }
 
   buildTemplate() {
     return {
+      id: this.id,
       name: this.name,
       shared: this.shared,
       users: this.users,
@@ -91,7 +95,7 @@ export default class Stash {
       usersInfo: this.usersInfo,
       products: this.products,
       date: this.date,
-      version: this.version + 1,
+      version: this.version < 0 ? this.version - 1 : this.version + 1,
     };
   }
 
@@ -126,13 +130,13 @@ export default class Stash {
     this.update();
   }
 
-  async updateProduct(_id: string, _newProduct: Product) {
+  updateProduct(_id: string, _newProduct: Product) {
     store.commit("disableUpdateData");
     const index = this.products.findIndex((el) => el.id === _id);
 
     this.products[index] = _newProduct;
 
-    await this.update();
+    this.update();
   }
 
   removeProduct(_id: string) {
@@ -142,9 +146,12 @@ export default class Stash {
     this.update();
   }
 
-  async update() {
+  update() {
     store.commit("updateStash", { id: this.id, value: this.buildTemplate() });
-    debounce(() => (this.version += 1), 1000);
+    debounce(() => {
+      if (this.version < 0) this.version - 1;
+      else this.version += 1;
+    }, 1000);
   }
 
   remove() {

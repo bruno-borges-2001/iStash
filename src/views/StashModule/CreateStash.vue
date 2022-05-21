@@ -259,14 +259,16 @@ export default Vue.extend({
       const { name: stashName, shared, users, products } = this;
 
       const newStash = new Stash();
+
       newStash.setValues(
         stashName,
         shared,
         [{ uid, name, userStatus: -1 }, ...users],
-        products
+        products,
+        navigator.onLine ? 0 : -1
       );
 
-      this.$store.dispatch("addNewStash", newStash);
+      // this.$router.replace(newStash.id);
     },
 
     clearDialogData() {

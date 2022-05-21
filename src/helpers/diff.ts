@@ -9,48 +9,36 @@
 
 import { Product } from "../types";
 
-export function diff(data: Product[], local: Product[]) {
-  // Make sure an object to compare is provided
-  if (!local || Object.prototype.toString.call(local) !== "[object Object]") {
-    return data;
-  }
+const COMPARE_KEYS = ["name", "quantity", "rule", "unit"];
 
-  //
-  // Variables
-  //
+export function diff(data: Product[], local: Product[]) {
+  if (!local) {
+    return {};
+  }
 
   var diffs: { [id: string]: any } = {};
   var key: string;
 
-  //
-  // Methods
-  //
-
-  /**
-   * Compare two items and push non-matches to object
-   * @param  {*}      item1 The first item
-   * @param  {*}      item2 The second item
-   * @param  {String} key   The key in our object
-   */
   var compare = function (
     item1: unknown,
     item2: unknown,
     id: string,
     key: string
   ) {
-    if (item1 !== item2) diffs[id][key] = { oldValue: item2, newValue: item1 };
+    if (item1 !== item2) {
+      if (!(id in diffs)) diffs[id] = {};
+      diffs[id][key] = { oldValue: item2, newValue: item1 };
+    }
   };
 
-  //
-  // Compare our objects
-  //
-
-  // Loop through the first object
   if (data.length > local.length) {
     data.forEach((el) => {
       const localEl = local.find((x) => x.id === el.id);
 
-      if (!localEl) return (diffs[el.id][key] = { message: "newproduct" });
+      if (!localEl) {
+        diffs[el.id] = { message: "newproduct" };
+        return;
+      }
 
       for (key in ["name", "quantity", "rule", "unit"]) {
         if (data.hasOwnProperty(key)) {
@@ -67,28 +55,20 @@ export function diff(data: Product[], local: Product[]) {
     local.forEach((el) => {
       const dataEl = data.find((x) => x.id === el.id);
 
-      if (!dataEl) return (diffs[el.id][key] = { message: "removedproduct" });
-
-      for (key in ["name", "quantity", "rule", "unit"]) {
-        if (data.hasOwnProperty(key)) {
-          compare(
-            dataEl[key as keyof Product],
-            el[key as keyof Product],
-            el.id,
-            key
-          );
-        }
+      if (!dataEl) {
+        diffs[el.id] = { message: "removedproduct" };
+        return;
       }
+
+      COMPARE_KEYS.forEach((propName) => {
+        compare(
+          dataEl[propName as keyof Product],
+          el[propName as keyof Product],
+          el.id,
+          propName
+        );
+      });
     });
-  }
-
-  // Loop through the second object and find missing items
-  for (key in local) {
-    if (local.hasOwnProperty(key)) {
-      if (!data[key] && data[key] !== local[key]) {
-        diffs[key] = local[key];
-      }
-    }
   }
 
   // Return the object of differences

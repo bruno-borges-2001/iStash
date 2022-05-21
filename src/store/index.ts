@@ -24,6 +24,9 @@ export default new Vuex.Store({
     myStashes: [] as Stash[],
     myInvites: [] as Invite[],
 
+    diffs: [] as any[],
+    newData: [] as Stash[],
+
     // OTHER
     stashesLoaded: false,
     invitesLoaded: false,
@@ -46,6 +49,10 @@ export default new Vuex.Store({
       state.myInvites = value;
       state.invitesLoaded = true;
     },
+    setDiffs(state, { diffs, data }) {
+      state.diffs = diffs;
+      state.newData = data;
+    },
     setSavedData(state, value: any) {
       Object.keys(value).forEach((key) => {
         switch (key) {
@@ -67,6 +74,11 @@ export default new Vuex.Store({
 
             break;
           }
+
+          case "updateData":
+            state.updateData = true;
+
+            break;
 
           default:
             state[key as keyof State] = value[key] as never;
@@ -104,16 +116,10 @@ export default new Vuex.Store({
           .then((doc) => doc.exists && commit("setUserData", doc.data()));
       }
     },
-    addNewStash({ state, commit }, stash: Stash) {
-      commit("setStashes", [...state.myStashes, stash]);
-    },
-    removeStash({ state, commit }, id: string) {
+
+    removeStash({ state }, id: string) {
       const element = state.myStashes.find((el) => el.id === id)!;
       element.remove();
-      commit(
-        "setStashes",
-        state.myStashes.filter((el) => el.id !== id)
-      );
     },
   },
   getters: {

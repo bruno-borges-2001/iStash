@@ -17,12 +17,29 @@
         link
         @click="handleNotifications"
         :disabled="route.name === 'notifications'"
+        v-if="isOnline"
       >
         <v-list-item-icon>
           <v-icon> mdi-bell </v-icon>
-          <div id="badge" v-if="$store.state.myInvites.length > 0"></div>
+          <div class="badge" v-if="$store.state.myInvites.length > 0"></div>
         </v-list-item-icon>
         <v-list-item-title>{{ $t("keys.notifications") }}</v-list-item-title>
+      </v-list-item>
+
+      <v-list-item
+        link
+        @click="handleNotifications"
+        :disabled="$store.state.newData.length === 0"
+        v-if="isOnline"
+      >
+        <v-list-item-icon>
+          <v-icon> mdi-clipboard-search </v-icon>
+          <div
+            class="badge"
+            v-if="Object.values($store.state.diffs).length > 0"
+          ></div>
+        </v-list-item-icon>
+        <v-list-item-title>{{ $t("keys.changes") }}</v-list-item-title>
       </v-list-item>
 
       <v-divider></v-divider>
@@ -63,6 +80,9 @@ export default Vue.extend({
     route() {
       return this.$route;
     },
+    isOnline() {
+      return navigator.onLine;
+    },
   },
   methods: {
     handleSignOut() {
@@ -85,7 +105,7 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-#badge {
+.badge {
   content: "";
   height: 0px;
   width: 0px;

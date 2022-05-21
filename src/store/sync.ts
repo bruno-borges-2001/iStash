@@ -15,12 +15,14 @@ const plugin = (store: Store<State>) => {
           .finally(() => {
             state.updateData = true;
           });
+        break;
       case "removeStash":
         removeValue("stashes", mutation.payload["id"])
           .catch()
           .finally(() => {
             state.updateData = true;
           });
+        break;
       default:
       // Ignore default case
     }

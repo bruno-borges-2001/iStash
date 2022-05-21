@@ -65,7 +65,15 @@ const routes = [
     meta: {
       requiresAuth: true,
       backRoute: "$back",
-      drawerPage: true,
+    },
+  },
+  {
+    path: "/changes",
+    name: "changes",
+    component: Notification,
+    meta: {
+      requiresAuth: true,
+      backRoute: "$back",
     },
   },
   {
