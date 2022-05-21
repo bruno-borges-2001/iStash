@@ -7,7 +7,7 @@
         class="d-flex flex-row full-width align-center"
         style="gap: 1rem"
       >
-        <h3 :style="$vuetify.breakpoint.xs && 'font-size: 1rem'">
+        <h3 style="font-size: 1rem">
           {{ $t("message.renamestash") }}
         </h3>
         <v-text-field
