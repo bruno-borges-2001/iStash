@@ -13,7 +13,7 @@
     "lib": ["esnext", "dom"],
     "skipLibCheck": true,
     "allowJs": true,
-    "types": ["vuetify"],
+    "types": ["node","vuetify"],
   },
   "include": [
     "./src/**/*.ts",

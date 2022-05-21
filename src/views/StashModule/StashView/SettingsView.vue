@@ -12,9 +12,7 @@
         </h3>
         <v-text-field
           :placeholder="stash.name"
-          :rules="[
-            (value) => value.length <= 25 || 'Tamanho máximo de 25 caracteres',
-          ]"
+          :rules="nameRules"
           v-model="newStashName"
         ></v-text-field>
         <v-btn @click="handleRename">{{ $t("button.rename") }}</v-btn>
@@ -39,6 +37,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { TranslateResult } from "vue-i18n";
 import Stash from "../../../models/Stash";
 export default Vue.extend({
   name: "SettingsView",
@@ -49,6 +48,14 @@ export default Vue.extend({
     newStashName: "",
     deleteConfirm: false,
   }),
+  computed: {
+    nameRules(): ((value: string) => boolean | TranslateResult)[] {
+      return [
+        (value: string) =>
+          value.length <= 25 || "Tamanho máximo de 25 caracteres",
+      ];
+    },
+  },
   methods: {
     handleRename() {
       if (!this.newStashName) {

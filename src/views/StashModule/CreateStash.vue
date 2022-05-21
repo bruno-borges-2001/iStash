@@ -7,10 +7,7 @@
           v-model="name"
           counter
           :label="$t('keys.name')"
-          :rules="[
-            (value) => value.length <= 25 || $t('error.lengtherror'),
-            (value) => !showError || validateTab || $t('error.required'),
-          ]"
+          :rules="nameRules"
         ></v-text-field>
         <v-switch
           v-model="shared"
@@ -125,6 +122,7 @@ import NewProductDialog from "../../components/Dialogs/NewProductDialog.vue";
 import Stash from "../../models/Stash";
 import Vue from "vue";
 import { Product, User } from "../../types";
+import { TranslateResult } from "vue-i18n";
 
 export default Vue.extend({
   name: "CreateStash",
@@ -167,7 +165,7 @@ export default Vue.extend({
     currentUser(): any {
       return this.$store.state.currentUser;
     },
-    validateTab() {
+    validateTab(): boolean {
       switch (this.tab) {
         case 0:
           if (this.name.length === 0) {
@@ -194,6 +192,13 @@ export default Vue.extend({
         default:
           return true;
       }
+    },
+    nameRules(): ((value: string) => boolean | TranslateResult)[] {
+      return [
+        (value: string) => value.length <= 25 || this.$t("error.lengtherror"),
+        (value: string) =>
+          !this.showError || this.validateTab || this.$t("error.required"),
+      ];
     },
   },
   methods: {
