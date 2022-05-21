@@ -1,3 +1,5 @@
+import store from '../store'
+
 import { ACCEPTED, INVITED, REJECTED } from "../helpers/UserStatus";
 import {
   getDocumentRef,
@@ -94,6 +96,8 @@ export default class Stash {
   }
 
   addUser(_user: User) {
+    store.commit("disableUpdateData");
+
     let index;
     if ((index = this.usersInfo.findIndex((el) => el.uid === _user.uid)) >= 0) {
       this.usersInfo[index].userStatus = _user.userStatus;
@@ -108,6 +112,7 @@ export default class Stash {
   }
 
   removeUser(_uid: string) {
+    store.commit("disableUpdateData");
     this.users = this.users.filter((el) => el !== _uid);
     this.usersInfo = this.usersInfo.filter((el) => el.uid !== _uid);
 
@@ -115,12 +120,14 @@ export default class Stash {
   }
 
   addProduct(_product: Product) {
+    store.commit("disableUpdateData");
     this.products.push(_product);
 
     this.update();
   }
 
   async updateProduct(_id: string, _newProduct: Product) {
+    store.commit("disableUpdateData");
     const index = this.products.findIndex((el) => el.id === _id);
 
     this.products[index] = _newProduct;
@@ -129,6 +136,7 @@ export default class Stash {
   }
 
   removeProduct(_id: string) {
+    store.commit("disableUpdateData");
     this.products = this.products.filter((el) => el.id !== _id);
 
     this.update();
@@ -137,17 +145,22 @@ export default class Stash {
   async update() {
     await updateValue("stashes", this.id, this.buildTemplate()).then(() =>
       debounce(() => (this.version += 1), 5000)
-    );
+    ).finally(() => {
+      store.commit("enableUpdateData")
+    });
   }
 
   remove() {
-    return removeValue("stashes", this.id);
+    store.commit("disableUpdateData");
+    return removeValue("stashes", this.id).finally(() => store.commit("enableUpdateData"));
   }
 
   acceptInvite(_id: string) {
     if (!this.invites.includes(_id)) return 999;
 
     if (!this.usersInfo.find((el) => el.uid === _id)) return 1;
+
+    store.commit("disableUpdateData");
 
     this.invites = this.invites.filter((el) => el !== _id);
     this.users.push(_id);
@@ -165,6 +178,8 @@ export default class Stash {
 
     if (!this.usersInfo.find((el) => el.uid === _id)) return 1;
 
+    store.commit("disableUpdateData");
+
     this.invites = this.invites.filter((el) => el !== _id);
 
     if (del) {
@@ -179,7 +194,17 @@ export default class Stash {
     return 0;
   }
 
+  renameStash(newName: string) {
+    store.commit("disableUpdateData");
+
+    this.name = newName;
+
+    this.update();
+  }
+
   setShared(val: boolean) {
+    store.commit("disableUpdateData");
+
     this.shared = val;
 
     this.update();

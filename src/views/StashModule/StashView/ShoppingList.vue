@@ -65,7 +65,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
@@ -74,8 +74,12 @@ import NewProductDialog from "../../../components/Dialogs/NewProductDialog.vue";
 import LoadingIndicator from "../../../components/LoadingIndicator.vue";
 
 import ProductCard from "../../../components/Cards/ProductCard.vue";
+import Vue from "vue";
+import Stash from "../../../models/Stash";
+import { Product } from "../../../types";
+import { DataTableHeader } from "vuetify";
 
-export default {
+export default Vue.extend({
   name: "ProductView",
   components: {
     "v-dialog": Dialog,
@@ -84,41 +88,41 @@ export default {
     ProductCard,
   },
   props: {
-    stash: Object,
+    stash: Object as () => Stash,
   },
   data: () => ({
     searchFilter: "",
     isMobile: false,
-    ignoreProductList: [],
+    ignoreProductList: [] as string[],
   }),
   computed: {
-    shoppingList() {
+    shoppingList(): Product[] {
       return this.stash?.products.filter(
         (el) =>
-          !isNaN(el.rule) &&
+          el.rule !== null &&
           el.quantity <= el.rule &&
           el.name.includes(this.searchFilter.toLowerCase()) &&
           !this.ignoreProductList.includes(el.id)
       );
     },
-    headers() {
+    headers(): DataTableHeader[] {
       return [
-        { text: this.$tc("keys.product", 1), value: "name" },
-        { text: this.$t("keys.quantity"), value: "quantity" },
-        { text: this.$t("keys.expected"), value: "rule" },
-        { text: this.$t("keys.unit"), value: "unit" },
+        { text: this.$tc("keys.product", 1) as string, value: "name" },
+        { text: this.$t("keys.quantity") as string, value: "quantity" },
+        { text: this.$t("keys.expected") as string, value: "rule" },
+        { text: this.$t("keys.unit") as string, value: "unit" },
         { text: "", value: "actions", sortable: false },
       ];
     },
-    footerProps() {
+    footerProps(): { itemsPerPageText: string } {
       return {
-        itemsPerPageText: this.$t("message.itemsperpage"),
+        itemsPerPageText: this.$t("message.itemsperpage") as string,
       };
     },
   },
   methods: {
     onResize() {
-      if (window.innerWidth < 769) this.isMobile = true;
+      if (window.innerWidth < 600) this.isMobile = true;
       else this.isMobile = false;
     },
     createPDF() {
@@ -140,7 +144,7 @@ export default {
       doc.save(pdfName + ".pdf");
     },
   },
-};
+});
 </script>
 
 <style lang="scss">

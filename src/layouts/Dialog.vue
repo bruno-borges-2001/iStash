@@ -33,7 +33,12 @@ export default Vue.extend({
   model: {
     event: "onClose",
   },
-  props: { onSubmit: Function, submitMessage: String, iconButton: Boolean },
+  props: {
+    onOpen: Function,
+    onSubmit: Function,
+    submitMessage: String,
+    iconButton: Boolean,
+  },
   data: () => ({
     dialog: false,
   }),
@@ -48,6 +53,8 @@ export default Vue.extend({
     dialog(value) {
       if (!value) {
         this.$emit("close");
+      } else if (this.onOpen) {
+        this.onOpen();
       }
     },
   },

@@ -25,7 +25,7 @@ const messages = {
       controlshoppinglist: "Control: Add to Shopping List",
       controlhint:
         "Controls the amount needed for this product to be added to the Shopping List",
-      fillrequiredfields: "Please, fill the all the fields",
+      fillrequiredfields: "Please, fill the required fields",
       invitemessage:
         "User {user} invited you to participate in the Stash {stash}, do you accept the invite?",
       noinvites: "No invites",
@@ -38,7 +38,10 @@ const messages = {
       searchuser: "Search user",
       ago: "{time} ago",
       now: "now",
-      itemsperpage: "Products per page"
+      itemsperpage: "Products per page",
+      renamestash: "Rename Stash",
+      deletestash: "Delete Stash",
+      areyousure: "Are you sure?"
     },
     button: {
       login: "Log In",
@@ -50,6 +53,7 @@ const messages = {
       forgotpassword: "Forgot Password",
       clickhere: "Click Here",
       sendemail: "Send email",
+      rename: "Rename"
     },
     keys: {
       name: "Name",
@@ -112,7 +116,7 @@ const messages = {
       controlshoppinglist: "Controle: Adicionar à Lista de Compras",
       controlhint:
         "Controla a quantidade necessária para um produto ser adicionado à lista de compras",
-      fillrequiredfields: "Por favor, preencha todos os campos",
+      fillrequiredfields: "Por favor, preencha os campos requeridos",
       invitemessage:
         "O Usuário {user} convidou você para participar do Stash {stash}, você aceita o convite?",
       noinvites: "Sem convites",
@@ -126,7 +130,10 @@ const messages = {
       mismatchversion: "Versão atual diferente da do banco de dados",
       ago: "há {time}",
       now: "agora",
-      itemsperpage: "Produtos por página"
+      itemsperpage: "Produtos por página",
+      renamestash: "Renomear o Stash",
+      deletestash: "Apagar o Stash",
+      areyousure: "Você tem certeza?"
     },
     button: {
       login: "Entrar",
@@ -138,6 +145,7 @@ const messages = {
       forgotpassword: "Esqueci a senha",
       clickhere: "Clique aqui",
       sendemail: "Enviar email",
+      rename: "Renomear"
     },
     keys: {
       name: "Nome",

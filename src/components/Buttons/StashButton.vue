@@ -2,10 +2,7 @@
   <v-card class="v-btn stash-button" @click="onclick">
     <v-card-title class="pb-0">{{ stash.name }}</v-card-title>
     <div
-      :class="[
-        'top-right',
-        $vuetify.breakpoint.smAndDown && 'small-menu-container',
-      ]"
+      :class="['top-right', $vuetify.breakpoint.xs && 'small-menu-container']"
     >
       <v-btn icon v-on:click.stop v-if="showWarning">
         <v-icon color="yellow">mdi-alert</v-icon>

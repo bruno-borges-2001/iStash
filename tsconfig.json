@@ -12,9 +12,14 @@
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
     "skipLibCheck": true,
-    "allowJs": true
+    "allowJs": true,
+    "types": ["vuetify"],
   },
-  "include": ["src"],
+  "include": [
+    "./src/**/*.ts",
+    "./src/*.vue",
+    "./src/**/*.vue",
+  ],
   "references": [{ "path": "./tsconfig.node.json" }],
   "vueCompilerOptions": {
     "experimentalCompatMode": 2, // delete after migrating to vue3 (or nuxt3)

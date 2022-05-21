@@ -53,14 +53,17 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Dialog from "../../../layouts/Dialog.vue";
 import NewProductDialog from "../../../components/Dialogs/NewProductDialog.vue";
 import LoadingIndicator from "../../../components/LoadingIndicator.vue";
 
 import ProductCard from "../../../components/Cards/ProductCard.vue";
+import Vue from "vue";
+import { Product } from "../../../types";
+import Stash from "../../../models/Stash";
 
-export default {
+export default Vue.extend({
   name: "ProductView",
   components: {
     "v-dialog": Dialog,
@@ -69,13 +72,13 @@ export default {
     ProductCard,
   },
   props: {
-    stash: Object,
+    stash: Object as () => Stash,
   },
   data: () => ({
     searchFilter: "",
   }),
   computed: {
-    productsList() {
+    productsList(): Product[] {
       return this.stash?.products.filter((el) =>
         el.name.includes(this.searchFilter.toLowerCase())
       );
@@ -83,19 +86,25 @@ export default {
   },
   methods: {
     clearDialogData() {
-      if (this.$refs.productDialog) this.$refs.productDialog.clearData();
+      if (this.$refs.productDialog)
+        (this.$refs.productDialog as any).clearData();
+    },
+    handleOpenDialog() {
+      this.$store.commit("disableUpdateData");
     },
     handleNewProduct() {
-      const value = this.$refs.productDialog.getData();
+      const value = (this.$refs.productDialog as any).getData();
 
       if (!value) return false;
 
       this.stash?.addProduct(value);
 
+      this.$store.commit("enableUpdateData");
+
       return true;
     },
   },
-};
+});
 </script>
 
 <style></style>

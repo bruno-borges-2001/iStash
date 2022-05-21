@@ -1,16 +1,20 @@
 <template>
-  <v-card style="margin-top: 0.5rem; position: relative" :disabled="updating">
+  <v-card
+    class="product-card"
+    style="margin-top: 0.5rem; position: relative"
+    :disabled="updating"
+  >
     <v-card-title>{{ product.name }}</v-card-title>
-    <v-card-subtitle class="rule-wrapper" v-if="product.unit !== 'Un'">
+    <v-card-subtitle class="rule-wrapper" v-if="unit !== 'Un'">
       <div class="rule-container">
         <v-icon>mdi-archive</v-icon>
-        <span>{{ product.quantity }} {{ product.unit }}</span>
+        <span>{{ quantity }} {{ unit }}</span>
       </div>
     </v-card-subtitle>
     <v-card-subtitle class="rule-wrapper">
-      <div class="rule-container" v-if="product.rule !== null">
+      <div class="rule-container" v-if="rule !== null">
         <v-icon>mdi-basket</v-icon>
-        <span>{{ product.rule }} {{ product.unit }}</span>
+        <span>{{ rule }} {{ unit }}</span>
       </div>
     </v-card-subtitle>
 
@@ -50,9 +54,9 @@
 
     <counter
       :id="product.id"
-      :value="product.quantity"
+      :value="quantity"
       :onChange="handleCounter"
-      v-if="product.unit === 'Un'"
+      v-if="unit === 'Un'"
       class="counter"
       ref="productCounter"
     />
@@ -85,15 +89,32 @@ export default {
   data: () => ({
     editDialog: false,
     updating: false,
-    overrideUpdateDate: null,
+    overrideData: {},
   }),
   props: {
     product: Object,
     stashRef: Object,
   },
   computed: {
+    name() {
+      if ("name" in this.overrideData) return this.overrideData.name;
+
+      return this.product.name;
+    },
     quantity() {
+      if ("quantity" in this.overrideData) return this.overrideData.quantity;
+
       return this.product.quantity;
+    },
+    unit() {
+      if ("unit" in this.overrideData) return this.overrideData.unit;
+
+      return this.product.unit;
+    },
+    rule() {
+      if ("rule" in this.overrideData) return this.overrideData.rule;
+
+      return this.product.rule;
     },
     settings() {
       return [
@@ -101,8 +122,9 @@ export default {
         { title: "Excluir", onClick: this.handleRemove },
       ];
     },
+
     formattedLastUpdatedAt() {
-      if (this.overrideUpdateDate) return this.overrideUpdateDate;
+      if ("date" in this.overrideData) return this.overrideData.date;
 
       let date;
       if ("seconds" in this.product.lastUpdatedAt)
@@ -154,6 +176,12 @@ export default {
       if (!value) return false;
       this.updating = true;
 
+      this.overrideData = {
+        ...this.overrideData,
+        ...value,
+        lastUpdatedAt: new Date(),
+      };
+
       this.stashRef
         .updateProduct(this.product.id, value)
         .finally(() => (this.updating = false));
@@ -173,11 +201,11 @@ export default {
     },
     updating(value) {
       if (value) {
-        this.overrideUpdateDate = this.$t("message.now");
+        this.overrideData["date"] = this.$t("message.now");
       }
     },
     product() {
-      this.overrideUpdateDate = null;
+      this.overrideUpdateDate = {};
     },
   },
 };
@@ -215,5 +243,9 @@ export default {
     align-items: center;
     gap: 0.5rem;
   }
+}
+
+.product-card:last-child {
+  margin-bottom: 1rem;
 }
 </style>

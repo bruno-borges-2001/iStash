@@ -1,6 +1,6 @@
 <template>
   <v-text-field
-    class="flex-grow-0"
+    class="flex-grow-1"
     v-model="modelVal"
     :placeholder="placeholder"
     :append-icon="icon"

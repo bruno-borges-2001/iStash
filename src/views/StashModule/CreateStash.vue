@@ -117,14 +117,16 @@
   </v-container>
 </template>
 
-<script>
+<script lang="ts">
 import Dialog from "../../layouts/Dialog.vue";
 import InviteUserDialog from "../../components/Dialogs/InviteUserDialog.vue";
 import NewProductDialog from "../../components/Dialogs/NewProductDialog.vue";
 
 import Stash from "../../models/Stash";
+import Vue from "vue";
+import { Product, User } from "../../types";
 
-export default {
+export default Vue.extend({
   name: "CreateStash",
   components: {
     "v-dialog": Dialog,
@@ -139,8 +141,8 @@ export default {
     name: "",
     shared: false,
 
-    users: [],
-    products: [],
+    users: [] as User[],
+    products: [] as Product[],
 
     showError: false,
   }),
@@ -153,16 +155,16 @@ export default {
     window.removeEventListener("resize", this.onResize);
   },
   computed: {
-    isMobile() {
+    isMobile(): boolean {
       return this.width <= 760;
     },
-    showBackButton() {
+    showBackButton(): boolean {
       return this.isMobile && this.tab > 0;
     },
-    showSaveButton() {
+    showSaveButton(): boolean {
       return !this.isMobile || this.tab === 2;
     },
-    currentUser() {
+    currentUser(): any {
       return this.$store.state.currentUser;
     },
     validateTab() {
@@ -171,8 +173,8 @@ export default {
           if (this.name.length === 0) {
             this.$notify({
               group: "center",
-              title: this.$t("keys.error"),
-              text: this.$t("message.fillrequiredfields"),
+              title: this.$t("keys.error") as string,
+              text: this.$t("message.fillrequiredfields") as string,
               type: "error",
             });
             return false;
@@ -181,8 +183,8 @@ export default {
           if (this.name.length > 25) {
             this.$notify({
               group: "center",
-              title: this.$t("keys.error"),
-              text: this.$t("error.lengtherror"),
+              title: this.$t("keys.error") as string,
+              text: this.$t("error.lengtherror") as string,
               type: "error",
             });
             return false;
@@ -207,7 +209,7 @@ export default {
     handleNextButton() {
       if (!this.validateTab) {
         this.showError = true;
-        this.$refs.form.validate();
+        (this.$refs.form as any).validate();
         return;
       }
 
@@ -228,7 +230,7 @@ export default {
       this.width = window.innerWidth;
     },
     handleAddUser() {
-      const value = this.$refs.userDialog.getData;
+      const value = (this.$refs.userDialog as any).getData;
 
       if (!value) return false;
 
@@ -238,7 +240,7 @@ export default {
     },
 
     handleNewProduct() {
-      const value = this.$refs.productDialog.getData();
+      const value = (this.$refs.productDialog as any).getData();
 
       if (!value) return false;
 
@@ -263,8 +265,9 @@ export default {
     },
 
     clearDialogData() {
-      if (this.$refs.userDialog) this.$refs.userDialog.clearData();
-      if (this.$refs.productDialog) this.$refs.productDialog.clearData();
+      if (this.$refs.userDialog) (this.$refs.userDialog as any).clearData();
+      if (this.$refs.productDialog)
+        (this.$refs.productDialog as any).clearData();
     },
   },
   watch: {
@@ -272,12 +275,12 @@ export default {
       this.showError = false;
     },
   },
-};
+});
 </script>
 
 <style scoped>
 .fab {
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   right: 20px;
 }

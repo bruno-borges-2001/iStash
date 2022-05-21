@@ -6,11 +6,12 @@
   </Main>
 </template>
 
-<script>
+<script lang="ts">
 import Main from "../layouts/Main.vue";
 import ModuleButton from "../components/Buttons/ModuleButton.vue";
+import Vue from "vue";
 
-export default {
+export default Vue.extend({
   name: "Home",
   components: {
     Main,
@@ -22,7 +23,7 @@ export default {
       this.$router.push("/stashes");
     },
   },
-};
+});
 </script>
 
 <style scoped></style>

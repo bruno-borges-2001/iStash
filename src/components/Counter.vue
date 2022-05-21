@@ -39,7 +39,6 @@ export default {
       debounce(
         () => {
           this.onChange(this.showValue);
-          this.$store.commit("enableUpdateData");
         },
         500,
         `COUNTER-${this.id}`
@@ -55,7 +54,6 @@ export default {
       debounce(
         () => {
           this.onChange(this.showValue);
-          this.$store.commit("enableUpdateData");
         },
         500,
         `COUNTER-${this.id}`

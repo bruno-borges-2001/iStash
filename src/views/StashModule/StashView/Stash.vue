@@ -12,7 +12,7 @@
           <user-view :stash="stash" class="full-height" />
         </v-tab-item>
         <v-tab-item :key="tabsList[3].label" class="full-height">
-          <settings-view />
+          <settings-view :stash="stash" class="full-height" />
         </v-tab-item>
       </v-tabs-items>
       <LoadingIndicator v-else />
@@ -27,14 +27,17 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
 import LoadingIndicator from "../../../components/LoadingIndicator.vue";
 import ProductView from "./ProductView.vue";
 import UserView from "./UserView.vue";
 import SettingsView from "./SettingsView.vue";
 import ShoppingList from "./ShoppingList.vue";
+import Vue from "vue";
+import Stash from "../../../models/Stash";
+import { User } from "../../../types";
 
-export default {
+export default Vue.extend({
   name: "StashView",
   props: ["id"],
 
@@ -51,13 +54,15 @@ export default {
   }),
 
   computed: {
-    stash() {
-      return this.$store.state.myStashes?.find((el) => el.id === this.id);
+    stash(): Stash {
+      return this.$store.state.myStashes?.find(
+        (el: Stash) => el.id === this.id
+      );
     },
-    users() {
+    users(): User[] {
       return this.stash?.usersInfo;
     },
-    tabsList() {
+    tabsList(): { label: string; icon: string }[] {
       return [
         { label: "product", icon: "mdi-archive-outline" },
         { label: this.shoppingListLabel, icon: "mdi-basket-outline" },
@@ -65,12 +70,12 @@ export default {
         { label: "setting", icon: "mdi-cog" },
       ];
     },
-    shoppingListLabel() {
-      if (this.$vuetify.breakpoint.smAndDown) return "shoppinglistshort";
+    shoppingListLabel(): string {
+      if (this.$vuetify.breakpoint.xs) return "shoppinglistshort";
       return "shoppinglist";
     },
   },
-};
+});
 </script>
 
 <style scoped>
