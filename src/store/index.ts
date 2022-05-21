@@ -3,12 +3,18 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import Stash from "../models/Stash";
-import { Invite } from "../types";
+
+import load from "./loadState";
+import cache from "./cache";
+import sync from "./sync";
+import { Invite, State } from "../types";
+import createStash from "../helpers/createStash";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    initialized: false,
     // AUTH
     logged: false,
     currentUser: null,
@@ -40,14 +46,51 @@ export default new Vuex.Store({
       state.myInvites = value;
       state.invitesLoaded = true;
     },
-    setSavedData(_state, value) {
-      _state = value;
+    setSavedData(state, value: any) {
+      Object.keys(value).forEach((key) => {
+        switch (key) {
+          case "myStashes": {
+            const parsed = (value[key] as Stash[]).map(createStash);
+
+            state[key as keyof State] = parsed as never;
+
+            break;
+          }
+
+          case "myInvites": {
+            const parsed = (value[key] as Invite[]).map((el) => ({
+              ...el,
+              stash: createStash(el.stash),
+            }));
+
+            state[key as keyof State] = parsed as never;
+
+            break;
+          }
+
+          default:
+            state[key as keyof State] = value[key] as never;
+        }
+      });
+      state.initialized = true;
     },
     enableUpdateData(state) {
       state.updateData = true;
     },
     disableUpdateData(state) {
       state.updateData = false;
+    },
+    updateStash(state, { id, value }) {
+      const itemIndex = state.myStashes.findIndex((el) => el.id === id);
+
+      if (itemIndex >= 0) {
+        state.myStashes[itemIndex] = value;
+      } else {
+        state.myStashes.push(value);
+      }
+    },
+    removeStash(state, { id }) {
+      state.myStashes = state.myStashes.filter((el) => el.id !== id);
     },
   },
   actions: {
@@ -78,5 +121,6 @@ export default new Vuex.Store({
       return state.myStashes.find((el) => el.id === id);
     },
   },
+  plugins: [load, cache, sync],
   modules: {},
 });

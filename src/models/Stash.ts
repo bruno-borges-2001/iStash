@@ -1,4 +1,4 @@
-import store from '../store'
+import store from "../store";
 
 import { ACCEPTED, INVITED, REJECTED } from "../helpers/UserStatus";
 import {
@@ -143,16 +143,12 @@ export default class Stash {
   }
 
   async update() {
-    await updateValue("stashes", this.id, this.buildTemplate()).then(() =>
-      debounce(() => (this.version += 1), 5000)
-    ).finally(() => {
-      store.commit("enableUpdateData")
-    });
+    store.commit("updateStash", { id: this.id, value: this.buildTemplate() });
+    debounce(() => (this.version += 1), 1000);
   }
 
   remove() {
-    store.commit("disableUpdateData");
-    return removeValue("stashes", this.id).finally(() => store.commit("enableUpdateData"));
+    store.commit("removeStash", { id: this.id });
   }
 
   acceptInvite(_id: string) {

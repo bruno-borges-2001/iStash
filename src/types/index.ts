@@ -1,6 +1,8 @@
 import Stash from "../models/Stash";
+import { Mutation as VuexMutation, MutationTree } from 'vuex';
 
 import firebase from "firebase";
+import store from "../store";
 
 export interface User {
   uid: string;
@@ -27,3 +29,21 @@ export type Document =
   firebase.firestore.CollectionReference<firebase.firestore.DocumentData>;
 
 export type Query = firebase.firestore.Query<firebase.firestore.DocumentData>;
+
+export interface State {initialized: boolean
+// AUTH
+logged: boolean
+currentUser: any
+userId: string | null
+
+// STASH
+myStashes: Stash[]
+myInvites: Invite[]
+
+// OTHER
+stashesLoaded: boolean
+invitesLoaded: boolean
+
+updateData: boolean}
+
+export type Mutation = MutationTree<State>

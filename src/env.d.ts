@@ -40,4 +40,4 @@ declare module "virtual:pwa-register" {
   ): (reloadPage?: boolean) => void;
 }
 
-declare module "velocity-animate" {}
+

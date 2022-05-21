@@ -24,6 +24,7 @@ import { OWNER } from "./helpers/UserStatus";
 import { diff } from "./helpers/diff";
 import { Invite, Document, Query, User } from "./types";
 import ReloadPrompt from "./components/ReloadPrompt.vue";
+import { getState } from "./store/storage";
 
 type Resolve = (value?: unknown) => void;
 
@@ -109,22 +110,23 @@ export default Vue.extend({
       };
     },
     async load() {
-      const saveData = sessionStorage.getItem("savedData");
+      if (navigator.onLine) {
+        let promises = [];
 
-      if (saveData) {
-        const parsedData = this.parseSavedData(saveData);
-        this.$store.commit("setSavedData", parsedData);
-        sessionStorage.removeItem("savedData");
+        if (this.$store.state.logged && this.$store.state.updateData) {
+          promises.push(new Promise(this.loadStashes));
+          promises.push(new Promise(this.loadInvites));
+        }
+
+        Promise.all(promises).then(() => setTimeout(this.load, 5 * 1000));
+      } else {
+        console.log("loading cache");
+        getState().then((state) => {
+          this.$store.commit("setSavedData", state);
+
+          setTimeout(this.load, 5 * 1000);
+        });
       }
-
-      let promises = [];
-
-      if (this.$store.state.logged && this.$store.state.updateData) {
-        promises.push(new Promise(this.loadStashes));
-        promises.push(new Promise(this.loadInvites));
-      }
-
-      Promise.all(promises).then(() => setTimeout(this.load, 5 * 1000));
     },
     async loadStashes(resolve: Resolve): Promise<void> {
       const stashes = await this.userStashes.get();

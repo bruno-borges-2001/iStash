@@ -159,9 +159,7 @@ export default {
       delete newData.formattedLastUpdatedAt;
 
       this.updating = true;
-      this.stashRef
-        .updateProduct(this.product.id, newData)
-        .finally(() => (this.updating = false));
+      this.stashRef.updateProduct(this.product.id, newData);
     },
     handleRemove() {
       this.stashRef.removeProduct(this.product.id);
@@ -174,8 +172,6 @@ export default {
       const value = this.$refs.productDialog.getData();
 
       if (!value) return false;
-      this.updating = true;
-
       this.overrideData = {
         ...this.overrideData,
         ...value,
@@ -205,7 +201,11 @@ export default {
       }
     },
     product() {
-      this.overrideUpdateDate = {};
+      this.overrideData = {};
+    },
+    overrideData(value) {
+      if (Object.keys(value).length >= 1) this.updating = true;
+      else this.updating = false;
     },
   },
 };
