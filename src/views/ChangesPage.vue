@@ -9,15 +9,16 @@
 import Vue from "vue";
 
 import Main from "../layouts/Main.vue";
+import Stash from "../models/Stash";
 
 export default Vue.extend({
   components: { Main },
   data: () => ({}),
   computed: {
-    diffs() {
+    diffs(): any {
       return this.$store.state.diffs;
     },
-    newData() {
+    newData(): Stash[] {
       return this.$store.state.newData;
     },
   },
