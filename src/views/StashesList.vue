@@ -21,7 +21,7 @@
         class="full-width d-flex flex-column align-center px-4 pb-4"
         style="
           padding-top: 1rem;
-          max-height: calc(100vh - 56px - 70px);
+          max-height: calc(100vh - 56px - 80px);
           overflow: auto;
         "
       >
