@@ -28,7 +28,7 @@
 
       <v-list-item
         link
-        @click="handleNotifications"
+        @click="handleChanges"
         :disabled="$store.state.newData.length === 0"
         v-if="isOnline"
       >
@@ -50,6 +50,27 @@
 
       <v-divider></v-divider>
 
+      <v-list-item v-if="$store.state.logged" style="padding: 0.2rem 1rem">
+        <v-list-item-title>{{ $t("keys.language") }}</v-list-item-title>
+        <v-spacer></v-spacer>
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" v-on="on" plain small class="pa-1">
+              {{ selectedLocale }}
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(item, index) in locales"
+              :key="index"
+              @click="changeLanguage(item)"
+            >
+              <v-list-item-title>{{ item }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-list-item>
+
       <!-- <v-list-item>
         <v-btn icon @click="() => changeLanguage('pt-BR')">PT-BR</v-btn>
       </v-list-item>
@@ -61,7 +82,7 @@
 </template>
 
 <script lang="ts">
-import { changeLocale } from "../plugins/vueI18n";
+import { changeLocale, getLocale } from "../plugins/vueI18n";
 import auth from "../plugins/firebase/auth";
 import Vue from "vue";
 
@@ -69,6 +90,8 @@ export default Vue.extend({
   name: "AppDrawer",
   data: () => ({
     drawer: false,
+    locales: ["pt-BR", "en-US"],
+    selectedLocale: getLocale(),
   }),
   props: {
     click: Function,
@@ -94,11 +117,15 @@ export default Vue.extend({
     handleNotifications() {
       this.$router.push({ name: "notifications" });
     },
+    handleChanges() {
+      this.$router.push({ name: "changes" });
+    },
     handleOpenDrawer() {
       this.drawer = true;
     },
-    changeLanguage(locale: "pt-BR" | "en-US") {
-      changeLocale(locale);
+    changeLanguage(locale: string) {
+      this.selectedLocale = locale;
+      changeLocale(locale as "pt-BR" | "en-US");
     },
   },
 });

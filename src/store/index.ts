@@ -98,11 +98,15 @@ export default new Vuex.Store({
       if (itemIndex >= 0) {
         state.myStashes[itemIndex] = value;
       } else {
-        state.myStashes.push(value);
+        state.myStashes.push(createStash(value));
       }
     },
     removeStash(state, { id }) {
       state.myStashes = state.myStashes.filter((el) => el.id !== id);
+    },
+    clearChange(state, id) {
+      delete state.diffs[id];
+      state.newData = state.newData.filter((el) => el.id !== id);
     },
   },
   actions: {
@@ -116,9 +120,8 @@ export default new Vuex.Store({
           .then((doc) => doc.exists && commit("setUserData", doc.data()));
       }
     },
-
-    removeStash({ state }, id: string) {
-      const element = state.myStashes.find((el) => el.id === id)!;
+    removeStash({ getters }, id: string) {
+      const element = getters.getStash(id);
       element.remove();
     },
   },

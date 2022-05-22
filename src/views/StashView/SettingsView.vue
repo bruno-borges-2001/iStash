@@ -38,7 +38,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { TranslateResult } from "vue-i18n";
-import Stash from "../../../models/Stash";
+import Stash from "../../models/Stash";
 export default Vue.extend({
   name: "SettingsView",
   props: {
@@ -76,7 +76,7 @@ export default Vue.extend({
     handleDelete() {
       if (this.deleteConfirm) {
         this.stash.remove();
-        this.$router.replace("/stashes");
+        this.$router.replace("/");
       } else {
         this.deleteConfirm = true;
       }

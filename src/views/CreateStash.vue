@@ -115,13 +115,13 @@
 </template>
 
 <script lang="ts">
-import Dialog from "../../layouts/Dialog.vue";
-import InviteUserDialog from "../../components/Dialogs/InviteUserDialog.vue";
-import NewProductDialog from "../../components/Dialogs/NewProductDialog.vue";
+import Dialog from "../layouts/Dialog.vue";
+import InviteUserDialog from "../components/Dialogs/InviteUserDialog.vue";
+import NewProductDialog from "../components/Dialogs/NewProductDialog.vue";
 
-import Stash from "../../models/Stash";
+import Stash from "../models/Stash";
 import Vue from "vue";
-import { Product, User } from "../../types";
+import { Product, User } from "../types";
 import { TranslateResult } from "vue-i18n";
 
 export default Vue.extend({

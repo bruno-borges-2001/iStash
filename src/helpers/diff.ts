@@ -23,10 +23,11 @@ export function diff(data: Product[], local: Product[]) {
     item1: unknown,
     item2: unknown,
     id: string,
+    name: string,
     key: string
   ) {
     if (item1 !== item2) {
-      if (!(id in diffs)) diffs[id] = {};
+      if (!(id in diffs)) diffs[id] = { id: id, name: name };
       diffs[id][key] = { oldValue: item2, newValue: item1 };
     }
   };
@@ -35,36 +36,30 @@ export function diff(data: Product[], local: Product[]) {
     data.forEach((el) => {
       const localEl = local.find((x) => x.id === el.id);
 
-      if (!localEl) {
-        diffs[el.id] = { message: "newproduct" };
-        return;
-      }
+      if (!localEl) return;
 
-      for (key in ["name", "quantity", "rule", "unit"]) {
-        if (data.hasOwnProperty(key)) {
-          compare(
-            el[key as keyof Product],
-            localEl[key as keyof Product],
-            el.id,
-            key
-          );
-        }
-      }
+      COMPARE_KEYS.forEach((propName) => {
+        compare(
+          el[propName as keyof Product],
+          localEl[propName as keyof Product],
+          el.id,
+          el.name,
+          propName
+        );
+      });
     });
   } else {
     local.forEach((el) => {
       const dataEl = data.find((x) => x.id === el.id);
 
-      if (!dataEl) {
-        diffs[el.id] = { message: "removedproduct" };
-        return;
-      }
+      if (!dataEl) return;
 
       COMPARE_KEYS.forEach((propName) => {
         compare(
           dataEl[propName as keyof Product],
           el[propName as keyof Product],
           el.id,
+          el.name,
           propName
         );
       });

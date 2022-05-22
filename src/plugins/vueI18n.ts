@@ -43,6 +43,9 @@ const messages = {
       renamestash: "Rename Stash",
       deletestash: "Delete Stash",
       areyousure: "Are you sure?",
+      newproduct: "New product added",
+      removedproduct: "Produto removed",
+      pendingchanges: "Pending Changes! Access changes screen to manage them",
     },
     button: {
       login: "Log In",
@@ -55,6 +58,10 @@ const messages = {
       clickhere: "Click Here",
       sendemail: "Send email",
       rename: "Rename",
+      overridechange: "Override change",
+      acceptchange: "Accept change",
+      override: "Override",
+      accept: "Accept",
     },
     keys: {
       name: "Name",
@@ -78,6 +85,7 @@ const messages = {
       cancel: "Cancel",
       of: "of",
       changes: "Changes",
+      language: "Language",
     },
     error: {
       required: "Required field",
@@ -137,6 +145,10 @@ const messages = {
       renamestash: "Renomear o Stash",
       deletestash: "Apagar o Stash",
       areyousure: "Você tem certeza?",
+      newproduct: "Novo produto adicionado",
+      removedproduct: "Produto removido",
+      pendingchanges:
+        "Mudanças pendentes! acesse a página de mudanças para gerenciá-las",
     },
     button: {
       login: "Entrar",
@@ -149,6 +161,10 @@ const messages = {
       clickhere: "Clique aqui",
       sendemail: "Enviar email",
       rename: "Renomear",
+      overridechange: "Sobrescrever mudança",
+      acceptchange: "Aceitar mudança",
+      override: "Sobrescrever",
+      accept: "Aceitar",
     },
     keys: {
       name: "Nome",
@@ -173,6 +189,7 @@ const messages = {
       cancel: "Cancelar",
       of: "de",
       changes: "Mudanças",
+      language: "Idioma",
     },
     error: {
       required: "Campo obrigatório",
@@ -240,6 +257,7 @@ const i18n = new VueI18n({
 export default i18n;
 
 export function changeLocale(newLocale: "pt-BR" | "en-US") {
+  console.log(newLocale);
   i18n.locale = newLocale;
 }
 

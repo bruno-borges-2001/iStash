@@ -4,8 +4,8 @@ import VueRouter from "vue-router";
 import auth from "../plugins/firebase/auth";
 
 import {
-  Home,
   Notification,
+  Changes,
   Login,
   SignUp,
   StashesList,
@@ -20,7 +20,7 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: Home,
+    component: StashesList,
     meta: {
       requiresAuth: true,
     },
@@ -70,7 +70,7 @@ const routes = [
   {
     path: "/changes",
     name: "changes",
-    component: Notification,
+    component: Changes,
     meta: {
       requiresAuth: true,
       backRoute: "$back",

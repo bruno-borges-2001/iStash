@@ -4,6 +4,13 @@
     <v-main id="app">
       <Notification group="center" />
       <router-view></router-view>
+      <div
+        v-if="Object.keys($store.state.diffs).length > 0"
+        style="position: fixed; bottom: 0.5rem; left: 0.5rem"
+      >
+        <v-icon>mdi-alert-circle</v-icon>
+        {{ $t("message.pendingchanges") }}
+      </div>
     </v-main>
 
     <reload-prompt />
@@ -124,15 +131,15 @@ export default Vue.extend({
         });
 
         const diffs = parsedData.reduce((prev, el) => {
-          if (this.$store.state.myStashes) {
-            const localData = this.$store.getters.getStash(el.id);
-
-            if (!localData) return {};
+          if (this.$store.state.myStashes.length > 0) {
+            let localData = this.$store.getters.getStash(el.id);
 
             if (localData.version < el.version) {
+              const newDiff = diff(el.products, localData.products);
+
               const next = {
                 ...prev,
-                [el.id]: diff(el.products, localData.products),
+                [el.id]: newDiff,
               };
 
               if (localData.name !== el.name) {
@@ -141,14 +148,22 @@ export default Vue.extend({
                   oldName: localData.name,
                 };
               }
+
+              if (Object.keys((next as any)[el.id]).length === 0)
+                delete (next as any)[el.id];
+
+              return next;
             } else if (localData.version > el.version) {
+              if (!("buildTemplate" in localData))
+                localData = createStash(localData);
+
               updateValue("stashes", el.id, localData.buildTemplate());
             }
           }
           return prev;
         }, {});
 
-        if (Object.values(diffs).length === 0)
+        if (Object.keys(diffs).length === 0)
           this.$store.commit("setStashes", parsedData);
         else this.$store.commit("setDiffs", { diffs, data: parsedData });
       }

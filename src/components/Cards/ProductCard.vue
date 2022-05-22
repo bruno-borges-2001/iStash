@@ -178,9 +178,7 @@ export default {
         lastUpdatedAt: new Date(),
       };
 
-      this.stashRef
-        .updateProduct(this.product.id, value)
-        .finally(() => (this.updating = false));
+      this.stashRef.updateProduct(this.product.id, value);
 
       this.$refs.productCounter?.override(value.quantity);
 

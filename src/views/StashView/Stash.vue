@@ -28,14 +28,14 @@
 </template>
 
 <script lang="ts">
-import LoadingIndicator from "../../../components/LoadingIndicator.vue";
+import LoadingIndicator from "../../components/LoadingIndicator.vue";
 import ProductView from "./ProductView.vue";
 import UserView from "./UserView.vue";
 import SettingsView from "./SettingsView.vue";
 import ShoppingList from "./ShoppingList.vue";
 import Vue from "vue";
-import Stash from "../../../models/Stash";
-import { User } from "../../../types";
+import Stash from "../../models/Stash";
+import { User } from "../../types";
 
 export default Vue.extend({
   name: "StashView",

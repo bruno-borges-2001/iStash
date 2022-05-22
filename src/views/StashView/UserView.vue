@@ -81,14 +81,9 @@
 </template>
 
 <script>
-import Dialog from "../../../layouts/Dialog.vue";
-import {
-  OWNER,
-  INVITED,
-  REJECTED,
-  ACCEPTED,
-} from "../../../helpers/UserStatus";
-import InviteUserDialog from "../../../components/Dialogs/InviteUserDialog.vue";
+import Dialog from "../../layouts/Dialog.vue";
+import { OWNER, INVITED, REJECTED, ACCEPTED } from "../../helpers/UserStatus";
+import InviteUserDialog from "../../components/Dialogs/InviteUserDialog.vue";
 
 export default {
   components: { "v-dialog": Dialog, InviteUserDialog },

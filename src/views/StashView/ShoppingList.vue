@@ -69,14 +69,14 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-import Dialog from "../../../layouts/Dialog.vue";
-import NewProductDialog from "../../../components/Dialogs/NewProductDialog.vue";
-import LoadingIndicator from "../../../components/LoadingIndicator.vue";
+import Dialog from "../../layouts/Dialog.vue";
+import NewProductDialog from "../../components/Dialogs/NewProductDialog.vue";
+import LoadingIndicator from "../../components/LoadingIndicator.vue";
 
-import ProductCard from "../../../components/Cards/ProductCard.vue";
+import ProductCard from "../../components/Cards/ProductCard.vue";
 import Vue from "vue";
-import Stash from "../../../models/Stash";
-import { Product } from "../../../types";
+import Stash from "../../models/Stash";
+import { Product } from "../../types";
 import { DataTableHeader } from "vuetify";
 
 export default Vue.extend({
