@@ -9,7 +9,7 @@ export default defineConfig({
         name: "iStash",
         short_name: "iStash",
         description: "An app for controlling inventory",
-        theme_color: "#ffffff",
+        theme_color: "#303F9F",
         icons: [
           {
             src: "img/icons/android-chrome-192x192.png",
