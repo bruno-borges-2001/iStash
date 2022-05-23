@@ -148,10 +148,12 @@ export default class Stash {
 
   update() {
     store.commit("updateStash", { id: this.id, value: this.buildTemplate() });
-    debounce(() => {
-      if (this.version < 0) this.version - 1;
-      else this.version += 1;
-    }, 1000);
+    if (navigator.onLine) {
+      debounce(() => {
+        if (this.version < 0) this.version - 1;
+        else this.version += 1;
+      }, 1000);
+    }
   }
 
   remove() {
