@@ -31,22 +31,13 @@ const routes = [
     component: NotLogged,
   },
   {
-    path: "/stashes",
-    name: "stashes",
-    component: StashesList,
-    meta: {
-      requiresAuth: true,
-      backRoute: "/",
-    },
-  },
-  {
     path: "/stash/:id",
     name: "stash",
     component: Stash,
     props: true,
     meta: {
       requiresAuth: true,
-      backRoute: "/stashes",
+      backRoute: "/",
     },
   },
   {
