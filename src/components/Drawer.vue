@@ -70,13 +70,6 @@
           </v-list>
         </v-menu>
       </v-list-item>
-
-      <!-- <v-list-item>
-        <v-btn icon @click="() => changeLanguage('pt-BR')">PT-BR</v-btn>
-      </v-list-item>
-      <v-list-item>
-        <v-btn icon @click="() => changeLanguage('en-US')">EN-US</v-btn>
-      </v-list-item> -->
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -85,6 +78,7 @@
 import { changeLocale, getLocale } from "../plugins/vueI18n";
 import auth from "../plugins/firebase/auth";
 import Vue from "vue";
+import { deleteState } from "../store/storage";
 
 export default Vue.extend({
   name: "AppDrawer",
@@ -110,6 +104,8 @@ export default Vue.extend({
   methods: {
     handleSignOut() {
       auth.signOut().then(() => {
+        deleteState();
+        this.$store.commit("clearData");
         this.drawer = false;
         location.reload();
       });

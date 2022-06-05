@@ -46,7 +46,7 @@ const routes = [
     component: CreateStash,
     meta: {
       requiresAuth: true,
-      backRoute: "/stashes",
+      backRoute: "/",
     },
   },
   {

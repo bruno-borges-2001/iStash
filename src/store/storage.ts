@@ -5,13 +5,8 @@ const store = localForage.createInstance({
   name: 'app',
 });
 
-const mapStateForCache = (state: State) => {
-  return state
-};
-
 export const setState = (state: State) => {
-  const cachedState = mapStateForCache(state);
-  return store.setItem('state', cachedState);
+  return store.setItem('state', state);
 };
 
 export const getState = () => store.getItem('state');

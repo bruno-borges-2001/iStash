@@ -18,10 +18,10 @@ export default {
   components: { Main },
   methods: {
     handleLogin() {
-      this.$router.replace("/login");
+      this.$router.push("/login");
     },
     handleSignUp() {
-      this.$router.replace("/signup");
+      this.$router.push("/signup");
     },
   },
 };

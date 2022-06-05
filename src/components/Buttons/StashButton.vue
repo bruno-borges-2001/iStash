@@ -71,7 +71,7 @@ export default {
 
     owner() {
       return this.stash.usersInfo.find(
-        (el) => el.uid === this.$store.state.userId
+        (el) => el.userStatus === OWNER
       );
     },
 

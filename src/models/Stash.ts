@@ -178,7 +178,7 @@ export default class Stash {
     return 0;
   }
 
-  rejectInvite(_id: string, del = false) {
+  rejectInvite(_id: string, _del = false) {
     if (!this.invites.includes(_id)) return 999;
 
     if (!this.usersInfo.find((el) => el.uid === _id)) return 1;
@@ -187,7 +187,7 @@ export default class Stash {
 
     this.invites = this.invites.filter((el) => el !== _id);
 
-    if (del) {
+    if (_del) {
       this.usersInfo = this.usersInfo.filter((el) => el.uid !== _id);
     } else {
       const userIndex = this.usersInfo.findIndex((el) => el.uid === _id);
@@ -199,18 +199,18 @@ export default class Stash {
     return 0;
   }
 
-  renameStash(newName: string) {
+  renameStash(_name: string) {
     store.commit("disableUpdateData");
 
-    this.name = newName;
+    this.name = _name;
 
     this.update();
   }
 
-  setShared(val: boolean) {
+  setShared(_shared: boolean) {
     store.commit("disableUpdateData");
 
-    this.shared = val;
+    this.shared = _shared;
 
     this.update();
   }

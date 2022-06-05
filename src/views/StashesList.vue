@@ -10,7 +10,7 @@
       <header class="full-width d-flex align-center px-4 search-bar">
         <v-text-field
           prepend-inner-icon="mdi-magnify"
-          :placeholder="$t('message.searchuser')"
+          :placeholder="$t('message.searchstash')"
           v-model="searchFilter"
         ></v-text-field>
         <v-btn icon @click="handleCreateStash">

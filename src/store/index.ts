@@ -108,6 +108,13 @@ export default new Vuex.Store({
       delete state.diffs[id];
       state.newData = state.newData.filter((el) => el.id !== id);
     },
+    clearData(state) {
+      state.myStashes = [];
+      state.myInvites = [];
+      state.diffs = [];
+      state.newData = [];
+      console.log(state)
+    }
   },
   actions: {
     login({ commit }, currentUser: string) {

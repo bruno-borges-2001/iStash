@@ -7,7 +7,7 @@
     <v-switch :label="$t('message.sharedstash')" v-model="switchValue" />
     <v-card
       elevation="5"
-      :disabled="!stash.shared"
+      :disabled="disableInvite"
       class="full-width users-container"
     >
       <header class="d-flex align-center">
@@ -112,6 +112,10 @@ export default {
             el.email.split("@")[0].includes(this.searchFilter)
         );
     },
+
+    disableInvite() {
+      return !this.stash.shared || !navigator.onLine
+    }
   },
   methods: {
     userStatus(id) {

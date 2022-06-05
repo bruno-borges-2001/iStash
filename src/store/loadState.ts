@@ -1,9 +1,10 @@
 import { Store } from "vuex";
+import auth from "../plugins/firebase/auth";
 import { State } from "../types";
 import { getState } from "./storage";
 
 export default function (store: Store<State>) {
-  if (store.state.initialized) {
+  if (auth.currentUser && store.state.initialized) {
     return Promise.resolve();
   }
 

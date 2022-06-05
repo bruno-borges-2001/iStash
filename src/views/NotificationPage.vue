@@ -46,6 +46,8 @@ export default Vue.extend({
         this.invites.filter((el) => el.id !== _id)
       );
     },
+  },
+  watch: {
     invites(newVal: Invite[], oldVal: Invite[]) {
       if (newVal.length <= oldVal.length) {
         this.ignoreInvitesId = [];

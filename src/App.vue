@@ -45,8 +45,6 @@ export default Vue.extend({
     ReloadPrompt,
   },
   data: () => ({
-    firstLoading: true,
-
     drawer: null,
   }),
   computed: {
@@ -58,7 +56,7 @@ export default Vue.extend({
     },
     userStashes(): Query {
       return this.stashes
-        .where("users", "array-contains", this.$store.state.userId)
+        .where("users", "array-contains", this.$store.state.currentUser.uid)
         .orderBy("date");
     },
     userInvites(): Query {
@@ -118,6 +116,7 @@ export default Vue.extend({
     async loadStashes(resolve: Resolve): Promise<void> {
       const stashes = await this.userStashes.get();
 
+
       this.$store.state.myStashes
         ?.filter((el: Stash) => el.version < 0)
         .forEach((item: Stash) => {
@@ -128,7 +127,9 @@ export default Vue.extend({
         const parsedData = stashes.docs.map((el) => {
           const data = el.data();
           return createStash(data as Stash);
-        });
+        }).filter(el => el.name);
+
+        console.log(this.$store.state.myStashes)
 
         const diffs = parsedData.reduce((prev, el) => {
           if (this.$store.state.myStashes.length > 0) {
@@ -162,6 +163,7 @@ export default Vue.extend({
           }
           return prev;
         }, {});
+
 
         if (Object.keys(diffs).length === 0)
           this.$store.commit("setStashes", parsedData);
