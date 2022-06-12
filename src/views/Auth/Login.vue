@@ -16,20 +16,19 @@
     </h1>
     <!-- INPUT FIELDS -->
     <TextInput
+      v-model="email"
       placeholder="Email"
       required
       email
-      v-model="email"
       :rules="[emailErrorMessage]"
-    ></TextInput>
+    />
     <PasswordInput
+      v-model="password"
       v-if="!forgotPasswordScreen"
       required
-      v-model="password"
-      :placeholder="$t('keys.password')"
       :rules="[passwordErrorMessage]"
       :onKeypress="({ keyCode }) => keyCode === 13 && handleLogin()"
-    ></PasswordInput>
+    />
     <!-- SECONDARY ACTIONS -->
     <span v-if="!forgotPasswordScreen"
       >{{ $t("message.signup") }}

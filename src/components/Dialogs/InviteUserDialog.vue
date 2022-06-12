@@ -57,11 +57,7 @@ export default {
     selectedValue() {
       return this.data[this.selectedIndex];
     },
-    getData() {
-      if (isNaN(this.selectedIndex)) return false;
 
-      return { ...this.selectedValue, userStatus: 1 };
-    },
   },
 
   methods: {
@@ -79,6 +75,11 @@ export default {
       this.searchValue = "";
       this.data = [];
       this.selectedIndex = null;
+    },
+    getData() {
+      if (isNaN(this.selectedIndex)) return false;
+
+      return { ...this.selectedValue, userStatus: 1 };
     },
   },
 

@@ -24,7 +24,8 @@ export default {
   },
   methods: {
     acceptInvite() {
-      switch (this.stashRef.acceptInvite(this.$store.state.userId)) {
+      const response = this.stashRef.rejectInvite(this.$store.state.userId)
+      switch (response) {
         case 0:
           this.$notify({
             group: "center",
@@ -33,30 +34,16 @@ export default {
             type: "success",
           });
           break;
-        case 1:
-          this.$notify({
-            group: "center",
-            title: this.$t("keys.error"),
-            text: this.$t("error.nolongershared"),
-            type: "error",
-          });
-          break;
-        case 999:
-          this.$notify({
-            group: "center",
-            title: this.$t("keys.error"),
-            text: this.$t("error.internalerror"),
-            type: "error",
-          });
-          break;
         default:
+          parseError(response)
           break;
       }
 
       this.onSubmit(this.stashRef.id);
     },
     rejectInvite() {
-      switch (this.stashRef.rejectInvite(this.$store.state.userId)) {
+      const response = this.stashRef.rejectInvite(this.$store.state.userId)
+      switch (response) {
         case 0:
           this.$notify({
             group: "center",
@@ -65,6 +52,16 @@ export default {
             type: "success",
           });
           break;
+        default:
+          parseError(response)
+          break;
+      }
+
+      this.onSubmit(this.stashRef.id);
+    },
+
+    parseError(error) {
+      switch (error) {
         case 1:
           this.$notify({
             group: "center",
@@ -84,9 +81,7 @@ export default {
         default:
           break;
       }
-
-      this.onSubmit(this.stashRef.id);
-    },
+    }
   },
 };
 </script>

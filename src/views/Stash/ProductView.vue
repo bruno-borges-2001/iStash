@@ -80,7 +80,7 @@ export default Vue.extend({
   computed: {
     productsList(): Product[] {
       return this.stash?.products.filter((el) =>
-        el.name.includes(this.searchFilter.toLowerCase())
+        el.name.toLowerCase().includes(this.searchFilter.toLowerCase())
       );
     },
   },

@@ -38,7 +38,6 @@ export default {
   },
   props: {
     model: String,
-    placeholder: { type: String, default: "" },
     rules: { type: Array, default: () => [] },
 
     hidePasswordButton: { type: Boolean, default: false },

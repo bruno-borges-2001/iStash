@@ -63,6 +63,8 @@ const messages = {
       acceptchange: "Accept change",
       override: "Override",
       accept: "Accept",
+      edit: "Edit",
+      delete: "Delete",
     },
     keys: {
       name: "Name",
@@ -167,6 +169,8 @@ const messages = {
       acceptchange: "Aceitar mudança",
       override: "Sobrescrever",
       accept: "Aceitar",
+      edit: "Editar",
+      delete: "Excluir",
     },
     keys: {
       name: "Nome",

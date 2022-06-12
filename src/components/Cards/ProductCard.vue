@@ -27,10 +27,10 @@
         </template>
         <v-list>
           <v-list-item link @click="handleEdit">
-            <v-list-item-title> Editar </v-list-item-title>
+            <v-list-item-title> {{ $t('button.edit') }} </v-list-item-title>
           </v-list-item>
           <v-list-item link @click="handleRemove">
-            <v-list-item-title>Excluir</v-list-item-title>
+            <v-list-item-title>{{ $t('button.delete') }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -42,10 +42,10 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="primary" text @click="editDialog = false">
-              {{ $t("keys.cancel") }}
+              {{ $t('keys.cancel') }}
             </v-btn>
             <v-btn color="primary" text @click="handleEditSubmit">
-              {{ $t("button.save") }}
+              {{ $t('button.save') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -80,12 +80,12 @@
 </template>
 
 <script>
-import { formatDate } from "../../helpers/formatter";
-import Counter from "../Counter.vue";
-import NewProductDialog from "../Dialogs/NewProductDialog.vue";
+import { formatDate } from '../../helpers/formatter';
+import Counter from '../Counter.vue';
+import NewProductDialog from '../Dialogs/NewProductDialog.vue';
 export default {
   components: { Counter, NewProductDialog },
-  name: "ProductCard",
+  name: 'ProductCard',
   data: () => ({
     editDialog: false,
     updating: false,
@@ -97,53 +97,46 @@ export default {
   },
   computed: {
     name() {
-      if ("name" in this.overrideData) return this.overrideData.name;
+      if ('name' in this.overrideData) return this.overrideData.name;
 
       return this.product.name;
     },
     quantity() {
-      if ("quantity" in this.overrideData) return this.overrideData.quantity;
+      if ('quantity' in this.overrideData) return this.overrideData.quantity;
 
       return this.product.quantity;
     },
     unit() {
-      if ("unit" in this.overrideData) return this.overrideData.unit;
+      if ('unit' in this.overrideData) return this.overrideData.unit;
 
       return this.product.unit;
     },
     rule() {
-      if ("rule" in this.overrideData) return this.overrideData.rule;
+      if ('rule' in this.overrideData) return this.overrideData.rule;
 
       return this.product.rule;
     },
-    settings() {
-      return [
-        { title: "Editar", onClick: () => {} },
-        { title: "Excluir", onClick: this.handleRemove },
-      ];
-    },
-
     formattedLastUpdatedAt() {
-      if ("date" in this.overrideData) return this.overrideData.date;
+      if ('date' in this.overrideData) return this.overrideData.date;
 
       let date;
-      if ("seconds" in this.product.lastUpdatedAt)
+      if ('seconds' in this.product.lastUpdatedAt)
         date = new Date(this.product.lastUpdatedAt.seconds * 1000);
       else date = new Date(this.product.lastUpdatedAt);
 
       const diffTime = Math.abs(new Date() - date);
       const diffMinutes = Math.ceil(diffTime / (1000 * 60));
-      if (diffMinutes < 2) return this.$t("message.now");
+      if (diffMinutes < 2) return this.$t('message.now');
 
       if (diffMinutes < 60)
-        return this.$t("message.ago", { time: diffMinutes + "min" });
+        return this.$t('message.ago', { time: diffMinutes + 'min' });
 
       const diffHours = Math.ceil(diffMinutes / 60);
       if (diffHours < 24)
-        return this.$t("message.ago", { time: diffHours + "h" });
+        return this.$t('message.ago', { time: diffHours + 'h' });
 
       const diffDays = Math.ceil(diffHours / 24);
-      if (diffDays < 7) return this.$t("message.ago", { time: diffDays + "d" });
+      if (diffDays < 7) return this.$t('message.ago', { time: diffDays + 'd' });
 
       return formatDate(date);
     },
@@ -195,7 +188,7 @@ export default {
     },
     updating(value) {
       if (value) {
-        this.overrideData["date"] = this.$t("message.now");
+        this.overrideData['date'] = this.$t('message.now');
       }
     },
     product() {

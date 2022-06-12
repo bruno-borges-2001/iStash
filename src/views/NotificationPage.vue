@@ -1,7 +1,7 @@
 <template>
   <Main>
     <div v-if="loaded">
-      <div v-if="invites.length === 0">{{ $t("message.noinvites") }}</div>
+      <div v-if="filteredInvites.length === 0">{{ $t("message.noinvites") }}</div>
       <InviteCard
         v-for="item in filteredInvites"
         :key="item.id"

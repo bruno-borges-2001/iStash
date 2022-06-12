@@ -3,8 +3,8 @@
     class="d-flex flex-column align-center flex-grow-1 full-width full-height pa-4"
   >
     <p class="mb-0">{{ $t("message.by") }}</p>
-    <h1>{{ owner.name }}</h1>
-    <v-switch :label="$t('message.sharedstash')" v-model="switchValue" />
+    <h1 :style="!isOwner ? 'margin-bottom: 1rem' : ''">{{ owner.name }}</h1>
+    <v-switch :label="$t('message.sharedstash')" v-if="isOwner" v-model="switchValue" />
     <v-card
       elevation="5"
       :disabled="disableInvite"
@@ -132,7 +132,7 @@ export default {
       this.stash.removeUser(_id);
     },
     handleAddUser() {
-      const value = this.$refs.userDialog.getData;
+      const value = this.$refs.userDialog.getData();
 
       if (!value) return false;
 

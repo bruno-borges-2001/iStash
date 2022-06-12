@@ -235,7 +235,7 @@ export default Vue.extend({
       this.width = window.innerWidth;
     },
     handleAddUser() {
-      const value = (this.$refs.userDialog as any).getData;
+      const value = (this.$refs.userDialog as any).getData();
 
       if (!value) return false;
 
@@ -267,8 +267,6 @@ export default Vue.extend({
         products,
         navigator.onLine ? 0 : -1
       );
-
-      // this.$router.replace(newStash.id);
     },
 
     clearDialogData() {
