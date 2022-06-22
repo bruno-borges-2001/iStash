@@ -27,7 +27,7 @@
       }}</v-btn>
       <v-dialog v-model="registerDialog">
         <v-card class="px-4">
-          <v-card-title>{{ $t(`button.${registerDialogTitle}`) }}</v-card-title>
+          <v-card-title v-if="registerDialogTitle">{{ $t(`button.${registerDialogTitle}`) }}</v-card-title>
             <v-text-field
               v-model="registerDialogAmount"
               :placeholder="$t('keys.quantity')"

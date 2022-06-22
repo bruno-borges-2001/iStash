@@ -6,23 +6,23 @@
       placeholder="Procure o e-mail"
       append-icon="mdi-magnify"
     ></v-text-field>
-    <v-btn-toggle
-      v-model="selectedIndex"
+    <div
       class="item-field d-flex flex-column"
       style="width: 100%"
     >
       <v-btn
-        v-for="item in data"
+        v-for="item, index in data"
+        @click="selectedIndex = index"
         :key="item.uid"
         height="auto"
-        class="user-button"
+        :class="['user-button',selectedIndex === index && 'active-item']"
       >
         <div class="pa-2">
           <span style="display: block">{{ item.name }}</span>
           <small>{{ item.email }}</small>
         </div>
       </v-btn>
-    </v-btn-toggle>
+    </div>
   </div>
 </template>
 
@@ -104,10 +104,14 @@ export default {
 };
 </script>
 
-<style scoped>
-.user-button:not(:last-child) {
+<style scoped lang="scss">
+.user-button {
   margin-bottom: 1rem;
 }
+
+.active-item {
+    background-color: #ddd !important;
+  }
 
 .item-field {
   overflow: auto;
