@@ -21,10 +21,10 @@ const messages = {
       nosearchproduct: "No product fits the search",
       adduser: "Add User",
       addproduct: "Add Product",
-      initialquantity: "Initial amount",
+      currentquantity: "Current amount",
       controlshoppinglist: "Control: Add to Shopping List",
       controlhint:
-        "Controls the amount needed for this product to be added to the Shopping List",
+        "A product with an amount below the set is going to be added to the Shopping List",
       fillrequiredfields: "Please, fill the required fields",
       invitemessage:
         "User {user} invited you to participate in the Stash {stash}, do you accept the invite?",
@@ -38,6 +38,7 @@ const messages = {
       fillrequiredfield: "Please, fill the required fields",
       searchuser: "Search user",
       searchstash: "Search Stash",
+      searchproduct: "Search product",
       ago: "{time} ago",
       now: "now",
       itemsperpage: "Products per page",
@@ -65,6 +66,10 @@ const messages = {
       accept: "Accept",
       edit: "Edit",
       delete: "Delete",
+      registerin: 'Register in',
+      registerinshort: 'In',
+      registerout: 'Register out',
+      registeroutshort: 'Out',
     },
     keys: {
       name: "Name",
@@ -125,10 +130,10 @@ const messages = {
       nosearchproduct: "Nenhum produto corresponde com a busca",
       adduser: "Adicionar Usuário",
       addproduct: "Adicionar Produto",
-      initialquantity: "Quantidade inicial",
+      currentquantity: "Quantidade atual",
       controlshoppinglist: "Controle: Adicionar à Lista de Compras",
       controlhint:
-        "Controla a quantidade necessária para um produto ser adicionado à lista de compras",
+        "Um produto com quantidade menor à cadastrada sera adicionada à lista de compras",
       fillrequiredfields: "Por favor, preencha os campos requeridos",
       invitemessage:
         "O Usuário {user} convidou você para participar do Stash {stash}, você aceita o convite?",
@@ -142,6 +147,7 @@ const messages = {
       fillrequiredfield: "Por favor, preencha os campos requeridos",
       searchuser: "Procurar usuário",
       searchstash: "Procurar Stash",
+      searchproduct: "Procurar produto",
       mismatchversion: "Versão atual diferente da do banco de dados",
       ago: "há {time}",
       now: "agora",
@@ -171,6 +177,10 @@ const messages = {
       accept: "Aceitar",
       edit: "Editar",
       delete: "Excluir",
+      registerin: 'Registrar entrada',
+      registerout: 'Registrar saída',
+      registerinshort: 'Entrada',
+      registeroutshort: 'Saída',
     },
     keys: {
       name: "Nome",
@@ -263,7 +273,6 @@ const i18n = new VueI18n({
 export default i18n;
 
 export function changeLocale(newLocale: "pt-BR" | "en-US") {
-  console.log(newLocale);
   i18n.locale = newLocale;
 }
 

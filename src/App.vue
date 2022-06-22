@@ -129,8 +129,6 @@ export default Vue.extend({
           return createStash(data as Stash);
         }).filter(el => el.name);
 
-        console.log(this.$store.state.myStashes)
-
         const diffs = parsedData.reduce((prev, el) => {
           if (this.$store.state.myStashes.length > 0) {
             let localData = this.$store.getters.getStash(el.id);

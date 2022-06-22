@@ -57,6 +57,7 @@ export default new Vuex.Store({
       Object.keys(value).forEach((key) => {
         switch (key) {
           case "myStashes": {
+            if (navigator.onLine) return;
             const parsed = (value[key] as Stash[]).map(createStash);
 
             state[key as keyof State] = parsed as never;
@@ -113,7 +114,6 @@ export default new Vuex.Store({
       state.myInvites = [];
       state.diffs = [];
       state.newData = [];
-      console.log(state)
     }
   },
   actions: {

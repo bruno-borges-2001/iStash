@@ -17,7 +17,7 @@
       <v-row>
         <v-col>
           <h4 style="line-height: 4">
-            {{ $t("message.initialquantity") }}
+            {{ $t("message.currentquantity") }}
           </h4>
         </v-col>
         <v-col>

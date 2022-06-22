@@ -5,7 +5,7 @@
     <header class="full-width d-flex align-center">
       <v-text-field
         prepend-inner-icon="mdi-magnify"
-        :placeholder="$t('message.searchuser')"
+        :placeholder="$t('message.searchproduct')"
         v-model="searchFilter"
       ></v-text-field>
       <v-dialog

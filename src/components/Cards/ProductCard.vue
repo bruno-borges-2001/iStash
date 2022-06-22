@@ -5,7 +5,7 @@
     :disabled="updating"
   >
     <v-card-title>{{ product.name }}</v-card-title>
-    <v-card-subtitle class="rule-wrapper" v-if="unit !== 'Un'">
+    <v-card-subtitle class="rule-wrapper">
       <div class="rule-container">
         <v-icon>mdi-archive</v-icon>
         <span>{{ quantity }} {{ unit }}</span>
@@ -17,6 +17,31 @@
         <span>{{ rule }} {{ unit }}</span>
       </div>
     </v-card-subtitle>
+
+    <div class="button-container">
+      <v-btn @click="handleOpenDialog('registerin')">{{ 
+        $t('button.registerinshort') 
+      }}</v-btn>
+      <v-btn @click="handleOpenDialog('registerout')">{{ 
+        $t('button.registeroutshort')
+      }}</v-btn>
+      <v-dialog v-model="registerDialog">
+        <v-card class="px-4">
+          <v-card-title>{{ $t(`button.${registerDialogTitle}`) }}</v-card-title>
+            <v-text-field
+              v-model="registerDialogAmount"
+              :placeholder="$t('keys.quantity')"
+              type="number"
+              required
+            ></v-text-field>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn text @click="registerDialog = false">{{ $t('keys.cancel') }}</v-btn>
+            <v-btn text @click="handleRegister">{{ $t('button.save') }}</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
 
     <div class="options-menu">
       <v-menu offset-y>
@@ -52,14 +77,14 @@
       </v-dialog>
     </div>
 
-    <counter
+    <!-- <counter
       :id="product.id"
       :value="quantity"
       :onChange="handleCounter"
       v-if="unit === 'Un'"
       class="counter"
       ref="productCounter"
-    />
+    /> -->
 
     <v-card-actions style="padding: 0">
       <v-spacer></v-spacer>
@@ -81,12 +106,14 @@
 
 <script>
 import { formatDate } from '../../helpers/formatter';
-import Counter from '../Counter.vue';
 import NewProductDialog from '../Dialogs/NewProductDialog.vue';
 export default {
-  components: { Counter, NewProductDialog },
+  components: { NewProductDialog },
   name: 'ProductCard',
   data: () => ({
+    registerDialog: false,
+    registerDialogTitle: '',
+    registerDialogAmount: 0,
     editDialog: false,
     updating: false,
     overrideData: {},
@@ -142,18 +169,42 @@ export default {
     },
   },
   methods: {
-    handleCounter(quantity) {
+    handleOpenDialog(title) {
+      this.registerDialogTitle = title;
+      this.registerDialog = true;
+    },
+    handleRegister() {
+      if (this.registerDialogTitle === '') return;
       const newData = {
         ...this.product,
         lastUpdatedBy: this.$store.state.currentUser.name,
         lastUpdatedAt: new Date(),
-        quantity,
       };
       delete newData.formattedLastUpdatedAt;
 
+      if (this.registerDialogTitle === 'registerin') {
+        newData.quantity += Number(this.registerDialogAmount);
+      } else {
+        newData.quantity = Math.max(0, newData.quantity - Number(this.registerDialogAmount));
+      }
+
       this.updating = true;
       this.stashRef.updateProduct(this.product.id, newData);
+      this.registerDialog = false;
+      this.registerDialogTitle = '';
     },
+    // handleCounter(quantity) {
+    //   const newData = {
+    //     ...this.product,
+    //     lastUpdatedBy: this.$store.state.currentUser.name,
+    //     lastUpdatedAt: new Date(),
+    //     quantity,
+    //   };
+    //   delete newData.formattedLastUpdatedAt;
+
+    //   this.updating = true;
+    //   this.stashRef.updateProduct(this.product.id, newData);
+    // },
     handleRemove() {
       this.stashRef.removeProduct(this.product.id);
     },
@@ -172,8 +223,6 @@ export default {
       };
 
       this.stashRef.updateProduct(this.product.id, value);
-
-      this.$refs.productCounter?.override(value.quantity);
 
       this.editDialog = false;
       return true;
@@ -238,5 +287,22 @@ export default {
 
 .product-card:last-child {
   margin-bottom: 1rem;
+}
+
+.button-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: .75rem;
+  height: 100%;
+
+  button {
+    width: 100%;
+  }
+
 }
 </style>
