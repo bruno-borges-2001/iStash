@@ -15,7 +15,7 @@
   </Main>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from "vue";
 import ChangeGroupCard from "../components/Cards/ChangeGroupCard.vue";
 
@@ -24,12 +24,11 @@ import Stash from "../models/Stash";
 
 export default Vue.extend({
   components: { Main, ChangeGroupCard },
-  data: () => ({}),
   computed: {
-    diffs(): any {
+    diffs() {
       return this.$store.state.diffs;
     },
-    newData(): Stash[] {
+    newData() {
       return this.$store.state.newData;
     },
   },

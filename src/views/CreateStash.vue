@@ -72,7 +72,7 @@
           </v-btn>
         </v-card>
         <v-dialog
-          :submitMessage="$t('button.save')"
+          :submitMessage="`${$t('button.save')}`"
           :onSubmit="handleNewProduct"
           @close="clearDialogData"
           class="ma-2"
@@ -114,15 +114,13 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script>
 import Dialog from "../layouts/Dialog.vue";
 import InviteUserDialog from "../components/Dialogs/InviteUserDialog.vue";
 import NewProductDialog from "../components/Dialogs/NewProductDialog.vue";
 
 import Stash from "../models/Stash";
 import Vue from "vue";
-import { Product, User } from "../types";
-import { TranslateResult } from "vue-i18n";
 
 export default Vue.extend({
   name: "CreateStash",
@@ -139,8 +137,8 @@ export default Vue.extend({
     name: "",
     shared: false,
 
-    users: [] as User[],
-    products: [] as Product[],
+    users: [],
+    products: [],
 
     showError: false,
   }),
@@ -153,26 +151,26 @@ export default Vue.extend({
     window.removeEventListener("resize", this.onResize);
   },
   computed: {
-    isMobile(): boolean {
+    isMobile() {
       return this.width <= 760;
     },
-    showBackButton(): boolean {
+    showBackButton() {
       return this.isMobile && this.tab > 0;
     },
-    showSaveButton(): boolean {
+    showSaveButton() {
       return !this.isMobile || this.tab === 2;
     },
-    currentUser(): any {
+    currentUser() {
       return this.$store.state.currentUser;
     },
-    validateTab(): boolean {
+    validateTab() {
       switch (this.tab) {
         case 0:
           if (this.name.length === 0) {
             this.$notify({
               group: "center",
-              title: this.$t("keys.error") as string,
-              text: this.$t("message.fillrequiredfields") as string,
+              title: this.$t("keys.error"),
+              text: this.$t("message.fillrequiredfields"),
               type: "error",
             });
             return false;
@@ -181,8 +179,8 @@ export default Vue.extend({
           if (this.name.length > 25) {
             this.$notify({
               group: "center",
-              title: this.$t("keys.error") as string,
-              text: this.$t("error.lengtherror") as string,
+              title: this.$t("keys.error"),
+              text: this.$t("error.lengtherror"),
               type: "error",
             });
             return false;
@@ -193,10 +191,10 @@ export default Vue.extend({
           return true;
       }
     },
-    nameRules(): ((value: string) => boolean | TranslateResult)[] {
+    nameRules() {
       return [
-        (value: string) => value.length <= 25 || this.$t("error.lengtherror"),
-        (value: string) =>
+        (value) => value.length <= 25 || this.$t("error.lengtherror"),
+        (value) =>
           !this.showError || this.validateTab || this.$t("error.required"),
       ];
     },
@@ -214,7 +212,7 @@ export default Vue.extend({
     handleNextButton() {
       if (!this.validateTab) {
         this.showError = true;
-        (this.$refs.form as any).validate();
+        (this.$refs.form).validate();
         return;
       }
 
@@ -235,7 +233,7 @@ export default Vue.extend({
       this.width = window.innerWidth;
     },
     handleAddUser() {
-      const value = (this.$refs.userDialog as any).getData();
+      const value = this.$refs.userDialog.getData();
 
       if (!value) return false;
 
@@ -245,7 +243,7 @@ export default Vue.extend({
     },
 
     handleNewProduct() {
-      const value = (this.$refs.productDialog as any).getData();
+      const value = this.$refs.productDialog.getData();
 
       if (!value) return false;
 
@@ -270,9 +268,8 @@ export default Vue.extend({
     },
 
     clearDialogData() {
-      if (this.$refs.userDialog) (this.$refs.userDialog as any).clearData();
-      if (this.$refs.productDialog)
-        (this.$refs.productDialog as any).clearData();
+      if (this.$refs.userDialog) this.$refs.userDialog.clearData();
+      if (this.$refs.productDialog) this.$refs.productDialog.clearData();
     },
   },
   watch: {

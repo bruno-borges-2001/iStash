@@ -15,32 +15,31 @@
   </Main>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from "vue";
 import InviteCard from "../components/InviteCard.vue";
 import LoadingIndicator from "../components/LoadingIndicator.vue";
 
 import Main from "../layouts/Main.vue";
-import { Invite } from "../types";
 
 export default Vue.extend({
   components: { Main, LoadingIndicator, InviteCard },
   data: () => ({
-    ignoreInvitesId: [] as string[],
+    ignoreInvitesId: [],
   }),
   computed: {
-    invites(): Invite[] {
+    invites() {
       return this.$store.state.myInvites;
     },
-    filteredInvites(): Invite[] {
+    filteredInvites() {
       return this.invites.filter((el) => !this.ignoreInvitesId.includes(el.id));
     },
-    loaded(): boolean {
+    loaded() {
       return this.$store.state.invitesLoaded;
     },
   },
   methods: {
-    removeInviteFromState(_id: string) {
+    removeInviteFromState(_id) {
       this.$store.commit(
         "setInvites",
         this.invites.filter((el) => el.id !== _id)
@@ -48,7 +47,7 @@ export default Vue.extend({
     },
   },
   watch: {
-    invites(newVal: Invite[], oldVal: Invite[]) {
+    invites(newVal, oldVal) {
       if (newVal.length <= oldVal.length) {
         this.ignoreInvitesId = [];
       }

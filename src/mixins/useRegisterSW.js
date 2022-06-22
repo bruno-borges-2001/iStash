@@ -4,7 +4,7 @@ export default Vue.extend({
   name: "useRegisterSW",
   data() {
     return {
-      updateSW: undefined as any,
+      updateSW: undefined,
       offlineReady: false,
       needRefresh: false  
     }
@@ -23,10 +23,10 @@ export default Vue.extend({
           vm.needRefresh = true
           vm.onNeedRefreshFn()
         },
-        onRegistered(swRegistration: any) {
+        onRegistered(swRegistration) {
           swRegistration && vm.handleSWManualUpdates(swRegistration)   
         },
-        onRegisterError(e: any) {
+        onRegisterError(e) {
           vm.handleSWRegisterError(e)    
         }  
       })
@@ -47,10 +47,10 @@ export default Vue.extend({
       console.log("onNeedRefresh")
     },
     updateServiceWorker() {
-      this.updateSW && (this.updateSW as (val: boolean) => void)(true)
+      this.updateSW && this.updateSW(true)
       location.reload()
     },
-    handleSWManualUpdates(swRegistration: any) {}, 
-    handleSWRegisterError(error: any) {} 
+    handleSWManualUpdates(swRegistration) {}, 
+    handleSWRegisterError(error) {} 
   }
 })

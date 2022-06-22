@@ -7,7 +7,6 @@ import Stash from "../models/Stash";
 import load from "./loadState";
 import cache from "./cache";
 import sync from "./sync";
-import { Invite, State } from "../types";
 import createStash from "../helpers/createStash";
 
 Vue.use(Vuex);
@@ -21,11 +20,11 @@ export default new Vuex.Store({
     userId: null,
 
     // STASH
-    myStashes: [] as Stash[],
-    myInvites: [] as Invite[],
+    myStashes: [],
+    myInvites: [],
 
-    diffs: [] as any[],
-    newData: [] as Stash[],
+    diffs: [],
+    newData: [],
 
     // OTHER
     stashesLoaded: false,
@@ -53,25 +52,25 @@ export default new Vuex.Store({
       state.diffs = diffs;
       state.newData = data;
     },
-    setSavedData(state, value: any) {
+    setSavedData(state, value) {
       Object.keys(value).forEach((key) => {
         switch (key) {
           case "myStashes": {
             if (navigator.onLine) return;
-            const parsed = (value[key] as Stash[]).map(createStash);
+            const parsed = value[key].map(createStash);
 
-            state[key as keyof State] = parsed as never;
+            state[key] = parsed;
 
             break;
           }
 
           case "myInvites": {
-            const parsed = (value[key] as Invite[]).map((el) => ({
+            const parsed = value[key].map((el) => ({
               ...el,
               stash: createStash(el.stash),
             }));
 
-            state[key as keyof State] = parsed as never;
+            state[key] = parsed;
 
             break;
           }
@@ -82,7 +81,7 @@ export default new Vuex.Store({
             break;
 
           default:
-            state[key as keyof State] = value[key] as never;
+            state[key] = value[key];
         }
       });
       state.initialized = true;
@@ -117,7 +116,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    login({ commit }, currentUser: string) {
+    login({ commit }, currentUser) {
       commit("login", currentUser);
 
       if (currentUser) {
@@ -127,13 +126,13 @@ export default new Vuex.Store({
           .then((doc) => doc.exists && commit("setUserData", doc.data()));
       }
     },
-    removeStash({ getters }, id: string) {
+    removeStash({ getters }, id) {
       const element = getters.getStash(id);
       element.remove();
     },
   },
   getters: {
-    getStash: (state) => (id: string) => {
+    getStash: (state) => (id) => {
       return state.myStashes.find((el) => el.id === id);
     },
   },

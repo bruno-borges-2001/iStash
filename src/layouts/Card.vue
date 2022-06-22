@@ -6,7 +6,7 @@
   </Main>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from "vue";
 import Main from "./Main.vue";
 

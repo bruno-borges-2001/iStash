@@ -1,13 +1,11 @@
-import { MutationPayload, Store } from "vuex";
-import { State } from "../types";
 import { setState } from "./storage";
 
-const shouldSkipCache = (mutation: MutationPayload) => {
+const shouldSkipCache = (mutation) => {
   if (mutation.type === "setInvites") return true;
   return false;
 };
 
-const plugin = (store: Store<State>) => {
+const plugin = (store) => {
   store.subscribe((mutation, state) => {
     if (!shouldSkipCache(mutation)) {
       setState(state).catch((err) =>

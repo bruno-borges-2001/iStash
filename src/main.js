@@ -16,7 +16,7 @@ Vue.config.productionTip = false;
 
 Vue.use(Notifications, { velocity });
 
-let app: any;
+let app;
 
 auth.onAuthStateChanged((user) => {
   store.dispatch("login", user ? user.uid : null);

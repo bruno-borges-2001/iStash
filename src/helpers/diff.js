@@ -7,24 +7,22 @@
  * @return {Object}      An object of differences between the two
  */
 
-import { Product } from "../types";
-
 const COMPARE_KEYS = ["name", "quantity", "rule", "unit"];
 
-export function diff(data: Product[], local: Product[]) {
+export function diff(data, local) {
   if (!local) {
     return {};
   }
 
-  var diffs: { [id: string]: any } = {};
-  var key: string;
+  var diffs = {};
+  var key;
 
   var compare = function (
-    item1: unknown,
-    item2: unknown,
-    id: string,
-    name: string,
-    key: string
+    item1,
+    item2,
+    id,
+    name,
+    key
   ) {
     if (item1 !== item2) {
       if (!(id in diffs)) diffs[id] = { id: id, name: name };
@@ -40,8 +38,8 @@ export function diff(data: Product[], local: Product[]) {
 
       COMPARE_KEYS.forEach((propName) => {
         compare(
-          el[propName as keyof Product],
-          localEl[propName as keyof Product],
+          el[propName],
+          localEl[propName],
           el.id,
           el.name,
           propName
@@ -56,8 +54,8 @@ export function diff(data: Product[], local: Product[]) {
 
       COMPARE_KEYS.forEach((propName) => {
         compare(
-          dataEl[propName as keyof Product],
-          el[propName as keyof Product],
+          dataEl[propName],
+          el[propName],
           el.id,
           el.name,
           propName

@@ -35,24 +35,22 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from "vue";
-import { TranslateResult } from "vue-i18n";
-import Stash from "../../models/Stash";
+
 export default Vue.extend({
   name: "SettingsView",
   props: {
-    stash: Object as () => Stash,
+    stash: Object,
   },
   data: () => ({
     newStashName: "",
     deleteConfirm: false,
   }),
   computed: {
-    nameRules(): ((value: string) => boolean | TranslateResult)[] {
+    nameRules() {
       return [
-        (value: string) =>
-          value.length <= 25 || "Tamanho máximo de 25 caracteres",
+        (value) => value.length <= 25 || "Tamanho máximo de 25 caracteres",
       ];
     },
   },
@@ -61,8 +59,8 @@ export default Vue.extend({
       if (!this.newStashName) {
         return this.$notify({
           group: "center",
-          title: this.$t("keys.error") as string,
-          text: this.$t("message.fillrequiredfields") as string,
+          title: this.$t("keys.error"),
+          text: this.$t("message.fillrequiredfields"),
           type: "error",
         });
       }

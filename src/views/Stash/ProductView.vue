@@ -53,15 +53,13 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Dialog from "../../layouts/Dialog.vue";
 import NewProductDialog from "../../components/Dialogs/NewProductDialog.vue";
 import LoadingIndicator from "../../components/LoadingIndicator.vue";
 
 import ProductCard from "../../components/Cards/ProductCard.vue";
 import Vue from "vue";
-import { Product } from "../../types";
-import Stash from "../../models/Stash";
 
 export default Vue.extend({
   name: "ProductView",
@@ -72,13 +70,13 @@ export default Vue.extend({
     ProductCard,
   },
   props: {
-    stash: Object as () => Stash,
+    stash: Object,
   },
   data: () => ({
     searchFilter: "",
   }),
   computed: {
-    productsList(): Product[] {
+    productsList() {
       return this.stash?.products.filter((el) =>
         el.name.toLowerCase().includes(this.searchFilter.toLowerCase())
       );
@@ -87,13 +85,13 @@ export default Vue.extend({
   methods: {
     clearDialogData() {
       if (this.$refs.productDialog)
-        (this.$refs.productDialog as any).clearData();
+        this.$refs.productDialog.clearData();
     },
     handleOpenDialog() {
       this.$store.commit("disableUpdateData");
     },
     handleNewProduct() {
-      const value = (this.$refs.productDialog as any).getData();
+      const value = this.$refs.productDialog.getData();
 
       if (!value) return false;
 

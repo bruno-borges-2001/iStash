@@ -27,7 +27,7 @@
   </v-card>
 </template>
 
-<script lang="ts">
+<script>
 import LoadingIndicator from "../../components/LoadingIndicator.vue";
 import ProductView from "./ProductView.vue";
 import UserView from "./UserView.vue";
@@ -35,7 +35,6 @@ import SettingsView from "./SettingsView.vue";
 import ShoppingList from "./ShoppingList.vue";
 import Vue from "vue";
 import Stash from "../../models/Stash";
-import { User } from "../../types";
 
 export default Vue.extend({
   name: "StashView",
@@ -54,13 +53,13 @@ export default Vue.extend({
   }),
 
   computed: {
-    stash(): Stash {
+    stash() {
       return this.$store.getters.getStash(this.id);
     },
-    users(): User[] {
+    users() {
       return this.stash?.usersInfo;
     },
-    tabsList(): { label: string; icon: string }[] {
+    tabsList() {
       return [
         { label: "product", icon: "mdi-archive-outline" },
         { label: this.shoppingListLabel, icon: "mdi-basket-outline" },
@@ -68,7 +67,7 @@ export default Vue.extend({
         { label: "setting", icon: "mdi-cog" },
       ];
     },
-    shoppingListLabel(): string {
+    shoppingListLabel() {
       if (this.$vuetify.breakpoint.xs) return "shoppinglistshort";
       return "shoppinglist";
     },

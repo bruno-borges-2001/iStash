@@ -3,35 +3,32 @@ import store from "../store";
 import { ACCEPTED, INVITED, REJECTED } from "../helpers/UserStatus";
 import {
   getDocumentRef,
-  removeValue,
-  updateValue,
 } from "../plugins/firebase/firestore";
 import router from "../router";
 import { debounce } from "../helpers/timingFunctions";
-import { Product, User } from "../types";
 
 export default class Stash {
-  id: string;
-  name?: string;
+  id;
+  name;
   shared = false;
 
-  users: string[] = [];
-  invites: string[] = [];
-  usersInfo: User[] = [];
-  products: Product[] = [];
+  users = [];
+  invites = [];
+  usersInfo = [];
+  products = [];
 
-  date: number | null;
-  version: number;
+  date;
+  version;
 
   constructor(
-    _id: string | null = null,
+    _id = null,
     _name = "",
     _shared = false,
-    _users: string[] = [],
-    _invites: string[] = [],
-    _usersInfo: User[] = [],
-    _products: Product[] = [],
-    _date: number | null = null,
+    _users = [],
+    _invites = [],
+    _usersInfo = [],
+    _products = [],
+    _date = null,
     _version = 1
   ) {
     if (_id) {
@@ -60,8 +57,8 @@ export default class Stash {
   setValues(
     _name = "",
     _shared = false,
-    _users: User[] = [],
-    _products: Product[] = [],
+    _users = [],
+    _products = [],
     _version = 0
   ) {
     this.name = _name;
@@ -99,7 +96,7 @@ export default class Stash {
     };
   }
 
-  addUser(_user: User) {
+  addUser(_user) {
     store.commit("disableUpdateData");
 
     let index;
@@ -115,7 +112,7 @@ export default class Stash {
     this.update();
   }
 
-  removeUser(_uid: string) {
+  removeUser(_uid) {
     store.commit("disableUpdateData");
     this.users = this.users.filter((el) => el !== _uid);
     this.usersInfo = this.usersInfo.filter((el) => el.uid !== _uid);
@@ -123,14 +120,14 @@ export default class Stash {
     this.update();
   }
 
-  addProduct(_product: Product) {
+  addProduct(_product) {
     store.commit("disableUpdateData");
     this.products.push(_product);
 
     this.update();
   }
 
-  updateProduct(_id: string, _newProduct: Product) {
+  updateProduct(_id, _newProduct) {
     store.commit("disableUpdateData");
     const index = this.products.findIndex((el) => el.id === _id);
 
@@ -139,7 +136,7 @@ export default class Stash {
     this.update();
   }
 
-  removeProduct(_id: string) {
+  removeProduct(_id) {
     store.commit("disableUpdateData");
     this.products = this.products.filter((el) => el.id !== _id);
 
@@ -160,7 +157,7 @@ export default class Stash {
     store.commit("removeStash", { id: this.id });
   }
 
-  acceptInvite(_id: string) {
+  acceptInvite(_id) {
     if (!this.invites.includes(_id)) return 999;
 
     if (!this.usersInfo.find((el) => el.uid === _id)) return 1;
@@ -178,7 +175,7 @@ export default class Stash {
     return 0;
   }
 
-  rejectInvite(_id: string, _del = false) {
+  rejectInvite(_id, _del = false) {
     if (!this.invites.includes(_id)) return 999;
 
     if (!this.usersInfo.find((el) => el.uid === _id)) return 1;
@@ -199,7 +196,7 @@ export default class Stash {
     return 0;
   }
 
-  renameStash(_name: string) {
+  renameStash(_name) {
     store.commit("disableUpdateData");
 
     this.name = _name;
@@ -207,7 +204,7 @@ export default class Stash {
     this.update();
   }
 
-  setShared(_shared: boolean) {
+  setShared(_shared) {
     store.commit("disableUpdateData");
 
     this.shared = _shared;

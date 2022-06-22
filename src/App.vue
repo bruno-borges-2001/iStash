@@ -18,7 +18,7 @@
   </v-app>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from "vue";
 import Header from "./components/Header.vue";
 import Drawer from "./components/Drawer.vue";
@@ -29,12 +29,9 @@ import Stash from "./models/Stash";
 import firestore, { updateValue } from "./plugins/firebase/firestore";
 import { OWNER } from "./helpers/UserStatus";
 import { diff } from "./helpers/diff";
-import { Invite, Document, Query, User } from "./types";
 import ReloadPrompt from "./components/ReloadPrompt.vue";
 import { getState } from "./store/storage";
 import createStash from "./helpers/createStash";
-
-type Resolve = (value?: unknown) => void;
 
 export default Vue.extend({
   name: "App",
@@ -48,18 +45,18 @@ export default Vue.extend({
     drawer: null,
   }),
   computed: {
-    logged(): boolean {
+    logged() {
       return this.$store.state.logged;
     },
-    stashes(): Document {
+    stashes() {
       return firestore.collection("stashes");
     },
-    userStashes(): Query {
+    userStashes() {
       return this.stashes
         .where("users", "array-contains", this.$store.state.currentUser.uid)
         .orderBy("date");
     },
-    userInvites(): Query {
+    userInvites() {
       return this.stashes.where(
         "invites",
         "array-contains",
@@ -80,15 +77,15 @@ export default Vue.extend({
   },
 
   methods: {
-    openDrawer(): void {
-      (this.$refs.drawer as any).handleOpenDrawer();
+    openDrawer() {
+      this.$refs.drawer.handleOpenDrawer();
     },
-    parseSavedData(data: string) {
+    parseSavedData(data) {
       const parsedData = JSON.parse(data);
       return {
         ...parsedData,
         stashes: parsedData.stashes?.map(createStash),
-        invites: parsedData.invites?.map((el: Invite) => ({
+        invites: parsedData.invites?.map((el) => ({
           id: el.id,
           message: el.message,
           stash: createStash(el.stash),
@@ -113,20 +110,20 @@ export default Vue.extend({
         });
       }
     },
-    async loadStashes(resolve: Resolve): Promise<void> {
+    async loadStashes(resolve) {
       const stashes = await this.userStashes.get();
 
 
       this.$store.state.myStashes
-        ?.filter((el: Stash) => el.version < 0)
-        .forEach((item: Stash) => {
+        ?.filter((el) => el.version < 0)
+        .forEach((item) => {
           updateValue("stashes", item.id, item.buildTemplate());
         });
 
       if (stashes) {
         const parsedData = stashes.docs.map((el) => {
           const data = el.data();
-          return createStash(data as Stash);
+          return createStash(data);
         }).filter(el => el.name);
 
         const diffs = parsedData.reduce((prev, el) => {
@@ -142,14 +139,14 @@ export default Vue.extend({
               };
 
               if (localData.name !== el.name) {
-                (next as any)[el.id]["name"] = {
+                (next)[el.id]["name"] = {
                   newName: el.name,
                   oldName: localData.name,
                 };
               }
 
-              if (Object.keys((next as any)[el.id]).length === 0)
-                delete (next as any)[el.id];
+              if (Object.keys(next[el.id]).length === 0)
+                delete next[el.id];
 
               return next;
             } else if (localData.version > el.version) {
@@ -170,7 +167,7 @@ export default Vue.extend({
 
       resolve();
     },
-    async loadInvites(resolve: Resolve): Promise<void> {
+    async loadInvites(resolve) {
       const stashes = await this.userInvites.get();
 
       if (stashes) {
@@ -184,11 +181,11 @@ export default Vue.extend({
                 id: el.id,
                 message: this.$t("message.invitemessage", {
                   user: data.usersInfo.find(
-                    (el: User) => el.userStatus === OWNER
+                    (el) => el.userStatus === OWNER
                   ).name,
                   stash: data.name,
                 }),
-                stash: createStash(data as Stash),
+                stash: createStash(data),
               };
             })
         );

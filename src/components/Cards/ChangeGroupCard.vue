@@ -60,7 +60,7 @@
   </v-layout>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from "vue";
 import Stash from "../../models/Stash";
 
@@ -69,18 +69,18 @@ export default Vue.extend({
   props: {
     id: String,
     diff: Object,
-    stash: Object as () => Stash,
+    stash: Object,
   },
   data: () => ({
     isMobile: "lg",
   }),
   computed: {
-    title(): string {
-      return this.stash.name!;
+    title() {
+      return this.stash.name;
     },
-    showActionsAll(): boolean {
+    showActionsAll() {
       return Object.values(this.diff).some(
-        (el: any) =>
+        (el) =>
           ("name" in el && typeof el.name !== "string") ||
           "quantity" in el ||
           "unit" in el ||

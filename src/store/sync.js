@@ -1,8 +1,6 @@
-import { Store } from "vuex";
 import { removeValue, updateValue } from "../plugins/firebase/firestore";
-import { Mutation, State } from "../types";
 
-const plugin = (store: Store<State>) => {
+const plugin = (store) => {
   store.subscribe((mutation, state) => {
     switch (mutation.type) {
       case "updateStash":

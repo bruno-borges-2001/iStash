@@ -74,7 +74,7 @@
   </v-navigation-drawer>
 </template>
 
-<script lang="ts">
+<script>
 import { changeLocale, getLocale } from "../plugins/vueI18n";
 import auth from "../plugins/firebase/auth";
 import Vue from "vue";
@@ -119,9 +119,9 @@ export default Vue.extend({
     handleOpenDrawer() {
       this.drawer = true;
     },
-    changeLanguage(locale: string) {
+    changeLanguage(locale) {
       this.selectedLocale = locale;
-      changeLocale(locale as "pt-BR" | "en-US");
+      changeLocale(locale);
     },
   },
 });

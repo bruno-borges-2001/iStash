@@ -49,7 +49,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from "vue";
 import StashButton from "../components/Buttons/StashButton.vue";
 import LoadingIndicator from "../components/LoadingIndicator.vue";
@@ -65,19 +65,19 @@ export default Vue.extend({
     searchFilter: "",
   }),
   computed: {
-    stashes(): Stash[] | null {
+    stashes() {
       return this.$store.state.myStashes;
     },
-    stashCount(): number {
+    stashCount() {
       return this.stashes?.length ?? 0;
     },
-    currentUser(): any {
+    currentUser() {
       return this.$store.state.currentUser;
     },
-    loaded(): boolean {
+    loaded() {
       return this.$store.state.stashesLoaded;
     },
-    stashesList(): Stash[] {
+    stashesList() {
       return (
         this.stashes?.filter((el) =>
           el.name?.includes(this.searchFilter.toLowerCase())
@@ -86,7 +86,7 @@ export default Vue.extend({
     },
   },
   methods: {
-    handleStashClick(id: string) {
+    handleStashClick(id) {
       this.$router.push("/stash/" + id);
     },
     handleCreateStash() {

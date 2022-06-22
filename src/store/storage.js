@@ -1,11 +1,10 @@
 import localForage from 'localforage';
-import { State } from '../types';
 
 const store = localForage.createInstance({
   name: 'app',
 });
 
-export const setState = (state: State) => {
+export const setState = (state) => {
   return store.setItem('state', state);
 };
 

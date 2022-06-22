@@ -1,6 +1,6 @@
 import Stash from "../models/Stash";
 
-export default (stash: Stash): Stash => {
+export default (stash) => {
   return new Stash(
     stash.id,
     stash.name,

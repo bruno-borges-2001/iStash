@@ -65,7 +65,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
@@ -75,9 +75,6 @@ import LoadingIndicator from "../../components/LoadingIndicator.vue";
 
 import ProductCard from "../../components/Cards/ProductCard.vue";
 import Vue from "vue";
-import Stash from "../../models/Stash";
-import { Product } from "../../types";
-import { DataTableHeader } from "vuetify";
 
 export default Vue.extend({
   name: "ProductView",
@@ -88,15 +85,15 @@ export default Vue.extend({
     ProductCard,
   },
   props: {
-    stash: Object as () => Stash,
+    stash: Object,
   },
   data: () => ({
     searchFilter: "",
     isMobile: false,
-    ignoreProductList: [] as string[],
+    ignoreProductList: [],
   }),
   computed: {
-    shoppingList(): Product[] {
+    shoppingList() {
       return this.stash?.products.filter(
         (el) =>
           el.rule !== null &&
@@ -105,18 +102,18 @@ export default Vue.extend({
           !this.ignoreProductList.includes(el.id)
       );
     },
-    headers(): DataTableHeader[] {
+    headers() {
       return [
-        { text: this.$tc("keys.product", 1) as string, value: "name" },
-        { text: this.$t("keys.quantity") as string, value: "quantity" },
-        { text: this.$t("keys.expected") as string, value: "rule" },
-        { text: this.$t("keys.unit") as string, value: "unit" },
+        { text: this.$tc("keys.product", 1), value: "name" },
+        { text: this.$t("keys.quantity"), value: "quantity" },
+        { text: this.$t("keys.expected"), value: "rule" },
+        { text: this.$t("keys.unit"), value: "unit" },
         { text: "", value: "actions", sortable: false },
       ];
     },
-    footerProps(): { itemsPerPageText: string } {
+    footerProps() {
       return {
-        itemsPerPageText: this.$t("message.itemsperpage") as string,
+        itemsPerPageText: this.$t("message.itemsperpage"),
       };
     },
   },
