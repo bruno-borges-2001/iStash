@@ -19,24 +19,28 @@
     </v-card-subtitle>
 
     <div class="button-container">
-      <v-btn @click="handleOpenDialog('registerin')">{{ 
-        $t('button.registerinshort') 
+      <v-btn @click="handleOpenDialog('registerin')">{{
+        $t('button.registerinshort')
       }}</v-btn>
-      <v-btn @click="handleOpenDialog('registerout')">{{ 
+      <v-btn @click="handleOpenDialog('registerout')">{{
         $t('button.registeroutshort')
       }}</v-btn>
       <v-dialog v-model="registerDialog">
         <v-card class="px-4">
-          <v-card-title v-if="registerDialogTitle">{{ $t(`button.${registerDialogTitle}`) }}</v-card-title>
-            <v-text-field
-              v-model="registerDialogAmount"
-              :placeholder="$t('keys.quantity')"
-              type="number"
-              required
-            ></v-text-field>
+          <v-card-title v-if="registerDialogTitle">{{
+            $t(`button.${registerDialogTitle}`)
+          }}</v-card-title>
+          <v-text-field
+            v-model="registerDialogAmount"
+            :placeholder="$t('keys.quantity')"
+            type="number"
+            required
+          ></v-text-field>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn text @click="registerDialog = false">{{ $t('keys.cancel') }}</v-btn>
+            <v-btn text @click="registerDialog = false">{{
+              $t('keys.cancel')
+            }}</v-btn>
             <v-btn text @click="handleRegister">{{ $t('button.save') }}</v-btn>
           </v-card-actions>
         </v-card>
@@ -185,13 +189,15 @@ export default {
       if (this.registerDialogTitle === 'registerin') {
         newData.quantity += Number(this.registerDialogAmount);
       } else {
-        newData.quantity = Math.max(0, newData.quantity - Number(this.registerDialogAmount));
+        newData.quantity = Math.max(
+          0,
+          newData.quantity - Number(this.registerDialogAmount)
+        );
       }
 
       this.updating = true;
       this.stashRef.updateProduct(this.product.id, newData);
       this.registerDialog = false;
-      this.registerDialogTitle = '';
     },
     // handleCounter(quantity) {
     //   const newData = {
@@ -247,6 +253,12 @@ export default {
       if (Object.keys(value).length >= 1) this.updating = true;
       else this.updating = false;
     },
+    registerDialog(value) {
+      if (!value) {
+        this.registerDialogTitle = '';
+        this.registerDialogAmount = 0;
+      }
+    },
   },
 };
 </script>
@@ -297,12 +309,11 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: .75rem;
+  gap: 0.75rem;
   height: 100%;
 
   button {
     width: 100%;
   }
-
 }
 </style>
