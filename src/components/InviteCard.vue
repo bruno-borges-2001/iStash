@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     acceptInvite() {
-      const response = this.stashRef.rejectInvite(this.$store.state.userId)
+      const response = this.stashRef.acceptInvite(this.$store.state.userId)
       switch (response) {
         case 0:
           this.$notify({
